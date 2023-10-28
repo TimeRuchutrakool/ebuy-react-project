@@ -1,10 +1,13 @@
 import { Outlet } from "react-router-dom";
+import Header from "./Header/Header";
 function AppLayout() {
   return (
-    <div>
-      layout
-      <Outlet />
-    </div>
+    <>
+      <Header />
+      <div style={{height:'200vh'}}>
+        <Outlet />
+      </div>
+    </>
   );
 }
 

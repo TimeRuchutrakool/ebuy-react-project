@@ -10,7 +10,7 @@ const router = createBrowserRouter(
     <>
       <Route element={<AppLayout />}>
         <Route path="/" element={<p>Hello</p>} />
-        <Route path="/hi" element={<p>Hi</p>} />
+        <Route path="/hi" element={<p>EBUY Hi</p>} />
       </Route>
     </>
   )

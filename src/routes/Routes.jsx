@@ -5,12 +5,17 @@ import {
   Route,
 } from "react-router-dom";
 import AppLayout from "../components/AppLayout";
+import User from "../pages/user";
+import Home from "../pages/Home";
+import Cart from "../pages/Cart";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<AppLayout />}>
-        <Route path="/" element={<p>Hello</p>} />
-        <Route path="/hi" element={<p>Test2</p>} />
+        <Route path="/" element={<Home/>} />
+        <Route path="/cart" element={<Cart/>} />
+        <Route path="/user" element={<User/>} />
       </Route>
     </>
   )

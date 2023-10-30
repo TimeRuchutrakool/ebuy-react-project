@@ -2,6 +2,7 @@ import IconMenuOperations from "./IconMenuOperations";
 import Logo from "../Logo";
 import SearchBox from "./SearchBox";
 import SellButton from "./SellButton";
+import ProfilePopUp from "../../features/user/ProfilePopUp";
 
 function Header() {
   return (
@@ -10,6 +11,7 @@ function Header() {
       <SearchBox />
       <IconMenuOperations />
       <SellButton />
+      <ProfilePopUp />
     </nav>
   );
 }

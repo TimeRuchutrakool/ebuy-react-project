@@ -1,19 +1,16 @@
-import { GrFavorite } from "react-icons/gr";
 import { BiSolidCart } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 function IconMenuOperations() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className="text-3xl hidden sm:flex gap-4">
-      <button>
-        <GrFavorite />
-      </button>
-      <button onClick={()=> navigate("/cart")}>
+    <div className="text-2xl flex gap-4 text-[#818B9C]">
+      <button onClick={() => navigate("/cart")}>
         <BiSolidCart />
       </button>
-      <button>
+      <div className="w-[1px] h-auto bg-[#E4E9EE]"></div>
+      <button className="border border-[#E4E9EE] rounded-full p-2">
         <BsFillPersonFill />
       </button>
     </div>

@@ -4,12 +4,12 @@ import { GoTag } from "react-icons/go";
 import { BsCoin } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
 
-function ProfilePopUp({ setOpenProfilePopup }) {
-  const dropRef = useClickOutside(() => setOpenProfilePopup((open) => !open));
+function ProfilePopUp({ setClickUser }) {
+  const dropRef = useClickOutside(() => setClickUser((open) => !open));
   return (
     <div
       ref={dropRef}
-      className="w-3/12 bg-[#ffffff] shadow-lg absolute top-12 right-5 p-5 rounded-lg flex flex-col gap-2 text-sm font-light cursor-default"
+      className="w-3/12 bg-[#ffffff] shadow-lg absolute top-16 right-5 p-5 rounded-lg flex flex-col gap-2 text-sm font-light cursor-default"
     >
       <ImageAndUsername />
       <HorizontalLine />

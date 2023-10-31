@@ -3,11 +3,14 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import ProfilePopUp from "../../features/user/ProfilePopUp";
 import { useState } from "react";
+import useModal from "../../hooks/useModal";
+import { useSelector } from "react-redux";
 
 function IconMenuOperations() {
-  const [openProfilePopup, setOpenProfilePopup] = useState(false);
+  const [clickUser, setClickUser] = useState(false);
+  const { user } = useSelector((store) => store.user);
+  const { dispatch } = useModal();
   const navigate = useNavigate();
-
   return (
     <div className="text-2xl flex gap-4 text-[#818B9C]">
       <button onClick={() => navigate("/cart")}>
@@ -18,14 +21,13 @@ function IconMenuOperations() {
         className="border border-[#E4E9EE] rounded-full p-2"
         onClick={(e) => {
           e.preventDefault();
-          setOpenProfilePopup((open) => !open);
+          if (!user) return dispatch({ type: "login" });
+          setClickUser((open) => !open);
         }}
       >
         <BsFillPersonFill />
       </button>
-      {openProfilePopup && (
-        <ProfilePopUp setOpenProfilePopup={setOpenProfilePopup} />
-      )}
+      {user && clickUser && <ProfilePopUp setClickUser={setClickUser} />}
     </div>
   );
 }

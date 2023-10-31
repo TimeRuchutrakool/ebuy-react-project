@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react";
 import LoginForm from "../features/user/LoginForm";
+import SignUpForm from "../features/user/SignupForm";
 
 export const ModalContext = createContext();
 
@@ -12,6 +13,8 @@ function reducer(state, action) {
       return { ...state, form: undefined };
     case "login":
       return { ...state, form: <LoginForm /> };
+    case "signup":
+      return { ...state ,form: <SignUpForm/>}
     default:
       throw new Error("Unknown action");
   }

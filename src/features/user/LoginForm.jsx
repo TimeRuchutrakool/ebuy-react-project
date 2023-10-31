@@ -2,18 +2,43 @@ import { useForm } from "react-hook-form";
 import InputError from "../../components/InputError";
 import Heading from "../../components/Heading";
 import { FcGoogle } from "react-icons/fc";
+import useModal from "../../hooks/useModal";
+import { login } from "../../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 function LoginForm() {
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
-  const onSubmit = (data) => {
-    console.log(data);
+  const { dispatch: modal } = useModal();
+  const dispatch = useDispatch();
+  const { loading, loginError } = useSelector((store) => store.user);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const handleLogin = (data) => {
+    dispatch(login(data));
+    modal({ type: "close" });
   };
+
+  if (loading) return Swal.isLoading();
+
+  if (loginError)
+    return Swal.fire({
+      icon: "error",
+      title: loginError,
+      text: "Something went wrong!",
+    });
+
   return (
     <div className="flex flex-col gap-4  p-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      <form
+        onSubmit={handleSubmit(handleLogin)}
+        className="flex flex-col gap-3"
+      >
         <Heading big={true}>Sign In</Heading>
-        <InputError error={errors?.email} label="email">
+        <InputError error={errors?.email?.message} label="email">
           <input
             id="email"
             type="email"
@@ -22,7 +47,7 @@ function LoginForm() {
             className="w-full border border-none bg-[#F6F8FA] rounded-md placeholder-[#818B9C] px-3 py-2 font-extralight"
           />
         </InputError>
-        <InputError error={errors?.password} password="password">
+        <InputError error={errors?.password?.message} label="password">
           <input
             id="password"
             type="password"
@@ -53,6 +78,10 @@ function LoginForm() {
         <FcGoogle />
         <span>Sign in with Google</span>
       </button>
+      <span className="flex justify-center text-sm font-light">
+        <span>doesn&apos;t have an account?&nbsp;</span>
+        <button onClick={() => modal({ type: "signup" })}>Sign up</button>
+      </span>
     </div>
   );
 }

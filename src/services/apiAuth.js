@@ -1,5 +1,5 @@
 import axios from "../config/axios"
-import { removeAccessToken } from "../utils/services"
+import { removeAccessToken } from "../utils/token"
 
 export const getCurrentUser = async (token) => {
     if (token) {

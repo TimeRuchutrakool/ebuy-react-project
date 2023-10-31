@@ -9,7 +9,7 @@ function Modal({ children }) {
       <div
         ref={dropRef}
         className="w-fit h-fit bg-[#ffffff] shadow-lg border-none rounded-md absolute z-30"
-        style={{ minHeight: "60vh", minWidth: "30vw" }}
+        style={{ minWidth: "30vw" }}
       >
         {children}
       </div>

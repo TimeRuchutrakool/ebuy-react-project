@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 function IconMenuOperations() {
   const [clickUser, setClickUser] = useState(false);
   const { user } = useSelector((store) => store.user);
-  const { dispatch } = useModal();
+  const { dispatch: modal } = useModal();
   const navigate = useNavigate();
   return (
     <div className="text-2xl flex gap-4 text-[#818B9C]">
@@ -21,7 +21,7 @@ function IconMenuOperations() {
         className="border border-[#E4E9EE] rounded-full p-2"
         onClick={(e) => {
           e.preventDefault();
-          if (!user) return dispatch({ type: "login" });
+          if (!user) return modal({ type: "login" });
           setClickUser((open) => !open);
         }}
       >

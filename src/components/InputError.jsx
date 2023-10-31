@@ -3,7 +3,7 @@ function InputError({ error, children, label }) {
     <div className="flex flex-col items-start gap-2 py-2">
       <label htmlFor={label}>{label}</label>
       {children}
-      {error && <span className="text-[#E04124]">{error}</span>}
+      {error && <p className="text-[#E04124] text-sm">{error}</p>}
     </div>
   );
 }

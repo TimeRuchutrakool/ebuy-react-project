@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 import LoginForm from "../features/user/LoginForm";
 import SignUpForm from "../features/user/SignupForm";
+import { Hourglass } from "react-loader-spinner";
 
 export const ModalContext = createContext();
 
@@ -14,7 +15,25 @@ function reducer(state, action) {
     case "login":
       return { ...state, form: <LoginForm /> };
     case "signup":
-      return { ...state ,form: <SignUpForm/>}
+      return { ...state, form: <SignUpForm /> };
+    case "loading":
+      return {
+        ...state,
+        form: (
+          <div style={{ minHeight: "35vh" }} className="flex justify-center items-center">
+            <Hourglass
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="hourglass-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              colors={["#007a12", "#00ab0b"]}
+            />
+          </div>
+        ),
+      };
+
     default:
       throw new Error("Unknown action");
   }

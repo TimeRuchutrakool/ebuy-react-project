@@ -15,7 +15,7 @@ export const login = async (credential) =>{
 }
 
 export const signup = async (info) => {
-    const response = await axios.post(`/api/auth/signup`, info);
+    const response = await axios.post("/auth/signup", info);
     return response.data;
 };
 

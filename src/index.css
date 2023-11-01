@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  font-family: "Mitr", sans-serif;
+}
+
+.swal-height {
+  height: 80vh;
+}

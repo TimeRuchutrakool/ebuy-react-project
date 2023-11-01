@@ -5,3 +5,7 @@
 html {
   font-family: "Mitr", sans-serif;
 }
+
+.swal-height {
+  height: 80vh;
+}

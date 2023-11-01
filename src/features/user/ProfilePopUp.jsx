@@ -3,19 +3,21 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GoTag } from "react-icons/go";
 import { BsCoin } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/userSlice";
+import { BsFillPersonFill } from "react-icons/bs";
 
 function ProfilePopUp({ setClickUser }) {
   const dropRef = useClickOutside(() => setClickUser((open) => !open));
+  const { user } = useSelector((store) => store.user);
   return (
     <div
       ref={dropRef}
       className="w-3/12 bg-[#ffffff] shadow-lg absolute top-16 right-5 p-5 rounded-lg flex flex-col gap-2 text-sm font-light cursor-default"
     >
-      <ImageAndUsername />
+      <ImageAndUsername user={user} />
       <HorizontalLine />
-      <Point />
+      <Point point={user.point} />
       <HorizontalLine />
       <Menu />
       <HorizontalLine />
@@ -26,15 +28,24 @@ function ProfilePopUp({ setClickUser }) {
 
 export default ProfilePopUp;
 
-function ImageAndUsername() {
+function ImageAndUsername({ user }) {
+  console.log(user);
   return (
     <div className="flex items-center gap-5">
-      <img
-        src="https://i.scdn.co/image/ab67616100005174d95cf4457fac4cc62311f84f"
-        alt="profile-image"
-        className="w-10 h-10 object-cover rounded-full"
-      />
-      <h1 className="text-base text-[#0B0F0E] font-normal">Yelena Stacia</h1>
+      {user.profileImage ? (
+        <img
+          src={`${user.profileImage}`}
+          alt="profile-image"
+          className="w-10 h-10 object-cover rounded-full"
+        />
+      ) : (
+        <div className="border border-[#E4E9EE] rounded-full p-2">
+          <BsFillPersonFill />
+        </div>
+      )}
+      <h1 className="text-base text-[#0B0F0E] font-normal">
+        {user.firstName} {user.lastName}
+      </h1>
     </div>
   );
 }
@@ -43,7 +54,7 @@ function HorizontalLine() {
   return <div className="w-full h-[1px] bg-[#E4E9EE]"></div>;
 }
 
-function Point() {
+function Point({ point }) {
   return (
     <div className="flex flex-col items-start gap-2">
       <p>My point</p>
@@ -52,7 +63,7 @@ function Point() {
           <BsCoin />
           <span>Point</span>
         </div>
-        <span>0.00</span>
+        <span>{point}</span>
       </div>
     </div>
   );

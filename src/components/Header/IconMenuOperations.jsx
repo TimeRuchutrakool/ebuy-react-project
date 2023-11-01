@@ -18,13 +18,22 @@ function IconMenuOperations() {
       </button>
       <div className="w-[1px] h-auto bg-[#E4E9EE]"></div>
       <button
-        className="border border-[#E4E9EE] rounded-full p-2"
         onClick={() => {
           if (!user) return modal({ type: "login" });
           else setClickUser((open) => !open);
         }}
       >
-        <BsFillPersonFill />
+        {user?.profileImage ? (
+          <img
+            src={`${user.profileImage}`}
+            alt="profile-image"
+            className="w-10 h-10 object-cover rounded-full"
+          />
+        ) : (
+          <div className="border border-[#E4E9EE] rounded-full p-2">
+            <BsFillPersonFill />
+          </div>
+        )}
       </button>
       {user && clickUser && <ProfilePopUp setClickUser={setClickUser} />}
     </div>

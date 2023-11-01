@@ -17,7 +17,6 @@ export default function Search() {
           <ProductCard />
           <ProductCard />
           <ProductCard />
-          <ProductCard />
         </div>
       </div>
     </div>

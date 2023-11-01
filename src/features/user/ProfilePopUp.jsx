@@ -3,6 +3,8 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GoTag } from "react-icons/go";
 import { BsCoin } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/slices/userSlice";
 
 function ProfilePopUp({ setClickUser }) {
   const dropRef = useClickOutside(() => setClickUser((open) => !open));
@@ -79,8 +81,12 @@ function Menu() {
 }
 
 function Logout() {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
-    <div className="text-[#E04124] cursor-pointer">
+    <div className="text-[#E04124] cursor-pointer" onClick={handleLogout}>
       <div className="flex gap-2 items-center">
         <AiOutlineLogout />
         <span>ออกจากระบบ</span>

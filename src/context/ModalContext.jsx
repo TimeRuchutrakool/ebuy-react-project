@@ -20,7 +20,10 @@ function reducer(state, action) {
       return {
         ...state,
         form: (
-          <div style={{ minHeight: "35vh" }} className="flex justify-center items-center">
+          <div
+            style={{ minHeight: "35vh" }}
+            className="flex justify-center items-center"
+          >
             <Hourglass
               visible={true}
               height="80"

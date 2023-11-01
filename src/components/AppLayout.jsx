@@ -6,15 +6,14 @@ import Modal from "./Modal";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
-import { getAccessToken } from "../utils/token";
 
 function AppLayout() {
   const { formModal } = useModal();
   const dispatch = useDispatch();
-  const accessToken = getAccessToken() ?? undefined;
+
   useEffect(() => {
-    dispatch(getMe(accessToken));
-  }, [dispatch, accessToken]);
+    dispatch(getMe());
+  }, [dispatch]);
 
   return (
     <>

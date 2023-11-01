@@ -19,10 +19,10 @@ function IconMenuOperations() {
       <div className="w-[1px] h-auto bg-[#E4E9EE]"></div>
       <button
         className="border border-[#E4E9EE] rounded-full p-2"
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
+          console.log(user);
           if (!user) return modal({ type: "login" });
-          setClickUser((open) => !open);
+          else setClickUser((open) => !open);
         }}
       >
         <BsFillPersonFill />

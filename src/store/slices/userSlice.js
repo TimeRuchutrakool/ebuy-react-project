@@ -1,12 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login as loginAPI } from "../../services/apiAuth";
 import { getCurrentUser } from "../../services/apiAuth";
-import { setAccessToken } from "../../utils/token";
+import { getAccessToken, setAccessToken } from "../../utils/token";
+import toast from "react-hot-toast";
 
 const initialState = {
   user: undefined,
-  loading: false,
-  error: "",
+  loading: {
+    loginLoading: false,
+    getUserLoading: false,
+  },
+  error: {
+    loginError: "",
+    getUserError: "",
+  },
 };
 
 export const login = createAsyncThunk(
@@ -15,25 +22,29 @@ export const login = createAsyncThunk(
     try {
       const data = await loginAPI(payload);
       setAccessToken(data.accessToken);
-      console.log(data);
+      toast.success("Login successfully.");
       return data.user;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+    } catch (_) {
+      toast.error("Invalid Credential.");
+      return thunkApi.rejectWithValue("Invalid Credential.");
     }
   }
 );
 
-export const getMe = createAsyncThunk(
-  "user/getMe",
-  async (payload, thunkApi) => {
-    try {
-      const user = await getCurrentUser(payload);
-      return user;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+export const getMe = createAsyncThunk("user/getMe", async (_, thunkApi) => {
+  const token = getAccessToken();
+  try {
+    if (token) {
+      const data = await getCurrentUser();
+      console.log(data);
+      return data.user;
+    } else {
+      return thunkApi.rejectWithValue("No user login.");
     }
+  } catch (_) {
+    return thunkApi.rejectWithValue("Something wrong with get user data.");
   }
-);
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -44,35 +55,35 @@ const userSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.loading = false;
-        state.error = "";
+        state.loading.loginLoading = false;
+        state.error.loginError = "";
       })
       .addCase(login.pending, (state) => {
         state.user = undefined;
-        state.loading = true;
-        state.error = "";
+        state.loading.loginLoading = true;
+        state.error.loginError = "";
       })
       .addCase(login.rejected, (state, action) => {
         state.user = undefined;
-        state.loading = false;
-        state.error = action.payload;
+        state.loading.loginLoading = false;
+        state.error.loginError = action.payload;
       });
     // getMe
     builder
       .addCase(getMe.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.loading = false;
-        state.error = "";
+        state.loading.getUserLoading = false;
+        state.error.getUserError = "";
       })
       .addCase(getMe.pending, (state) => {
         state.user = undefined;
-        state.loading = true;
-        state.error = "";
+        state.loading.getUserLoading = true;
+        state.error.getUserError = "";
       })
       .addCase(getMe.rejected, (state, action) => {
         state.user = undefined;
-        state.loading = false;
-        state.error = action.payload;
+        state.loading.getUserLoading = false;
+        state.error.getUserError = action.payload;
       });
   },
 });

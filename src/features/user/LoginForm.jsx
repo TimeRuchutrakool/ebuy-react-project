@@ -5,12 +5,12 @@ import { FcGoogle } from "react-icons/fc";
 import useModal from "../../hooks/useModal";
 import { login } from "../../store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function LoginForm() {
   const { dispatch: modal } = useModal();
   const dispatch = useDispatch();
-  const { loading, loginError } = useSelector((store) => store.user);
+  const { loading } = useSelector((store) => store.user);
   const {
     register,
     handleSubmit,
@@ -22,14 +22,7 @@ function LoginForm() {
     modal({ type: "close" });
   };
 
-  if (loading) return Swal.isLoading();
-
-  if (loginError)
-    return Swal.fire({
-      icon: "error",
-      title: loginError,
-      text: "Something went wrong!",
-    });
+  if (loading.loginLoading) return toast.loading("Logging in");
 
   return (
     <div className="flex flex-col gap-4  p-4">

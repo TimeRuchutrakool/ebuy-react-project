@@ -20,7 +20,6 @@ function IconMenuOperations() {
       <button
         className="border border-[#E4E9EE] rounded-full p-2"
         onClick={() => {
-          console.log(user);
           if (!user) return modal({ type: "login" });
           else setClickUser((open) => !open);
         }}

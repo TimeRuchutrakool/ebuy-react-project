@@ -1,11 +1,12 @@
-import { useForm } from "react-hook-form"
+// import { useForm } from "react-hook-form"
 function SignUpForm (){
-const {register ,handleSubmit, formState,getValues} =useForm()
-const { errors }=formState 
-const onSubmit =(data)=> console.log(data)
+// const {register ,handleSubmit, formState,getValues} =useForm()
+// const { errors }=formState 
+// const onSubmit =(data)=> console.log(data)
 return(
     <div>
-    <form onSubmit={handleSubmit(onSubmit)}>
+      Signup
+    {/* <form onSubmit={handleSubmit(onSubmit)}>
         Signup
         <div>
         <span>First name</span>
@@ -59,7 +60,7 @@ return(
         <span>{errors?.confirmPassword?.message}</span>
       </div>
       <button className=" bg-green-800">Sign up</button>
-    </form>
+    </form> */}
     </div>
 )
 }

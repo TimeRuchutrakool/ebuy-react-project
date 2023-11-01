@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <Provider store={store}>
-      <Routes />;
+      <Routes />
       <Toaster
         position="top-center"
         gutter={12}

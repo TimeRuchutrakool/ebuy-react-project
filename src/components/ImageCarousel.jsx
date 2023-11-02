@@ -5,24 +5,25 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Mousewheel } from "swiper/modules";
 
-function CategoryCarousel() {
+function ImageCarousel({ images, setSelectedImage }) {
   return (
     <Swiper
-      slidesPerView={3}
+      slidesPerView={4}
       centeredSlides={false}
       freeMode={true}
       mousewheel={true}
       rewind={true}
       modules={[FreeMode, Mousewheel]}
-      className="swiper"
     >
-      {[1, 2, 3].map((cat, index) => (
-        <SwiperSlide key={index}>
-          <div>{cat}</div>
+      {images.map((image, index) => (
+        <SwiperSlide key={image.id}>
+          <div className="px-2 cursor-pointer" onClick={() => setSelectedImage(index)}>
+            <img src={image.imageUrl} className="rounded-md" />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
 
-export default CategoryCarousel;
+export default ImageCarousel;

@@ -1,8 +1,15 @@
-import {BsFillSendFill} from 'react-icons/bs'
+import { BsFillSendFill } from "react-icons/bs";
 import ProfileUserHeader from "./ProfileUserHeader";
+import socket from "../../socket";
 
 function ChatBox() {
   const user = { firstName: "Johny", lastName: "Cash" };
+
+  const send = (e) => {
+    e.preventDefault();
+    socket.emit("message", "message", (m) => console.log(m));
+  };
+
   return (
     <>
       <ProfileUserHeader user={user} end="end" />
@@ -11,14 +18,17 @@ function ChatBox() {
           <p key={index}>Hello</p>
         ))}
       </div>
-      <form className=" w-5/6 bg-[#EFF5FB] px-4 py-3 rounded-full my-3 flex text-sm">
+      <form
+        className=" w-5/6 bg-[#EFF5FB] px-4 py-3 rounded-full my-3 flex text-sm"
+        onSubmit={send}
+      >
         <input
           className="w-full bg-transparent outline-none "
           type="text"
           placeholder="Your Messages..."
         />
         <button>
-          <BsFillSendFill/>
+          <BsFillSendFill />
         </button>
       </form>
     </>

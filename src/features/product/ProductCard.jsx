@@ -1,15 +1,12 @@
 import { AiFillStar } from "react-icons/ai";
 function ProductCard({ productImage, name, price, avgRating }) {
-  console.log(
-    "🚀 ~ file: ProductCard.jsx:3 ~ ProductCard ~ productImage:",
-    productImage
-  );
+
   return (
     <div className="w-52 flex flex-col gap-2 cursor-pointer">
       <div className="bg-[#F6F6F6] w-52 h-52 border border-none rounded-md flex justify-center items-center">
         <img
           src={`https://res.cloudinary.com/dpzvjqcqn/image/upload/v1698850250/e7o9va4etyhapgwgi4a2.jpg`}
-          alt=""
+          alt={productImage}
           className="w-40 h-40 object-cover overflow-hidden object-center"
         />
       </div>

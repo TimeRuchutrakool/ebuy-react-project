@@ -7,13 +7,14 @@ import { useState } from "react";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
+  console.log("🚀 ~ file: Search.jsx:10 ~ Search ~ allProduct:", allProduct);
 
   const { searchedTitle } = useParams();
 
   useEffect(() => {
     axios
       .get(`/product/searchedTitle/${searchedTitle}`)
-      .then((res) => setAllProduct(res.data.data));
+      .then((res) => setAllProduct(res.data?.searchData));
   }, [searchedTitle]);
 
   return (

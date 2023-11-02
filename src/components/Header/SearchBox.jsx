@@ -8,7 +8,9 @@ function SearchBox() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${inputSearch}`);
+    if (inputSearch) {
+      navigate(`/search/${inputSearch}`);
+    }
   };
   return (
     <form

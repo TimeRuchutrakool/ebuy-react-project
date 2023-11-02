@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
-  console.log("🚀 ~ file: Search.jsx:10 ~ Search ~ allProduct:", allProduct);
+
   const { searchedTitle } = useParams();
 
   useEffect(() => {
@@ -23,13 +23,13 @@ export default function Search() {
         <div className="w-1/5">
           <FilterOption />
         </div>
-        <div className="w-4/5 grid grid-cols-3 place-items-center">
+        <div className="w-4/5 grid h-fit gap-5 grid-cols-3 items-start place-items-center">
           {allProduct.map((product) => (
             <ProductCard
               key={product.id}
               name={product.name}
               price={product.price}
-              productImage={product.productImage}
+              productImage={product.ProductImage}
               avgRating={product.avgRating}
             />
           ))}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FiChevronUp } from "react-icons/fi";
 
 export default function FilterOptionItem({ title, children }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div>

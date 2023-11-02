@@ -6,3 +6,10 @@ export function formatCurrency(value) {
     minimumFractionDigits: 0,
   }).format(value);
 }
+
+export function formatDate(value) {
+  return new Intl.DateTimeFormat("th", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(value);
+}

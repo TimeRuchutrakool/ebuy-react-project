@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 import LoginForm from "../features/user/LoginForm";
 import SignUpForm from "../features/user/SignupForm";
 import { Hourglass } from "react-loader-spinner";
+import ChatModal from "../features/chat/ChatModal";
 
 export const ModalContext = createContext();
 
@@ -36,6 +37,8 @@ function reducer(state, action) {
           </div>
         ),
       };
+    case "chat":
+      return { ...state, form: <ChatModal /> };
 
     default:
       throw new Error("Unknown action");

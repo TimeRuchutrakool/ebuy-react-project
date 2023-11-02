@@ -5,7 +5,7 @@ function Modal({ children }) {
   const { dispatch } = useModal();
   const dropRef = useClickOutside(() => dispatch({ type: "close" }));
   return (
-    <div className="w-full h-full flex justify-center items-center fixed z-40 ">
+    <div className="w-full h-full flex justify-center items-center fixed z-50 ">
       <div
         ref={dropRef}
         className="w-fit h-fit bg-[#ffffff] shadow-lg border-none rounded-md absolute z-30"

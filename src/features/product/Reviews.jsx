@@ -86,7 +86,6 @@ const mockReview = {
 
 export function Reviews() {
   const reviews = mockReview;
-  console.log(reviews);
   return (
     <div className="mt-5 flex flex-col gap-4">
       <div className="flex justify-between items-center font-extralight">

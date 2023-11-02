@@ -3,7 +3,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 function ProfileUserHeader({ user, end = "start" }) {
   return (
     <div
-      className={`flex justify-${end} items-center gap-5 border-b-[1px] px-4 py-3`}
+      className={`w-full flex justify-${end} items-center gap-5 border-b-[1px] px-4 py-3`}
     >
       {user?.profileImage ? (
         <img
@@ -12,7 +12,7 @@ function ProfileUserHeader({ user, end = "start" }) {
           className="w-10 h-10 object-cover rounded-full"
         />
       ) : (
-        <div className="border border-[#E4E9EE] rounded-full p-2">
+        <div className="w-10 h-10 flex justify-center items-center border border-[#E4E9EE] rounded-full p-2">
           <BsFillPersonFill />
         </div>
       )}

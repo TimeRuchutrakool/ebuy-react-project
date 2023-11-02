@@ -1,14 +1,27 @@
-import { useSelector } from "react-redux";
+import {BsFillSendFill} from 'react-icons/bs'
 import ProfileUserHeader from "./ProfileUserHeader";
 
 function ChatBox() {
-  const { user } = useSelector((store) => store.user);
+  const user = { firstName: "Johny", lastName: "Cash" };
   return (
-    <div>
-      <div className="border-s-[1px]">
-        <ProfileUserHeader user={user} end="end" />
+    <>
+      <ProfileUserHeader user={user} end="end" />
+      <div className="w-full h-full overflow-scroll">
+        {Array.from({ length: 40 }).map((_, index) => (
+          <p key={index}>Hello</p>
+        ))}
       </div>
-    </div>
+      <form className=" w-5/6 bg-[#EFF5FB] px-4 py-3 rounded-full my-3 flex text-sm">
+        <input
+          className="w-full bg-transparent outline-none "
+          type="text"
+          placeholder="Your Messages..."
+        />
+        <button>
+          <BsFillSendFill/>
+        </button>
+      </form>
+    </>
   );
 }
 

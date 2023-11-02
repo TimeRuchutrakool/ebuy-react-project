@@ -5,12 +5,16 @@ import ProfileUserHeader from "./ProfileUserHeader";
 function ChatList() {
   const { user } = useSelector((store) => store.user);
   return (
-    <>
+    <div className="flex flex-col h-full">
       <ProfileUserHeader user={user} />
-      <div className="">
-        <SearchChatBox />
+
+      <SearchChatBox />
+      <div className="grow overflow-scroll">
+        {Array.from({ length: 15 }).map((_, index) => (
+          <ProfileUserHeader key={index} />
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -29,7 +29,6 @@ function ProfilePopUp({ setClickUser }) {
 export default ProfilePopUp;
 
 function ImageAndUsername({ user }) {
-  console.log(user);
   return (
     <div className="flex items-center gap-5">
       {user.profileImage ? (

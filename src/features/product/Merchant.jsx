@@ -17,7 +17,7 @@ export function Merchant({ product }) {
             <BsFillPersonFill />
           </div>
         )}
-        <p>{product?.seller}</p>
+        <p>{product?.sellerFirstName} {product?.sellerLastName}</p>
       </div>
       <div className="flex gap-3">
         <button className="border flex items-center justify-center gap-2 w-fit px-5 py-2 rounded-lg border-black">

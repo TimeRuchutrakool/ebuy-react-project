@@ -7,21 +7,24 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { formatCurrency } from "../../utils/helper";
 import ImageCarousel from "../../components/ImageCarousel";
 
-export function ProductPreview({ product, options }) {
+export function ProductPreview({ product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(1);
   const [size, setSize] = useState(1);
+
   const onNext = () =>
     setSelectedImage((cur) => (cur + 1) % product.images.length);
   const onPrev = () =>
     setSelectedImage(
-      (cur) => (cur - 1 + product.images.length) % product.images.length
+      (cur) => (cur - 1 + product?.images.length) % product.images.length
     );
 
   const handleAddToCart = () => {
     console.log(color);
     console.log(size);
   };
+
+  if (Object.keys(product).length === 0) return null;
 
   return (
     // --------- images ---------
@@ -72,7 +75,7 @@ export function ProductPreview({ product, options }) {
               value={color}
               onChange={(e) => setColor(() => e.target.value)}
             >
-              {options?.colors?.map((color) => (
+              {product.options.colors.map((color) => (
                 <option key={color.id} value={color.id}>
                   {color.name}
                 </option>
@@ -88,7 +91,7 @@ export function ProductPreview({ product, options }) {
               value={size}
               onChange={(e) => setSize(() => e.target.value)}
             >
-              {options?.sizes?.map((size) => (
+              {product.options.sizes.map((size) => (
                 <option key={size.id} value={size.id}>
                   {size.name}
                 </option>

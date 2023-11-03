@@ -5,14 +5,15 @@ import axios from "../config/axios";
 import { useState } from "react";
 
 function PopularProductList() {
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   console.log(
-    "🚀 ~ file: PopularProductList.jsx:9 ~ PopularProductList ~ product:",
-    product
+    "🚀 ~ file: PopularProductList.jsx:9 ~ PopularProductList ~ products:",
+    products
   );
+
   useEffect(() => {
     axios.get("/product/productPopular").then((res) => {
-      setProduct(res.data.productPopular);
+      setProducts(res.data);
     });
   }, []);
   return (
@@ -20,7 +21,17 @@ function PopularProductList() {
       <Heading big={true}>Popular Product on ebuy</Heading>
 
       <div className="w-10/12 grid grid-cols-4 place-items-center gap-5">
-        {<ProductCard />}
+        {products.map((product) => (
+          <ProductCard
+            key={product?.id}
+            productImage={product?.productImage}
+            name={product?.productName}
+            price={product?.productPrice}
+            avgRating={product?.rating}
+            sellerFirstName={product?.sellerFirstName}
+            sellerLastName={product?.sellerLastName}
+          />
+        ))}
       </div>
     </div>
   );

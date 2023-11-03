@@ -9,3 +9,8 @@ export const getReviews = async (productId) => {
   const res = await axios.get(`/product/review/${productId}`);
   return res.data;
 };
+
+export const createReviews = async (reviewData) => {
+  const res = await axios.post("/product/review", reviewData);
+  return res.data;
+};

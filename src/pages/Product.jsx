@@ -17,7 +17,6 @@ function Product() {
         setIsLoading(true);
         const { product } = await getProduct(productId);
         setProduct(() => product);
-        console.log(product);
       } catch (error) {
         console.log(error);
       } finally {

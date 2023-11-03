@@ -5,7 +5,7 @@ import SellButton from "./SellButton";
 
 function Header() {
   return (
-    <nav className="flex items-center justify-around sticky top-0 bg-[#ffffff] py-4 shadow-md">
+    <nav className="flex items-center justify-around sticky z-10 top-0 bg-[#ffffff] py-4 shadow-md">
       <Logo />
       <SearchBox />
       <IconMenuOperations />

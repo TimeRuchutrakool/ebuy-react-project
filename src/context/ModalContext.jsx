@@ -1,6 +1,8 @@
 import { createContext, useReducer } from "react";
 import LoginForm from "../features/user/LoginForm";
 import SignUpForm from "../features/user/SignupForm";
+import { Hourglass } from "react-loader-spinner";
+import ChatModal from "../features/chat/ChatModal";
 
 export const ModalContext = createContext();
 
@@ -15,6 +17,28 @@ function reducer(state, action) {
       return { ...state, form: <LoginForm /> };
     case "signup":
       return { ...state, form: <SignUpForm /> };
+    case "loading":
+      return {
+        ...state,
+        form: (
+          <div
+            style={{ minHeight: "35vh" }}
+            className="flex justify-center items-center"
+          >
+            <Hourglass
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="hourglass-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              colors={["#007a12", "#00ab0b"]}
+            />
+          </div>
+        ),
+      };
+    case "chat":
+      return { ...state, form: <ChatModal /> };
 
     default:
       throw new Error("Unknown action");

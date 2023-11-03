@@ -16,7 +16,7 @@ function ProductCard({
             productImage ||
             `https://res.cloudinary.com/dpzvjqcqn/image/upload/v1698850250/e7o9va4etyhapgwgi4a2.jpg`
           }
-          alt=""
+          alt="productImage"
           className="w-40 h-40 object-cover overflow-hidden object-center"
         />
       </div>

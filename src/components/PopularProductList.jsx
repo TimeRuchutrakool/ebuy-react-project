@@ -6,10 +6,6 @@ import { useState } from "react";
 
 function PopularProductList() {
   const [products, setProducts] = useState([]);
-  console.log(
-    "🚀 ~ file: PopularProductList.jsx:9 ~ PopularProductList ~ products:",
-    products
-  );
 
   useEffect(() => {
     axios.get("/product/productPopular").then((res) => {

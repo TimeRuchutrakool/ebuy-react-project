@@ -1,6 +1,6 @@
-import io from "socket.io-client";
-import { BACKEND_URL } from "./config/env";
+// import  io  from "socket.io-client";
+// import { BACKEND_URL } from "./config/env";
 
-const socket = io.connect(BACKEND_URL, { reconnect: true });
+// const socket = io.connect(BACKEND_URL);
 
-export default socket;
+// export default socket;

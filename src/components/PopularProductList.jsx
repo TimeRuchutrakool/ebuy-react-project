@@ -19,6 +19,7 @@ function PopularProductList() {
       <div className="w-10/12 grid grid-cols-4 place-items-center gap-5">
         {products.map((product) => (
           <ProductCard
+            id={product?.id}
             key={product?.id}
             productImage={product?.productImage}
             name={product?.productName}

@@ -14,14 +14,9 @@ export function formatDate(value) {
   }).format(value);
 }
 
-export function removeDuplicates(duplicate) {
-  const flag = {};
-  const unique = [];
-  duplicate.forEach((elem) => {
-    if (!flag[elem.id]) {
-      flag[elem.id] = true;
-      unique.push(elem);
-    }
-  });
-  return unique;
+export function formatDateForMessage(value) {
+  return new Intl.DateTimeFormat("en", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(value);
 }

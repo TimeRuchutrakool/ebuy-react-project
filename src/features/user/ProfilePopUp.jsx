@@ -6,6 +6,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/userSlice";
 import { BsFillPersonFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePopUp({ setClickUser }) {
   const dropRef = useClickOutside(() => setClickUser((open) => !open));
@@ -69,17 +70,21 @@ function Point({ point }) {
 }
 
 function Menu() {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-start gap-2">
       <p>Menu</p>
       <div className="flex flex-col items-start w-full gap-2 text-[#818B9C]">
-        <div className="flex gap-2 items-center cursor-pointer">
+        <div
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => navigate("/user")}
+        >
           <AiOutlineShop />
           <span>หน้าร้านของฉัน</span>
         </div>
         <div className="flex gap-2 items-center cursor-pointer">
           <GoTag />
-          <span>คำสั่งซื้อ</span>
+          <span>ประวัติการซื้อ</span>
         </div>
         <div className="flex gap-2 items-center cursor-pointer">
           <MdOutlineFavoriteBorder />

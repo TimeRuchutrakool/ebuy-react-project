@@ -1,12 +1,11 @@
 import { useState } from "react";
-import CartProductLists from "../features/cart/CartProductLists";
 import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";
 
 export default function User() {
   const [click, setClick] = useState("marketplace");
-  const [products, setProducts] = useState([
+  const [products] = useState([
     { id: 1, imageUrl: 111, price: 111, name: "test", des: "รายระเอียด" },
     { id: 2, imageUrl: 111, price: 222, name: "test2", des: "รายระเอียด บลาๆ" },
   ]);
@@ -41,7 +40,7 @@ export default function User() {
             className="border border-gray-200 w-full p-4 flex justify-center hover:bg-gray-300  items-center gap-2 hover:text-white text-green-900 cursor-pointer "
           >
             <BiSolidStore className="text-xl " />
-            <h1 className="">Markter</h1>
+            <h1 className="">Market</h1>
           </button>
           <button
             onClick={() => setClick("bidproduct")}
@@ -59,6 +58,7 @@ export default function User() {
             <div className="grid grid-cols-4 place-items-center">
               {products.map((el) => (
                 <SellerCardProduct
+                  key={el.id}
                   name={el.name}
                   price={el.price}
                   imageUrl={el.imageUrl}

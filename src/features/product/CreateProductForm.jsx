@@ -46,6 +46,8 @@ export default function CreateProductForm() {
           formData.append("image", inputFrom.image);
         }
 
+        console.log("formData :", formData);
+
         try {
           await axios.post("/product", formData);
         } catch (err) {

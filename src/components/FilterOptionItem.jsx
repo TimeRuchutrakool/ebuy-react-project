@@ -9,7 +9,7 @@ export default function FilterOptionItem({ title, children }) {
       <div className="p-5 flex flex-col gap-5">
         <div className="flex justify-between items-center">
           <div className="text-2xl  ">{title}</div>
-          <div>
+          <div className="cursor-pointer">
             <FiChevronUp
               onClick={() => {
                 setIsOpen(!isOpen);

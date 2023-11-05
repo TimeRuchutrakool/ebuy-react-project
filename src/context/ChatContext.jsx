@@ -21,7 +21,11 @@ export default function ChatContextProvider({ children, talkTo = null }) {
       chatSocket.emit(
         "findRoom",
         { userId: user.id, storeId: talkTo.id },
-        (talkTo) => setOtherUser(talkTo)
+        (data) => {
+          setOtherUser(data.talkTo);
+          setChatRoom(() => data.id);
+          chatSocket.emit("joinRoom", { roomId: data.id });
+        }
       );
     }
     chatSocket.emit("getChatList", { userId: user.id }, (chatList) =>

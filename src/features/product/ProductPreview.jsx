@@ -6,11 +6,14 @@ import { AiFillStar } from "react-icons/ai";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { formatCurrency } from "../../utils/helper";
 import ImageCarousel from "../../components/ImageCarousel";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "../../store/slices/cartSlice";
 
 export function ProductPreview({ product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(1);
   const [size, setSize] = useState(1);
+  const dispatch = useDispatch();
 
   const onNext = () =>
     setSelectedImage((cur) => (cur + 1) % product.images.length);
@@ -20,8 +23,13 @@ export function ProductPreview({ product }) {
     );
 
   const handleAddToCart = () => {
-    console.log(color);
-    console.log(size);
+    const sizeField = Object.keys(product.productVariants[0]).find((key) =>
+      key.includes("SizeId")
+    );
+    const data = { productId: product.id, colorId: color };
+    data[`${sizeField}`] = size;
+    dispatch(addProductToCart(data));
+  
   };
 
   if (Object.keys(product).length === 0) return null;

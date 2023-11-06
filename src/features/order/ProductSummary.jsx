@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 
 function ProductSummary() {
   const { cart } = useSelector((store) => store.cart);
+  
   return (
     <div className="p-5 bg-white border rounded-lg flex flex-col gap-3">
       <h1>ProductSummary</h1>

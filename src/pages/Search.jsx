@@ -5,28 +5,24 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Pagination from "../components/Pagination";
-import { useSearchParams } from "react-router-dom";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
 
   const { searchedTitle } = useParams();
-  const [page, setPage] = useState(1);
-  const [searchParams] = useSearchParams();
-
-  useEffect(() => {}, []);
+  const [page, setPage] = useState("");
+  const [type, setType] = useState("");
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     axios
       .get(
-        `/product/search/${searchedTitle}?${
-          searchParams.get("page") ? searchParams.get("page") : ""
-        }${searchParams.get("type") ? searchParams.get("type") : ""}${
-          searchParams.get("price") ? searchParams.get("price") : ""
-        }`
+        `/product/search/${searchedTitle}?${page ? `page=${page}` : ""}${
+          type ? `&type=${type}` : ""
+        }${price ? `&price=${price}` : ""}`
       )
-      .then((res) => console.log(res.data));
-  }, [searchedTitle, searchParams]);
+      .then((res) => setAllProduct(res.data.product));
+  }, [page, price, type, searchedTitle]);
 
   return (
     <div className="px-36  min-h-[59vh] flex flex-col">
@@ -48,7 +44,12 @@ export default function Search() {
           ))}
         </div>
       </div>
-      <Pagination />
+      <Pagination
+        setPage={setPage}
+        setType={setType}
+        setPrice={setPrice}
+        count={allProduct.count}
+      />
     </div>
   );
 }

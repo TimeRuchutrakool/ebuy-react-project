@@ -2,15 +2,16 @@ import { useEffect } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useSearchParams } from "react-router-dom";
 
-function Pagination({ count }) {
+function Pagination({ count, setPage, setType, setPrice }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = !searchParams.get("page") ? 1 : +searchParams.get("page");
-  const pageCount = Math.ceil(count / 12);
+  const pageCount = Math.ceil(count / 3);
 
-  useEffect(()=>{
-    searchParams.set('page',1)
-    setSearchParams(searchParams)
-  },[setSearchParams,searchParams])
+  useEffect(() => {
+    setPage(searchParams.get("page"));
+    setType(searchParams.get("type"));
+    setPrice(searchParams.get("price"));
+  }, [searchParams, setPage, setPrice, setType]);
 
   function nextPage() {
     const next = currentPage === pageCount ? currentPage : currentPage + 1;
@@ -24,7 +25,11 @@ function Pagination({ count }) {
   }
   return (
     <div className="self-end flex gap-5">
-      <button onClick={prevPage} disabled={currentPage === 1} className="flex items-center gap-2">
+      <button
+        onClick={prevPage}
+        disabled={currentPage === 1}
+        className="flex items-center gap-2"
+      >
         <GrPrevious />
         Prev
       </button>

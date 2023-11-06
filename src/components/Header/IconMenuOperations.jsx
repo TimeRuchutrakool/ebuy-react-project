@@ -9,12 +9,25 @@ import { useSelector } from "react-redux";
 function IconMenuOperations() {
   const [clickUser, setClickUser] = useState(false);
   const { user } = useSelector((store) => store.user);
+  const { cart } = useSelector((store) => store.cart);
   const { dispatch: modal } = useModal();
   const navigate = useNavigate();
   return (
     <div className="text-2xl flex gap-4 text-[#818B9C]">
-      <button onClick={() => navigate("/cart")}>
+      <button
+        onClick={() => {
+          if (user) {
+            navigate("/cart");
+          } else modal({ type: "login" });
+        }}
+        className="relative"
+      >
         <BiSolidCart />
+        {cart.length > 0 && (
+          <div className="w-5 h-5 flex justify-center items-center absolute -top-2 -right-3 text-sm text-white bg-green-900 p-3 rounded-full">
+            {cart.length}
+          </div>
+        )}
       </button>
       <div className="w-[1px] h-auto bg-[#E4E9EE]"></div>
       <button

@@ -4,6 +4,9 @@ import { Reviews } from "./Reviews";
 
 export function DetailOperation({ product }) {
   const [operation, setOperation] = useState(true);
+
+  
+
   return (
     <div className="mx-20">
       <header className="flex border-b-[1px] text-xl font-extralight">

@@ -2,26 +2,57 @@ import { useState } from "react";
 import Heading from "../../components/Heading";
 
 import { GrPrevious, GrNext } from "react-icons/gr";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { formatCurrency } from "../../utils/helper";
 import ImageCarousel from "../../components/ImageCarousel";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductToCart } from "../../store/slices/cartSlice";
+import { useEffect } from "react";
+import {
+  isWish as isWishAPI,
+  toggleWish as toggleWishAPI,
+} from "../../services/apiWish";
 
-export function ProductPreview({ product, options }) {
+export function ProductPreview({ product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(1);
   const [size, setSize] = useState(1);
+  const [isWish, setIsWish] = useState(null);
+  const { user } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getWishProduct() {
+      const res = await isWishAPI(product.id);
+      setIsWish(res.isWish);
+    }
+    if (user) getWishProduct();
+  }, [product.id, user]);
+
   const onNext = () =>
     setSelectedImage((cur) => (cur + 1) % product.images.length);
   const onPrev = () =>
     setSelectedImage(
-      (cur) => (cur - 1 + product.images.length) % product.images.length
+      (cur) => (cur - 1 + product?.images.length) % product.images.length
     );
 
   const handleAddToCart = () => {
-    console.log(color);
-    console.log(size);
+    const sizeField = Object.keys(product.productVariants[0]).find((key) =>
+      key.includes("SizeId")
+    );
+    const data = { productId: product.id, colorId: color };
+    data[`${sizeField}`] = size;
+    dispatch(addProductToCart(data));
   };
+
+  const toggleWish = async () => {
+    const { isWish } = await toggleWishAPI(product.id);
+    setIsWish(isWish)
+  };
+
+  if (Object.keys(product).length === 0) return null;
 
   return (
     // --------- images ---------
@@ -72,7 +103,7 @@ export function ProductPreview({ product, options }) {
               value={color}
               onChange={(e) => setColor(() => e.target.value)}
             >
-              {options?.colors?.map((color) => (
+              {product.options.colors.map((color) => (
                 <option key={color.id} value={color.id}>
                   {color.name}
                 </option>
@@ -88,7 +119,7 @@ export function ProductPreview({ product, options }) {
               value={size}
               onChange={(e) => setSize(() => e.target.value)}
             >
-              {options?.sizes?.map((size) => (
+              {product.options.sizes.map((size) => (
                 <option key={size.id} value={size.id}>
                   {size.name}
                 </option>
@@ -96,14 +127,19 @@ export function ProductPreview({ product, options }) {
             </select>
           </div>
         </div>
-        <div className="flex gap-7"></div>
-        <button
-          className="border flex items-center justify-center gap-5 w-fit px-5 py-2 rounded-lg border-black"
-          onClick={handleAddToCart}
-        >
-          <MdOutlineAddShoppingCart />
-          <span>Add to Cart</span>
-        </button>
+        <div className="flex gap-7 mt-5">
+          <button
+            className="border flex items-center justify-center gap-5 w-fit px-5 py-2 rounded-lg border-black"
+            onClick={handleAddToCart}
+          >
+            <MdOutlineAddShoppingCart />
+            <span>Add to Cart</span>
+          </button>
+
+          <button className="text-2xl" onClick={toggleWish}>
+            {isWish ? <MdFavorite /> : <MdFavoriteBorder />}
+          </button>
+        </div>
       </div>
     </div>
   );

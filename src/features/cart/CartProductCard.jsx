@@ -1,50 +1,93 @@
+import { useState } from "react";
 import { FiTrash2, FiPlus, FiMinus } from "react-icons/fi";
-import { TbCurrencyBaht } from "react-icons/tb";
+import { deleteProductFromCart, updateAmount } from "../../services/apiCart";
+import { useDispatch } from "react-redux";
+import { getCart } from "../../store/slices/cartSlice";
 
-export default function CartProductCard() {
+export default function CartProductCard({ product, setTotalPrice }) {
+  const [amount, setAmount] = useState(() => product.amount);
+  const dispatch = useDispatch();
+
+  const onIncreaseAmount = async () => {
+    setAmount((amount) => amount + 1);
+    setTotalPrice((total) => total + Number(product.price));
+    await updateAmount("increase", product.cartItemId);
+  };
+  const onDecreaseAmount = async () => {
+    if (amount <= 1) return;
+    setAmount((amount) => amount - 1);
+    setTotalPrice((total) => total - Number(product.price));
+    await updateAmount("decrease", product.cartItemId);
+  };
+
+  const onDelete = async () => {
+    await deleteProductFromCart(product.cartItemId);
+    dispatch(getCart());
+  };
+
   return (
     <div className=" p-4 shadow-sd  flex flex-col gap-2 rounded-md border border-borderColor">
-      <div className="flex gap-4 mb-4">
+      {/* seller */}
+      <div className="flex gap-4 mb-4 items-center">
         <img
-          src="https://st4.depositphotos.com/2712843/24006/i/1600/depositphotos_240068650-stock-photo-bangkok-thailand-november-2018-fendi.jpg"
-          alt="fendi"
+          src={product.profileImageUrl}
+          alt="profile-image"
           className="w-12 h-12 rounded-full"
         />
-        <div>
-          <p> Seller : seller user</p>
-          <p className="text-gray-400 font-extralight">Central</p>
-        </div>
+        <p className="font-normal">
+          Seller : {product.sellerFirstName} {product.sellerLastName}
+        </p>
       </div>
-      <div className=" flex gap-8">
+      {/* product */}
+      <div className="flex gap-8 justify-end w-full">
         <div>
           <img
-            src="https://down-th.img.susercontent.com/file/04dcbdf1849656514bb2d5c4651278b7"
+            src={product.productImageUrl}
             alt=""
-            className="w-24 h-24 rounded-md"
+            className="w-24 h-24 object-cover  rounded-md"
           />
         </div>
-        <div className=" flex flex-col max-w-[512px] ">
-          <p>เสื้อยืดวินเทจ Rock Star 7th street ของแท้ 100% พร้อมส่ง</p>
-          <p>size : xl</p>
-          <p className="text-successColor flex items-center text-[#1D9E34] text-xl">
-            1000 <TbCurrencyBaht className="text-2xl" />
+        <div className="flex flex-col flex-grow">
+          <p>{product.name}</p>
+          <p className="font-extralight">
+            size :{" "}
+            {
+              product[
+                `${Object.keys(product).find((key) =>
+                  key.includes("SizeName")
+                )}`
+              ]
+            }
+          </p>
+          <p className="font-extralight">color : {product.colorName}</p>
+          <p className="flex items-center text-[#1D9E34] text-xl">
+            {product.price} ฿
           </p>
         </div>
         <div className="flex justify-center items-center">
           <div className="flex border border-borderColor py-1 px-2 rounded-md w-24 justify-around">
-            <div className="self-center cursor-pointer hover:text-[#E04124]">
+            <button
+              className="self-center cursor-pointer hover:text-[#E04124]"
+              onClick={onDecreaseAmount}
+            >
               <FiMinus />
-            </div>
-            <div className="self-center"> 1</div>
-            <div className="self-center cursor-pointer hover:text-[#1D9E34]">
+            </button>
+            <div className="self-center">{amount}</div>
+            <button
+              className="self-center cursor-pointer hover:text-[#1D9E34]"
+              onClick={onIncreaseAmount}
+            >
               <FiPlus />
-            </div>
+            </button>
           </div>
         </div>
-        <div className="flex items-center   ">
-          <div className="  cursor-pointer border border-borderColor rounded-md p-2  hover:text-[#E04124]">
+        <div className="flex items-center">
+          <button
+            className="  cursor-pointer border border-borderColor rounded-md p-2  hover:text-[#E04124]"
+            onClick={onDelete}
+          >
             <FiTrash2 />
-          </div>
+          </button>
         </div>
       </div>
     </div>

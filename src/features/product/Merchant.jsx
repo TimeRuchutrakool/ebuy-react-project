@@ -1,8 +1,10 @@
 import { AiOutlineShop } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
+import useModal from "../../hooks/useModal";
 
 export function Merchant({ product }) {
+  const { dispatch: modal } = useModal();
   return (
     <div className=" flex justify-between m-5 font-extralight">
       <div className="flex items-center gap-3">
@@ -17,10 +19,24 @@ export function Merchant({ product }) {
             <BsFillPersonFill />
           </div>
         )}
-        <p>{product?.seller}</p>
+        <p>
+          {product?.sellerFirstName} {product?.sellerLastName}
+        </p>
       </div>
       <div className="flex gap-3">
-        <button className="border flex items-center justify-center gap-2 w-fit px-5 py-2 rounded-lg border-black">
+        <button
+          className="border flex items-center justify-center gap-2 w-fit px-5 py-2 rounded-lg border-black"
+          onClick={() =>
+            modal({
+              type: "chat",
+              payload: {
+                id: product.sellerId,
+                firstName: product.sellerFirstName,
+                lastName: product.sellerLastName,
+              },
+            })
+          }
+        >
           <HiOutlineChatAlt2 />
           <span>Chat</span>
         </button>

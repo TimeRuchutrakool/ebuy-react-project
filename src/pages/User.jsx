@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CartProductLists from "../features/cart/CartProductLists";
 import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";

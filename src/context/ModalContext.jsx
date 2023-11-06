@@ -2,6 +2,8 @@ import { createContext, useReducer } from "react";
 import LoginForm from "../features/user/LoginForm";
 import SignUpForm from "../features/user/SignupForm";
 import { Hourglass } from "react-loader-spinner";
+import ChatModal from "../features/chat/ChatModal";
+import ChatContextProvider from "./ChatContext";
 
 export const ModalContext = createContext();
 
@@ -34,6 +36,15 @@ function reducer(state, action) {
               colors={["#007a12", "#00ab0b"]}
             />
           </div>
+        ),
+      };
+    case "chat":
+      return {
+        ...state,
+        form: (
+          <ChatContextProvider talkTo={action.payload}>
+            <ChatModal/>
+          </ChatContextProvider>
         ),
       };
 

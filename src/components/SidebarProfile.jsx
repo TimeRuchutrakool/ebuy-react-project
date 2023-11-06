@@ -13,6 +13,7 @@ export default function SidebarProfile({ setMode }) {
           className="w-[80px] h-[80px] rounded-full"
         />
         <div className="bg-white w-8 h-8 rounded-full absolute flex items-center justify-center">
+          {" "}
           <FiEdit />
         </div>
       </div>

@@ -13,3 +13,10 @@ export function formatDate(value) {
     timeStyle: "medium",
   }).format(value);
 }
+
+export function formatDateForMessage(value) {
+  return new Intl.DateTimeFormat("en", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(value);
+}

@@ -1,21 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import CartProductLists from "../features/cart/CartProductLists";
-import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
+import { BiSolidStore, BiDollarCircle, BiSolidCarGarage } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";
 import EditProfile from "../components/EditProfile";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "../config/axios";
+import { getMystore } from "../services/apiAuth";
 
 export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
+  const { user } = useSelector((store) => store.user);
+  const [store, setStore] = useState([]);
 
-  const [products, setProducts] = useState([
-    { id: 1, imageUrl: 111, price: 111, name: "test", des: "รายระเอียด" },
-    { id: 2, imageUrl: 111, price: 222, name: "test2", des: "รายระเอียด บลาๆ" },
-  ]);
+  useEffect(() => {
+    getMystore().then((res) => {
+      setStore(() => res.myStore);
+      console.log(store);
+    });
+  }, []);
+
   return (
     <div className="w-full">
-      <div className="mt-24 flex flex-row justify-center shadow-md bg-white">
+      <div className="mt-24 flex flex-row justify-center shadow-md bg-white ">
         <button
           onClick={() => setClick("marketplace")}
           className="border border-t-2 w-full p-4 flex justify-center hover:bg-gray-300  items-center gap-2 hover:text-white text-green-900 cursor-pointer "
@@ -34,12 +43,12 @@ export default function ProductProfile() {
       <div className="pt-4">
         {click === "marketplace" ? (
           <div className="grid grid-cols-5 place-items-center">
-            {products.map((el) => (
+            {store?.map((el) => (
               <SellerCardProduct
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}
-                des={el.des}
+                des={el.description}
               />
             ))}
           </div>
@@ -47,7 +56,7 @@ export default function ProductProfile() {
           ""
         )}
         {click === "bidproduct" ? (
-          <div className="grid-cols-5 grid place-items-center">
+          <div className="grid-cols-5 grid place-items-center ">
             <CardBidProduct />
             <CardBidProduct />
             <CardBidProduct />

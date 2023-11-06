@@ -4,6 +4,7 @@ import SignUpForm from "../features/user/SignupForm";
 import { Hourglass } from "react-loader-spinner";
 import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
+import AddressForm from "../features/order/AddressForm";
 
 export const ModalContext = createContext();
 
@@ -43,10 +44,12 @@ function reducer(state, action) {
         ...state,
         form: (
           <ChatContextProvider talkTo={action.payload}>
-            <ChatModal/>
+            <ChatModal />
           </ChatContextProvider>
         ),
       };
+    case "address":
+      return { ...state, form: <AddressForm /> };
 
     default:
       throw new Error("Unknown action");

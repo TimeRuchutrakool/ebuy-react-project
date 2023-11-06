@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login as loginAPI, signup as signupAPI } from "../../services/apiAuth";
+import { editAddress as editAddressAPI } from "../../services/apiUser";
 import { getCurrentUser } from "../../services/apiAuth";
 import {
   getAccessToken,
@@ -15,7 +16,9 @@ const initialState = {
     loginError: "",
     signupError: "",
     getUserError: "",
+    editAddressError: "",
   },
+  address: undefined,
 };
 
 export const login = createAsyncThunk(
@@ -62,6 +65,19 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkApi) => {
   }
 });
 
+export const editAddress = createAsyncThunk(
+  "user/editAddress",
+  async (payload, thunkApi) => {
+    try {
+      const data = await editAddressAPI(payload);
+      console.log(data);
+      return data.updatedAddress;
+    } catch {
+      return thunkApi.rejectWithValue("Cannot edit address");
+    }
+  }
+);
+
 export const logout = createAsyncThunk("user/logout", () => {
   removeAccessToken();
   toast.success("You are logged out.");
@@ -77,6 +93,7 @@ const userSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.address = action.payload.address;
         state.loading = false;
         state.error.loginError = "";
       })
@@ -93,7 +110,8 @@ const userSlice = createSlice({
     // signup
     builder
       .addCase(signup.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user.address = action.payload;
+        state.address = action.payload.address;
         state.loading = false;
         state.error.signupError = "";
       })
@@ -120,6 +138,7 @@ const userSlice = createSlice({
     builder
       .addCase(getMe.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.address = action.payload.address;
         state.loading = false;
         state.error.getUserError = "";
       })
@@ -132,6 +151,21 @@ const userSlice = createSlice({
         state.user = undefined;
         state.loading = false;
         state.error.getUserError = action.payload;
+      });
+    // editAddress
+    builder
+      .addCase(editAddress.fulfilled, (state, action) => {
+        state.address = action.payload;
+        state.loading = false;
+        state.error.editAddressError = "";
+      })
+      .addCase(editAddress.pending, (state) => {
+        state.loading = true;
+        state.error.editAddressError = "";
+      })
+      .addCase(editAddress.rejected, (state, action) => {
+        state.loading = false;
+        state.error.editAddressError = action.payload;
       });
   },
 });

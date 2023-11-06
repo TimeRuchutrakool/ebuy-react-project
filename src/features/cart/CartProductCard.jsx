@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiTrash2, FiPlus, FiMinus } from "react-icons/fi";
+import { BsFillPersonFill } from "react-icons/bs";
 import { deleteProductFromCart, updateAmount } from "../../services/apiCart";
 import { useDispatch } from "react-redux";
 import { getCart } from "../../store/slices/cartSlice";
@@ -29,11 +30,17 @@ export default function CartProductCard({ product, setTotalPrice }) {
     <div className=" p-4 shadow-sd  flex flex-col gap-2 rounded-md border border-borderColor">
       {/* seller */}
       <div className="flex gap-4 mb-4 items-center">
-        <img
-          src={product.profileImageUrl}
-          alt="profile-image"
-          className="w-12 h-12 rounded-full"
-        />
+        {product.profileImageUrl ? (
+          <img
+            src={`${product.profileImageUrl}`}
+            alt="profile-image"
+            className="w-12 h-12 object-cover rounded-full"
+          />
+        ) : (
+          <div className="border border-[#E4E9EE] rounded-full p-2">
+            <BsFillPersonFill />
+          </div>
+        )}
         <p className="font-normal">
           Seller : {product.sellerFirstName} {product.sellerLastName}
         </p>

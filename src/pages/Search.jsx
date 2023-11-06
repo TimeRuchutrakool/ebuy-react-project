@@ -8,8 +8,8 @@ import Pagination from "../components/Pagination";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
-
-  const { searchedTitle } = useParams();
+  const [count, setCount] = useState(0);
+  const { searchedTitle } = useParams("");
   const [page, setPage] = useState("");
   const [type, setType] = useState("");
   const [price, setPrice] = useState("");
@@ -21,7 +21,10 @@ export default function Search() {
           type ? `&type=${type}` : ""
         }${price ? `&price=${price}` : ""}`
       )
-      .then((res) => setAllProduct(res.data.product));
+      .then((res) => {
+        setAllProduct(res.data.product);
+        setCount(res.data.count);
+      });
   }, [page, price, type, searchedTitle]);
 
   return (
@@ -48,7 +51,7 @@ export default function Search() {
         setPage={setPage}
         setType={setType}
         setPrice={setPrice}
-        count={allProduct.count}
+        count={count}
       />
     </div>
   );

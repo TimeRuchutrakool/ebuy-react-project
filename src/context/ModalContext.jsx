@@ -4,6 +4,7 @@ import SignUpForm from "../features/user/SignupForm";
 import { Hourglass } from "react-loader-spinner";
 import BidForm from "../features/bid/BidForm";
 import BidConfrim from "../features/bid/BidConfrim";
+import BidReview from "../features/bid/BidReview";
 
 export const ModalContext = createContext();
 
@@ -40,8 +41,10 @@ function reducer(state, action) {
       };
     case "bid":
       return { ...state, form: <BidForm /> };
-    case "bidConfrim":
+    case "bidConfirm":
       return { ...state, form: <BidConfrim /> };
+    case "bidReview":
+      return { ...state, form: <BidReview /> };
     default:
       throw new Error("Unknown action");
   }

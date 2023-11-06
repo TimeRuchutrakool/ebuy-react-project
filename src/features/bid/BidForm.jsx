@@ -3,12 +3,12 @@ import useModal from "../../hooks/useModal";
 export default function BidForm() {
   const { dispatch: modal } = useModal();
   return (
-    <div className="w-full max-w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full max-w-7xl m-8 p-4 bg-white border border-gray-200 rounded-sm ">
       <div className="py-2 text-lg">place your bid</div>
       <div className="py-2">(ประมาณ THB 540 + 150 shipping)</div>
       <div className="py-2 text-gray-500">(1 bid 1 :00:00 left)</div>
 
-      <div className="grid  justify-center gap-4 grid-cols-3 py-3  ">
+      <div className="grid   justify-center gap-4 grid-cols-3 py-3  ">
         <div className="bg-green-700 cursor-pointer  text-white rounded-full px-2 py-2 font-medium flex items-center justify-center  ">
           Bid ฿500
         </div>
@@ -29,7 +29,7 @@ export default function BidForm() {
       <div className=" gap-3  gap-x-8">
         <label
           for="price"
-          className="flex text-sm items-end   font-medium text-green-700 dark:text-green-500 "
+          className="flex text-sm items-end  font-medium text-green-700 dark:text-green-500 "
         >
           Your max bid
         </label>
@@ -44,7 +44,7 @@ export default function BidForm() {
           <div
             className="bg-green-700   cursor-pointer  text-white rounded-full px-3 py-2 font-medium flex items-center justify-center w-96 "
             onClick={() => {
-              modal({ type: "bidConfrim" });
+              modal({ type: "bidConfirm" });
             }}
           >
             Confirm bid

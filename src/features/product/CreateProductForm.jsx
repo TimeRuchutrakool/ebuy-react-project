@@ -4,49 +4,48 @@ import axios from "../../config/axios";
 
 export default function CreateProductForm() {
   const { register, handleSubmit } = useForm();
-  const [inputFrom, setInputForm] = useState();
-  const [sizeAdnStock, setSizeAndStock] = useState([]);
-  console.log(
-    "🚀 ~ file: CreateProductForm.jsx:9 ~ CreateProductForm ~ sizeAdnStock:",
-    sizeAdnStock
-  );
-  console.log(
-    "🚀 ~ file: CreateProductForm.jsx:8 ~ CreateProductForm ~ inputFrom:",
-    inputFrom
-  );
+
+  const [sizeAndStock, setSizeAndStock] = useState([]);
 
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
       onSubmit={handleSubmit(async (data) => {
-        setInputForm(data);
-
-        setSizeAndStock({
-          shirtSizeId: inputFrom?.shirtSizeId,
-          colorId: inputFrom?.colorId,
-          stock: inputFrom?.stock,
+        setSizeAndStock(() => {
+          return [
+            {
+              shirtSizeId: +data?.shirtSizeId,
+              colorId: +data?.colorId,
+              stock: +data?.stock,
+            },
+            {
+              shirtSizeId: 1,
+              colorId: 4,
+              stock: 5,
+            },
+          ];
         });
 
-        console.log(inputFrom);
-        const formData = new FormData();
+        console.log(data?.image.length);
 
-        formData.append("typeId", inputFrom.typeId);
-        formData.append("sizeAndStock", sizeAdnStock);
-        formData.append("brandId", inputFrom.brandId);
-        formData.append("categoryId", inputFrom.categoryId);
-        formData.append("description", inputFrom.description);
-        formData.append("name", inputFrom.name);
-        formData.append("price", inputFrom.price);
-
-        if (Array.isArray(inputFrom.image)) {
-          inputFrom.image.forEach((imageFile, index) => {
-            formData.append(`image[${index}]`, imageFile);
-          });
-        } else {
-          formData.append("image", inputFrom.image);
+        const images = [];
+        for (let i = 0; i < data?.image.length; i++) {
+          images.push(data.image[i]);
         }
 
-        console.log("formData :", formData);
+        const formData = new FormData();
+
+        images.forEach((image) => {
+          formData.append("image", image);
+        });
+
+        formData.append("typeId", data.typeId);
+        formData.append("sizeAndStock", JSON.stringify(sizeAndStock));
+        formData.append("brandId", data.brandId);
+        formData.append("categoryId", data.categoryId);
+        formData.append("description", data.description);
+        formData.append("name", data.name);
+        formData.append("price", data.price);
 
         try {
           await axios.post("/product", formData);

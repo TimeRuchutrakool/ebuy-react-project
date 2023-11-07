@@ -11,7 +11,7 @@ export default function User() {
   const [mode, setMode] = useState("EDIT");
   return (
     <div className="flex flex-row ">
-      <div>
+      <div className="h-full">
         <SidebarProfile setMode={setMode} />
       </div>
       {mode === "EDIT" ? <EditProfile /> : ""}

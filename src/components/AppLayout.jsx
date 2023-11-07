@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
 import ChatButton from "../features/chat/ChatButton";
+import { getCart } from "../store/slices/cartSlice";
 
 function AppLayout() {
   const { formModal } = useModal();
@@ -16,6 +17,10 @@ function AppLayout() {
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) dispatch(getCart());
+  }, [dispatch, user]);
 
   return (
     <>

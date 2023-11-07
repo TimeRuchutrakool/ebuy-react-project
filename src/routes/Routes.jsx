@@ -11,6 +11,8 @@ import Cart from "../pages/Cart";
 import { ModalContextProvider } from "../context/ModalContext";
 import Search from "../pages/Search";
 import Product from "../pages/Product";
+import RedirectIfAuthen from "../components/RedirectIfAuthen";
+import Order from "../pages/Order";
 import CreateProduct from "../pages/CreateProduct";
 
 const router = createBrowserRouter(
@@ -24,7 +26,22 @@ const router = createBrowserRouter(
         }
       >
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/cart"
+          element={
+            <RedirectIfAuthen>
+              <Cart />
+            </RedirectIfAuthen>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <RedirectIfAuthen>
+              <Order />
+            </RedirectIfAuthen>
+          }
+        />
         <Route path="/user" element={<User />} />
         <Route path="/search/:searchedTitle" element={<Search />} />
         <Route path="/createProduct" element={<CreateProduct />} />

@@ -9,7 +9,7 @@ function SearchBox() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputSearch) {
-      navigate(`/search/${inputSearch}`);
+      navigate(`/search/${inputSearch}?page=1`);
     }
   };
   return (

@@ -1,5 +1,7 @@
 import { AiFillStar } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 function ProductCard({
+  id,
   productImage,
   name,
   price,
@@ -7,8 +9,14 @@ function ProductCard({
   sellerFirstName,
   sellerLastName,
 }) {
+  const navigate = useNavigate();
   return (
-    <div className="w-52 flex flex-col gap-2 cursor-pointer">
+    <div
+      className="w-52 flex flex-col gap-2 cursor-pointer"
+      onClick={() => {
+        navigate(`/product/${id}`);
+      }}
+    >
       <div className="bg-[#F6F6F6] w-52 h-52 border border-none rounded-md flex justify-center items-center">
         <img
           src={

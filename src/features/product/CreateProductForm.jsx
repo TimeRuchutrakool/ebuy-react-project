@@ -1,33 +1,58 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 } from "uuid";
 import axios from "../../config/axios";
+import { useEffect } from "react";
 
 export default function CreateProductForm() {
-  const { register, handleSubmit } = useForm();
+  const [categoryData, setCategoryData] = useState({
+    category: [],
+    color: [],
+    pantsSize: [],
+    shirtSize: [],
+    shoeSize: [],
+  });
 
-  const [sizeAndStock, setSizeAndStock] = useState([]);
+  const [onChangeCategory, setOnChangeCategory] = useState("");
+
+  const { register, handleSubmit } = useForm();
+  const [sizeAndStock, setSizeAndStock] = useState([
+    {
+      id: v4(),
+      colorId: null,
+      stock: null,
+    },
+  ]);
+
+  const onChangeSizeForm = ({ index, key, value }) => {
+    const sizeAndStockClone = sizeAndStock;
+    sizeAndStockClone[index][key] = value;
+    setSizeAndStock(sizeAndStockClone);
+  };
+
+  let nameSize = "";
+  let cloneArraySize = [];
+  if (onChangeCategory === "1") {
+    nameSize = "shirtSizeId";
+    cloneArraySize = categoryData?.shirtSize;
+  } else if (onChangeCategory === "2") {
+    nameSize = "shoeSizeId";
+    cloneArraySize = categoryData?.shoeSize;
+  } else if (onChangeCategory === "3") {
+    nameSize = "pantsSizeId";
+    cloneArraySize = categoryData?.pantsSize;
+  }
+
+  useEffect(() => {
+    axios.get("/product/variant").then((res) => {
+      setCategoryData(res?.data?.productVariant);
+    });
+  }, []);
 
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
       onSubmit={handleSubmit(async (data) => {
-        setSizeAndStock(() => {
-          return [
-            {
-              shirtSizeId: +data?.shirtSizeId,
-              colorId: +data?.colorId,
-              stock: +data?.stock,
-            },
-            {
-              shirtSizeId: 1,
-              colorId: 4,
-              stock: 5,
-            },
-          ];
-        });
-
-        console.log(data?.image.length);
-
         const images = [];
         for (let i = 0; i < data?.image.length; i++) {
           images.push(data.image[i]);
@@ -55,14 +80,16 @@ export default function CreateProductForm() {
       })}
     >
       <div></div>
-      <select
-        {...register("typeId")}
-        className="col-span-3 border border-[#B8B8B8]"
-      >
-        <option value="">ประเภท</option>
-        <option value="1">มือหนึ่ง</option>
-        <option value="2">มือสอง</option>
-      </select>
+      {
+        <select
+          {...register("typeId")}
+          className="col-span-3 border border-[#B8B8B8]"
+        >
+          <option value="">ประเภท</option>
+          <option value="1">มือหนึ่ง</option>
+          <option value="2">มือสอง</option>
+        </select>
+      }
 
       <label htmlFor="" className="">
         ประเภท <span className="text-red-500">*</span>
@@ -70,45 +97,107 @@ export default function CreateProductForm() {
       <select
         {...register("categoryId")}
         className="col-span-3 border border-[#B8B8B8]"
+        onChange={(e) => {
+          setOnChangeCategory(e.target.value);
+        }}
       >
         <option value="">ระบุบราคาสินค้า</option>
-        <option value="1">เสื้อผ้า</option>
-        <option value="2">รองเท้า</option>
-        <option value="3">กางเกง</option>
+        {categoryData?.category?.map((el) => (
+          <option key={el.id} value={el.id}>
+            {el.name === "shirts"
+              ? "เสื้อผ้า"
+              : el.name === "shoes"
+              ? "รองเท้า"
+              : el.name === "pants"
+              ? "กางเกง"
+              : el.name}
+          </option>
+        ))}
       </select>
 
       <label htmlFor="">
         ตัวเลือก และ จำนวน <span className="text-red-500">*</span>
       </label>
 
-      <button className="   border border-[#B8B8B8]">+</button>
+      <div
+        className=" cursor-pointer flex justify-center items-center  border border-[#B8B8B8]"
+        onClick={() =>
+          setSizeAndStock([
+            ...sizeAndStock,
+            { id: v4(), colorId: null, stock: null },
+          ])
+        }
+      >
+        +
+      </div>
       <div className="col-span-2"></div>
-      <div></div>
-      <select {...register("shirtSizeId")} className=" border border-[#B8B8B8]">
-        <option value="">ไซส์</option>
-        <option value="1">XS</option>
-        <option value="2">S</option>
-        <option value="3">M</option>
-        <option value="3">L</option>
-        <option value="3">XL</option>
-        <option value="3">XXL</option>
-        <option value="3">3XL</option>
-        <option value="3">4XL</option>
-        <option value="3">5XL</option>
-      </select>
-      <select {...register("colorId")} className=" border border-[#B8B8B8]">
-        <option value="">สี...</option>
-        <option value="1">แดง</option>
-        <option value="2">น้ำเงิน</option>
-        <option value="3">เขียว</option>
-        <option value="4">เหลือง</option>
-      </select>
-      <input
-        {...register("stock")}
-        className=" border border-[#B8B8B8] p-1 "
-        placeholder="จำนวน"
-      />
+      {/* product variants */}
 
+      {sizeAndStock.map((pv, idx) => (
+        <div className="col-span-4 grid grid-cols-4 gap-2" key={idx}>
+          <div
+            className=" cursor-pointer flex justify-center items-center  border border-[#B8B8B8]"
+            onClick={() => {
+              const newObj = sizeAndStock.filter((el) => el.id !== pv.id);
+              setSizeAndStock([...newObj]);
+            }}
+          >
+            -
+          </div>
+          <select
+            className=" border border-[#B8B8B8]"
+            onChange={(event) =>
+              onChangeSizeForm({
+                index: idx,
+                key: nameSize,
+                value: event.target.value,
+              })
+            }
+            value={sizeAndStock.shirtSizeId}
+          >
+            <option value="">ไซส์</option>
+            {cloneArraySize &&
+              cloneArraySize.map((size) => (
+                <option key={size.id} value={size.id}>
+                  {size.name}
+                </option>
+              ))}
+          </select>
+
+          <select
+            className=" border border-[#B8B8B8]"
+            onChange={(event) =>
+              onChangeSizeForm({
+                index: idx,
+                key: "colorId",
+                value: event.target.value,
+              })
+            }
+            value={sizeAndStock.colorId}
+          >
+            <option value="">สี</option>
+            {categoryData.color.map((color) => (
+              <option key={color.id} value={color.id}>
+                {color.name}
+              </option>
+            ))}
+          </select>
+          <input
+            onChange={(event) =>
+              onChangeSizeForm({
+                index: idx,
+                key: "stock",
+                value: event.target.value,
+              })
+            }
+            value={sizeAndStock.stock}
+            className=" border border-[#B8B8B8] p-1 "
+            placeholder="จำนวน"
+          />
+        </div>
+      ))}
+
+      {/* /////////////////////////////////// */}
       <label htmlFor="">
         แบรนด์ <span className="text-red-500 ">*</span>
       </label>
@@ -135,12 +224,14 @@ export default function CreateProductForm() {
       <label htmlFor="">
         รูปภาพสินค้า <span className="text-red-500">*</span>
       </label>
+
       <input
         {...register("image")}
         type="file"
         multiple
         className=" border border-[#B8B8B8] p-1 col-span-3  "
         placeholder="ชื่อสินค้า"
+        // onChange={handleImageChange}
       />
 
       <label htmlFor="">

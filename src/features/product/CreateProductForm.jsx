@@ -12,7 +12,12 @@ export default function CreateProductForm() {
     pantsSize: [],
     shirtSize: [],
     shoeSize: [],
+    brand: [],
   });
+  console.log(
+    "🚀 ~ file: CreateProductForm.jsx:16 ~ CreateProductForm ~ categoryData:",
+    categoryData
+  );
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -214,10 +219,11 @@ export default function CreateProductForm() {
         className=" border border-[#B8B8B8] col-span-3"
       >
         <option value="">แบรนด์</option>
-        <option value="1">Nike</option>
-        <option value="2">Gucci</option>
-        <option value="3">Zara</option>
-        <option value="4">H&M</option>
+        {categoryData.brand.map((brand) => (
+          <option key={brand.id} value={brand.id}>
+            {brand.name}
+          </option>
+        ))}
       </select>
 
       <label htmlFor="">

@@ -4,6 +4,7 @@ import SignUpForm from "../features/user/SignupForm";
 import { Hourglass } from "react-loader-spinner";
 import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
+import EditProduct from "../components/EditProduct";
 
 export const ModalContext = createContext();
 
@@ -18,6 +19,8 @@ function reducer(state, action) {
       return { ...state, form: <LoginForm /> };
     case "signup":
       return { ...state, form: <SignUpForm /> };
+    case "editProduct":
+      return { ...state, form: <EditProduct /> };
     case "loading":
       return {
         ...state,
@@ -43,7 +46,7 @@ function reducer(state, action) {
         ...state,
         form: (
           <ChatContextProvider talkTo={action.payload}>
-            <ChatModal/>
+            <ChatModal />
           </ChatContextProvider>
         ),
       };

@@ -22,6 +22,7 @@ export default function ProductProfile() {
     });
   }, []);
 
+  console.log(store);
   return (
     <div className="w-full">
       <div className="mt-24 flex flex-row justify-center shadow-md bg-white ">

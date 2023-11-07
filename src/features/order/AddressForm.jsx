@@ -33,42 +33,42 @@ function AddressForm() {
           className={inputClassName}
           type="text"
           placeholder="บ้านเลขที่"
-          defaultValue={user.address.houseNum}
+          defaultValue={user?.address?.houseNum}
           {...register("houseNum", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
           type="text"
           placeholder="ตำบล"
-          defaultValue={user.address.subDistrict}
+          defaultValue={user?.address?.subDistrict}
           {...register("subDistrict", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
           type="text"
           placeholder="อำเภอ"
-          defaultValue={user.address.district}
+          defaultValue={user?.address?.district}
           {...register("district", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
           type="text"
           placeholder="เขต"
-          defaultValue={user.address.zone}
+          defaultValue={user?.address?.zone}
           {...register("zone", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
           type="text"
           placeholder="จังหวัด"
-          defaultValue={user.address.province}
+          defaultValue={user?.address?.province}
           {...register("province", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
           type="text"
           placeholder="รหัสไปรษณีย์"
-          defaultValue={user.address.zipcode}
+          defaultValue={user?.address?.zipcode}
           {...register("zipcode", { required: "This field is required" })}
         />
       </div>

@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import axios from "../../config/axios";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
+import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 
 export default function CreateProductForm() {
   const [categoryData, setCategoryData] = useState({
@@ -133,7 +134,7 @@ export default function CreateProductForm() {
       </label>
 
       <div
-        className=" cursor-pointer flex justify-center items-center  border border-[#B8B8B8]"
+        className=" cursor-pointer flex justify-center items-center  "
         onClick={() =>
           setSizeAndStock([
             ...sizeAndStock,
@@ -141,7 +142,7 @@ export default function CreateProductForm() {
           ])
         }
       >
-        +
+        <FiPlusCircle />
       </div>
       <div className="col-span-2"></div>
       {/* product variants */}
@@ -149,13 +150,13 @@ export default function CreateProductForm() {
       {sizeAndStock.map((pv, idx) => (
         <div className="col-span-4 grid grid-cols-4 gap-2" key={idx}>
           <div
-            className=" cursor-pointer flex justify-center items-center  border border-[#B8B8B8]"
+            className=" cursor-pointer flex justify-center items-center bg-red-400 w-10 "
             onClick={() => {
               const newObj = sizeAndStock.filter((el) => el.id !== pv.id);
               setSizeAndStock([...newObj]);
             }}
           >
-            -
+            <FiTrash2 />
           </div>
           <select
             className=" border border-[#B8B8B8]"

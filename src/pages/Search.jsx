@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
+  console.log("🚀 ~ file: Search.jsx:11 ~ Search ~ allProduct:", allProduct);
   const [count, setCount] = useState(0);
   const { searchedTitle } = useParams("");
   const [page, setPage] = useState("");
@@ -41,7 +42,7 @@ export default function Search() {
               id={product?.id}
               name={product?.name}
               price={product?.price}
-              productImage={product?.ProductImage}
+              productImage={product?.imageUrl}
               avgRating={product?.avgRating}
             />
           ))}

@@ -13,11 +13,11 @@ function SignUpForm() {
   const { dispatch: modal } = useModal();
   const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
+
   const handleSignup = (data) => {
     dispatch(signup(data));
     modal({ type: "close" });
   };
-
   return (
     <div className="flex flex-col gap-7 p-4">
       <form

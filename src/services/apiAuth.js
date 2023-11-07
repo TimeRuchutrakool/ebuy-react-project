@@ -19,3 +19,8 @@ export const signup = async (info) => {
 export const logout = () => {
   removeAccessToken();
 };
+
+export const updateImageProfile = async (data) => {
+  const response = await axios.patch("/user/editProflieImage", data);
+  return response.data;
+};

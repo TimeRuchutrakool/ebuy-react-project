@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import axios from "../../config/axios";
 import { useEffect } from "react";
+import Loading from "../../components/Loading";
 
 export default function CreateProductForm() {
   const [categoryData, setCategoryData] = useState({
@@ -12,6 +13,8 @@ export default function CreateProductForm() {
     shirtSize: [],
     shoeSize: [],
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [onChangeCategory, setOnChangeCategory] = useState("");
 
@@ -48,7 +51,9 @@ export default function CreateProductForm() {
       setCategoryData(res?.data?.productVariant);
     });
   }, []);
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
@@ -73,9 +78,12 @@ export default function CreateProductForm() {
         formData.append("price", data.price);
 
         try {
+          setIsLoading(true);
           await axios.post("/product", formData);
         } catch (err) {
           console.log(err);
+        } finally {
+          setIsLoading(false);
         }
       })}
     >

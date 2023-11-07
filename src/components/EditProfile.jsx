@@ -11,8 +11,8 @@ export default function EditProfile() {
   });
   console.log(user);
   return (
-    <div className="w-full mt-24 border-t-2 border-b-2 ">
-      <form className="flex flex-row mx-10 my-10 gap-16 w-full">
+    <div className="w-full mt-24 border-t-2 border-b-2 border-l-2 ">
+      <div className="flex flex-row mx-10 my-10 gap-16 w-full">
         <div className="flex flex-col gap-8">
           <h1 className="py-1.5">ชื่อ</h1>
           <h1 className="py-1.5">นามสกุล</h1>
@@ -53,7 +53,7 @@ export default function EditProfile() {
             บันทึก
           </button>
         </form>
-      </form>
+      </div>
     </div>
   );
 }

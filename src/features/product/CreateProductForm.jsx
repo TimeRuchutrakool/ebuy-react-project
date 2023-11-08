@@ -5,6 +5,7 @@ import axios from "../../config/axios";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateProductForm() {
   const [categoryData, setCategoryData] = useState({
@@ -16,10 +17,10 @@ export default function CreateProductForm() {
     brand: [],
   });
 
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
-
   const [onChangeCategory, setOnChangeCategory] = useState("");
-
   const { register, handleSubmit } = useForm();
   const [sizeAndStock, setSizeAndStock] = useState([
     {
@@ -56,6 +57,7 @@ export default function CreateProductForm() {
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
@@ -82,6 +84,7 @@ export default function CreateProductForm() {
         try {
           setIsLoading(true);
           await axios.post("/product", formData);
+          navigate("/user");
         } catch (err) {
           console.log(err);
         } finally {
@@ -258,7 +261,12 @@ export default function CreateProductForm() {
         ราคา <span className="text-red-500">*</span>
       </label>
       <input
-        {...register("price")}
+        {...register("price", {
+          minLength: {
+            value: 1,
+            message: "error message",
+          },
+        })}
         className=" border border-[#B8B8B8] p-1 col-span-3  "
         placeholder="ระบุบราคาสินค้า"
       />

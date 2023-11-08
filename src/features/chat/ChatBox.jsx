@@ -4,12 +4,19 @@ import { useChat } from "./useChat";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { formatDateForMessage } from "../../utils/helper";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 function ChatBox() {
   const { user } = useSelector((store) => store.user);
-
+  const ref = useRef(null);
   const [message, setMessage] = useState("");
   const { messages, chatSocket, chatRoom, otherUser } = useChat();
+
+  useEffect(() => {
+    if (messages.length)
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages.length]);
 
   const send = (e) => {
     e.preventDefault();
@@ -23,12 +30,10 @@ function ChatBox() {
 
   if (!otherUser)
     return (
-      <div className="w-full h-full">
-        <img
-          src="/src/assets/empty-chat.png"
-          alt="empty-chat"
-          className="object-cover"
-        />
+      <div className="w-full h-full flex justify-center items-center">
+        <p className="font-extralight text-2xl">
+          Tap user on the left to start conversation
+        </p>
       </div>
     );
   if (otherUser)
@@ -69,6 +74,7 @@ function ChatBox() {
                 </div>
               </div>
             ))}
+            <div ref={ref}></div>
           </div>
         )}
 

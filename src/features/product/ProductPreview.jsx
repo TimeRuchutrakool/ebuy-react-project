@@ -57,12 +57,12 @@ export function ProductPreview({ product }) {
   return (
     // --------- images ---------
     <div className="grid grid-cols-2 mt-10">
-      <div className="w-full px-20">
-        <div className="w-full aspect-square p-2 relative">
+      <div className="px-20">
+        <div className="w-full p-2 relative flex justify-center">
           <img
             src={product.images[selectedImage].imageUrl}
             alt="product-image"
-            className="rounded-md "
+            className="w-full rounded-md aspect-square object-cover"
           />
           <ImageController position="top-1/2 left-5" onClick={onNext}>
             <GrPrevious />
@@ -147,7 +147,7 @@ export function ProductPreview({ product }) {
 
 function ImageController({ position, children, onClick }) {
   return (
-    <button className={`absolute ${position}`} onClick={onClick}>
+    <button className={`absolute ${position} bg-white p-2 rounded-full opacity-30`} onClick={onClick}>
       {children}
     </button>
   );

@@ -9,7 +9,7 @@ function AddressForm() {
   const {
     register,
     handleSubmit,
-    formState: { dirtyFields },
+    formState: { dirtyFields, errors },
   } = useForm();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
@@ -27,35 +27,34 @@ function AddressForm() {
 
   return (
     <form className="p-5 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <h1>Address</h1>
+      <div className="flex gap-3">
+        <h1>Address</h1>
+        {(errors?.address?.message ||
+          errors?.city?.message ||
+          errors?.province?.message ||
+          errors?.postalcode?.message) && (
+          <p className="text-red-600 text-sm font-light">
+            * กรุณากรอกข้อมูลให้ครบถ้วน
+          </p>
+        )}
+      </div>
       <div className="flex flex-col gap-5">
-        <input
+        <textarea
           className={inputClassName}
           type="text"
-          placeholder="บ้านเลขที่"
-          defaultValue={user?.address?.houseNum}
-          {...register("houseNum", { required: "This field is required" })}
+          placeholder="ที่อยู่"
+          rows={2}
+          style={{ resize: "none" }}
+          defaultValue={user?.address?.address}
+          {...register("address", { required: "This field is required" })}
         />
-        <input
-          className={inputClassName}
-          type="text"
-          placeholder="ตำบล"
-          defaultValue={user?.address?.subDistrict}
-          {...register("subDistrict", { required: "This field is required" })}
-        />
-        <input
-          className={inputClassName}
-          type="text"
-          placeholder="อำเภอ"
-          defaultValue={user?.address?.district}
-          {...register("district", { required: "This field is required" })}
-        />
+
         <input
           className={inputClassName}
           type="text"
           placeholder="เขต"
-          defaultValue={user?.address?.zone}
-          {...register("zone", { required: "This field is required" })}
+          defaultValue={user?.address?.city}
+          {...register("city", { required: "This field is required" })}
         />
         <input
           className={inputClassName}
@@ -68,8 +67,8 @@ function AddressForm() {
           className={inputClassName}
           type="text"
           placeholder="รหัสไปรษณีย์"
-          defaultValue={user?.address?.zipcode}
-          {...register("zipcode", { required: "This field is required" })}
+          defaultValue={user?.address?.postalcode}
+          {...register("postalcode", { required: "This field is required" })}
         />
       </div>
       <button className="bg-green-500 text-white p-2">ยืนยัน</button>

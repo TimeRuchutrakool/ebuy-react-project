@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/userSlice";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { makeCartEmpty } from "../../store/slices/cartSlice";
 
 function ProfilePopUp({ setClickUser }) {
   const dropRef = useClickOutside(() => setClickUser((open) => !open));
@@ -98,6 +99,7 @@ function Menu() {
 function Logout() {
   const dispatch = useDispatch();
   const handleLogout = () => {
+    dispatch(makeCartEmpty());
     dispatch(logout());
   };
   return (

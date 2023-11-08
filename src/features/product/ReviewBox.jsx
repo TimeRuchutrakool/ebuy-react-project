@@ -4,8 +4,10 @@ import { AiFillStar } from "react-icons/ai";
 
 function ReviewBox({ numberOfReview, ratings }) {
   const avgRating =
-    ratings.reduce((acc, cur) => acc + cur.rating * cur.nums, 0) /
-    numberOfReview;
+    ratings.reduce(
+      (acc, cur) => acc + Number(cur.rating) * Number(cur.nums),
+      0
+    ) / numberOfReview;
   return (
     <div className="border flex font-extralight px-3 py-4">
       <div className="w-1/3 flex items-center gap-5">
@@ -17,7 +19,7 @@ function ReviewBox({ numberOfReview, ratings }) {
             size="4rem"
           />
           <p className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2">
-            {avgRating.toFixed(2)}
+            {!isNaN(avgRating) ? avgRating.toFixed(2) : (0).toFixed(2)}
           </p>
         </div>
         <p>from {numberOfReview} reviews</p>

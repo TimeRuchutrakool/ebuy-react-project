@@ -7,7 +7,7 @@ import { BACKEND_URL } from "../config/env";
 
 export const ChatContext = createContext();
 
-export default function ChatContextProvider({ children, talkTo = null }) {
+export default function ChatContextProvider({ children, talkTo }) {
   const [chatSocket] = useState(() => io.connect(BACKEND_URL + "/chat"));
   const [chatList, setChatList] = useState([]);
   const [chatRoom, setChatRoom] = useState(null);

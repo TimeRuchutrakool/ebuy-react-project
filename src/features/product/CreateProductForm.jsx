@@ -15,10 +15,6 @@ export default function CreateProductForm() {
     shoeSize: [],
     brand: [],
   });
-  console.log(
-    "🚀 ~ file: CreateProductForm.jsx:16 ~ CreateProductForm ~ categoryData:",
-    categoryData
-  );
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -134,7 +130,7 @@ export default function CreateProductForm() {
       </label>
 
       <div
-        className=" cursor-pointer flex justify-center items-center  "
+        className=" cursor-pointer flex justify-center items-center bg-green-200 w-10 rounded-md "
         onClick={() =>
           setSizeAndStock([
             ...sizeAndStock,
@@ -148,16 +144,8 @@ export default function CreateProductForm() {
       {/* product variants */}
 
       {sizeAndStock.map((pv, idx) => (
-        <div className="col-span-4 grid grid-cols-4 gap-2" key={idx}>
-          <div
-            className=" cursor-pointer flex justify-center items-center bg-red-400 w-10 "
-            onClick={() => {
-              const newObj = sizeAndStock.filter((el) => el.id !== pv.id);
-              setSizeAndStock([...newObj]);
-            }}
-          >
-            <FiTrash2 />
-          </div>
+        <div className="col-span-4 grid grid-cols-8 gap-2" key={idx}>
+          <div className="col-span-2"></div>
           <select
             className=" border border-[#B8B8B8]"
             onChange={(event) =>
@@ -208,6 +196,15 @@ export default function CreateProductForm() {
             className=" border border-[#B8B8B8] p-1 "
             placeholder="จำนวน"
           />
+          <div
+            className=" cursor-pointer flex justify-center items-center bg-red-200 rounded-md w-10 "
+            onClick={() => {
+              const newObj = sizeAndStock.filter((el) => el.id !== pv.id);
+              setSizeAndStock([...newObj]);
+            }}
+          >
+            <FiTrash2 />
+          </div>
         </div>
       ))}
 

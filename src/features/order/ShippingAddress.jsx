@@ -36,12 +36,6 @@ function ShippingAddress() {
         <button
           className="border p-3 text-sm font-light rounded-lg border-[#1D9E34] text-[#42744c]"
           onClick={() => modal({ type: "address" })}
-          disabled={
-            address.address ||
-            address.city ||
-            address.province ||
-            address.postalcode
-          }
         >
           Change Address
         </button>

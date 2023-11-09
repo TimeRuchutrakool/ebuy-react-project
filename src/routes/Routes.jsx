@@ -15,7 +15,7 @@ import RedirectIfAuthen from "../components/RedirectIfAuthen";
 import Order from "../pages/Order";
 import CreateProduct from "../pages/CreateProduct";
 import EditProduct from "../pages/EditProduct";
-import { BidProduct } from "../pages/BidProduct";
+import Bid from "../pages/Bid";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
           }
         />
         <Route path="/user" element={<User />} />
-        <Route path="/bid/:productId" element={<BidProduct />} />
+        <Route path="/bid/:productId" element={<Bid />} />
         <Route path="/search/:searchedTitle" element={<Search />} />
         <Route path="/createProduct" element={<CreateProduct />} />
         <Route path="/editProduct/:productId" element={<EditProduct />} />

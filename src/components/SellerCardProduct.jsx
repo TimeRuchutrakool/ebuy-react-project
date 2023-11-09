@@ -11,10 +11,10 @@ export default function CardProduct({ name, price, imageUrl, des }) {
       <div>
         <div className="p-3">
           <div className="flex justify-between">
-            <h1>{name}</h1>
+            <h1 className="line-clamp-1">{name}</h1>
             <h1 className="text-green-600">{price}</h1>
           </div>
-          <p>{des}</p>
+          {/* <p className="line-clamp-1">{des}</p> */}
         </div>
         <div className="flex justify-evenly p-3 gap-2 h-full ">
           <button

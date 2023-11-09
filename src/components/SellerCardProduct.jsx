@@ -25,7 +25,12 @@ export default function CardProduct({ name, price, imageUrl, des }) {
           >
             แก้ไข
           </button>
-          <button className="bg-red-600 text-white w-full rounded-md">
+          <button
+            className="bg-red-600 text-white w-full rounded-md"
+            onClick={() => {
+              modal({ type: "confirmDelete" });
+            }}
+          >
             ลบ
           </button>
         </div>

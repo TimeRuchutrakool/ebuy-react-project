@@ -6,6 +6,7 @@ import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
 import AddressForm from "../features/order/AddressForm";
 import EditProduct from "../components/EditProduct";
+import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 
 export const ModalContext = createContext();
 
@@ -22,6 +23,8 @@ function reducer(state, action) {
       return { ...state, form: <SignUpForm /> };
     case "editProduct":
       return { ...state, form: <EditProduct /> };
+    case "confirmDelete":
+      return { ...state, form: <ConfirmDeleteProduct /> };
     case "loading":
       return {
         ...state,

@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function CreateProductForm() {
   const [categoryData, setCategoryData] = useState({
@@ -18,6 +20,20 @@ export default function CreateProductForm() {
   });
 
   const navigate = useNavigate();
+
+  const [images, setImages] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+  const fileEl = useRef();
+  useEffect(() => {
+    if (images.length < 1) return;
+    const newImageUrls = [];
+    images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageURLs(newImageUrls);
+  }, [images]);
+
+  const onImageChange = (e) => {
+    setImages([...e.target.files]);
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [onChangeCategory, setOnChangeCategory] = useState("");
@@ -284,13 +300,36 @@ export default function CreateProductForm() {
       <label>
         รูปภาพสินค้า <span className="text-red-500">*</span>
       </label>
+      {/* incon image */}
+      <div
+        className="col-span-3  w-[50px] cursor-pointer "
+        onClick={() => {
+          fileEl.current.click();
+        }}
+      >
+        <MdOutlineAddPhotoAlternate className="w-[50px] h-[50px]" />
+      </div>
       <input
+        accept="image/*"
         {...register("image", { required: "กรุณาเพิ่มรูปภาพ" })}
         type="file"
         multiple
-        className=" border border-[#B8B8B8] p-1 col-span-3  "
-        placeholder="ชื่อสินค้า"
+        ref={fileEl}
+        className=" hidden  "
+        onChange={onImageChange}
       />
+      {imageURLs.length ? (
+        <div className="col-span-4 overflow-x-scroll scrollbar">
+          <div className="flex w-[200px] h-[200px] gap-2  ">
+            {imageURLs.map((imageSrc, idx) => (
+              <img key={idx} src={imageSrc} alt="preview image" />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
       {errors?.image?.message && (
         <>
           <div></div>

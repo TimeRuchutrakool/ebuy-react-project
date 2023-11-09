@@ -28,7 +28,7 @@ export default function BidForm() {
 
       <div className=" gap-3  gap-x-8">
         <label
-          for="price"
+          htmlFor="price"
           className="flex text-sm items-end  font-medium text-green-700 dark:text-green-500 "
         >
           Your max bid

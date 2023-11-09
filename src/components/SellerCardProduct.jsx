@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import useModal from "../hooks/useModal";
 
-export default function CardProduct({ name, price, imageUrl, des }) {
+export default function CardProduct({ name, price, imageUrl }) {
   const { dispatch: modal } = useModal();
   return (
     <div className="   bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">

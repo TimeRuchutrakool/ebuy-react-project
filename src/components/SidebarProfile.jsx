@@ -9,8 +9,12 @@ import { updateImageProfile } from "../services/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
 import Loading from "./Loading";
+import { BsFillPersonFill } from "react-icons/bs";
+import { BiSolidStore } from "react-icons/bi";
+import { AiFillHeart } from "react-icons/ai";
+import { FaUserEdit } from "react-icons/fa";
 
-export default function SidebarProfile({ setMode }) {
+export default function SidebarProfile({ setMode, mode }) {
   const [isLoading, setIsLoading] = useState(false);
   const fileEl = useRef();
   const { user } = useSelector((store) => store.user);
@@ -35,21 +39,28 @@ export default function SidebarProfile({ setMode }) {
       upload(e.target.files[0]);
     }
   };
-
+  console.log(user?.profileImage);
   if (isLoading) return <Loading />;
   return (
-    <div className="flex flex-col my-24 items-center relative  w-[300px]  border-t-2 border-r-2   h-full bg-green-200">
+    <div className="flex flex-col my-24 relative w-[300px] border items-center">
       <div
         onClick={() => {
           fileEl.current.click();
         }}
         className="flex justify-end absolute top-[-2.5rem] items-end cursor-pointer  "
       >
-        <img
-          src={user?.profileImage}
-          alt=""
-          className="w-[80px] h-[80px] rounded-full"
-        />
+        {user?.profileImage ? (
+          <img
+            src={user?.profileImage}
+            alt=""
+            className="w-[80px] h-[80px] rounded-full"
+          />
+        ) : (
+          <div className="border border-[#E4E9EE] rounded-full p-2  w-[80px] h-[80px] flex items-center justify-center text-5xl bg-white">
+            <BsFillPersonFill className="text-gray-500" />
+          </div>
+        )}
+
         <div className="bg-white w-8 h-8 rounded-full absolute flex items-center justify-center">
           {" "}
           <FiEdit />
@@ -61,25 +72,33 @@ export default function SidebarProfile({ setMode }) {
           onChange={onChangeImage}
         />
       </div>
-
-      <div className="w-full h-full flex flex-col gap-4 bg-white pt-14">
-        <div className="text-center">
+      <div className="w-full h-full flex flex-col bg-white shadow-md">
+        <div className="text-center p-12 ">
           {user?.firstName} {user?.lastName}
         </div>
-        <div className="text-center flex flex-col h-full">
+        <div
+          onClick={() => setMode("SHOP")}
+          className={`flex items-center p-4  cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center ${
+            mode === "SHOP" ? " bg-green-900 text-white " : ""
+          }`}
+        >
+          <div>ร้านค้าของฉัน</div>
+          <BiSolidStore />
+        </div>
+        <div className="">
           <div
             onClick={() => setMode("EDIT")}
-            className="flex items-center px-8 py-4 cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center border-t-2 mt-8"
+            className="flex items-center p-4 cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center"
           >
             <div>ข้อมูลส่วนตัว</div>
-            <AiOutlineRight />
+            <FaUserEdit />
           </div>
           <div
-            onClick={() => setMode("SHOP")}
-            className="flex items-center px-8 py-4 cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center border-t-2 border-b-2"
+            onClick={() => setMode("WISHLIST")}
+            className="flex items-center p-4  cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center"
           >
-            <div>ร้านค้าของฉัน</div>
-            <AiOutlineRight />
+            <div>รายการโปรด</div>
+            <AiFillHeart />
           </div>
         </div>
       </div>

@@ -8,14 +8,14 @@ import ProductProfile from "../components/ProductProfile";
 
 export default function User() {
   const [click, setClick] = useState("personal");
-  const [mode, setMode] = useState("EDIT");
+  const [mode, setMode] = useState("SHOP");
   return (
-    <div className="flex flex-row ">
+    <div className="flex flex-row gap-[1px]">
       <div className="h-full">
-        <SidebarProfile setMode={setMode} />
+        <SidebarProfile setMode={setMode} mode={mode} />
       </div>
-      {mode === "EDIT" ? <EditProfile /> : ""}
       {mode === "SHOP" ? <ProductProfile /> : ""}
+      {mode === "EDIT" ? <EditProfile /> : ""}
     </div>
   );
 }

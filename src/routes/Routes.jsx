@@ -10,10 +10,14 @@ import Home from "../pages/Home";
 import Cart from "../pages/Cart";
 import { ModalContextProvider } from "../context/ModalContext";
 import Search from "../pages/Search";
+<<<<<<< HEAD
 import Product from "../pages/Product";
 import RedirectIfAuthen from "../components/RedirectIfAuthen";
 import Order from "../pages/Order";
 import CreateProduct from "../pages/CreateProduct";
+=======
+import { BidProduct } from "../pages/BidProduct";
+>>>>>>> feature/bid
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +47,7 @@ const router = createBrowserRouter(
           }
         />
         <Route path="/user" element={<User />} />
+        <Route path="/bid/:productId" element={<BidProduct />} />
         <Route path="/search/:searchedTitle" element={<Search />} />
         <Route path="/createProduct" element={<CreateProduct />} />
         <Route path="/product/:productId" element={<Product />} />

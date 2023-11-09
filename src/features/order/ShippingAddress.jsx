@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 function ShippingAddress() {
   const { dispatch: modal } = useModal();
-  const { user,address } = useSelector((store) => store.user);
+  const { user, address } = useSelector((store) => store.user);
   return (
     <div className="bg-white rounded-lg border p-5 flex flex-col gap-4">
       <h1>Shipping Address</h1>
@@ -17,11 +17,14 @@ function ShippingAddress() {
             <span className="text-[#1D9E34]">
               <FiMapPin />
             </span>
-            {address ? (
+            {address.address ||
+            address.city ||
+            address.province ||
+            address.postalcode ? (
               <p>
                 {Object.keys(address)
-                  .filter((key) => key !== "id")
-                  .map((key,index) => (
+                  .filter((key) => key !== "id" && key !== "userId")
+                  .map((key, index) => (
                     <span key={index}>{address[key] + " "}</span>
                   ))}
               </p>

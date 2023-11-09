@@ -1,9 +1,6 @@
-import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
-import EditProfile from "./EditProfile";
 import { FiEdit } from "react-icons/fi";
 import { useRef } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { updateImageProfile } from "../services/apiAuth";
 import { useSelector, useDispatch } from "react-redux";

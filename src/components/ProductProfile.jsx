@@ -46,6 +46,7 @@ export default function ProductProfile() {
           <div className="grid grid-cols-5 place-items-center">
             {store?.map((el) => (
               <SellerCardProduct
+                key={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}

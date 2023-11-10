@@ -85,9 +85,9 @@ export default function CreateProductForm() {
       onSubmit={handleSubmit(async (data) => {
         console.log(typeof data?.price);
         const images = [];
-        // for (let i = 0; i < data?.image.length; i++) {
-        //   images.push(data.image[i]);
-        // }
+        for (let i = 0; i < data?.image.length; i++) {
+          images.push(data.image[i]);
+        }
 
         const formData = new FormData();
         console.log(images);

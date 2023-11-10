@@ -8,8 +8,6 @@ import AddressForm from "../features/order/AddressForm";
 import EditProduct from "../pages/EditProduct";
 import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 import BidForm from "../features/bid/BidForm";
-import BidConfrim from "../features/bid/BidConfrim";
-import BidReview from "../features/bid/BidReview";
 
 export const ModalContext = createContext();
 
@@ -61,10 +59,7 @@ function reducer(state, action) {
 
     case "bid":
       return { ...state, form: <BidForm /> };
-    case "bidConfirm":
-      return { ...state, form: <BidConfrim /> };
-    case "bidReview":
-      return { ...state, form: <BidReview /> };
+
     default:
       throw new Error("Unknown action");
   }

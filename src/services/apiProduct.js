@@ -15,4 +15,7 @@ export const createReviews = async (reviewData) => {
   return res.data;
 };
 
-
+export const getbidProductById = async (bidProductId) => {
+  const res = await axios.get(`/bid/bidProductId/${bidProductId}`);
+  return res.data;
+};

@@ -4,48 +4,40 @@ import ImageController from "../../components/ImageController";
 import ImageCarousel from "../../components/ImageCarousel";
 import Heading from "../../components/Heading";
 import useModal from "../../hooks/useModal";
-import { useSearchParams } from "react-router-dom";
-
-const images = [
-  {
-    id: 1,
-    imageUrl:
-      "https://www.billboard.com/wp-content/uploads/2023/10/Jennie-Kim-cannes-2023-a-billboard-1548.jpg",
-  },
-  {
-    id: 2,
-    imageUrl:
-      "https://www.nme.com/wp-content/uploads/2023/09/jennie-working-on-solo-music-220923-696x442.jpg",
-  },
-  {
-    id: 3,
-    imageUrl: "https://f.ptcdn.info/916/081/000/s2439p4e2b0FNpEWoq3h-o.jpg",
-  },
-  {
-    id: 4,
-    imageUrl:
-      "https://hips.hearstapps.com/hmg-prod/images/jennie-kim-blackpinl-1658391011.jpg?crop=0.614xw:0.409xh;0.173xw,0.103xh&resize=980:*",
-  },
-  {
-    id: 5,
-    imageUrl:
-      "https://i.pinimg.com/originals/11/96/16/11961692edf30e391038ae403ba70803.jpg",
-  },
-];
+import { useSearchParams, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getbidProductById } from "../../services/apiProduct";
+// import { formatDate } from "../../utils/helper";
+import { useCountdown } from "../../hooks/useCountDown";
 
 function BidProduct() {
   const [selectedImage, setSelectedImage] = useState(0);
+  const { productId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [product, setProduct] = useState(null);
   const { dispatch: modal } = useModal();
-  const onNext = () => setSelectedImage((cur) => (cur + 1) % images.length);
+
+  useEffect(() => {
+    async function getbidProduct() {
+      const { product } = await getbidProductById(productId);
+      setProduct(() => product);
+      // console.log(formatDate(new Date(product?.startedAt)));
+    }
+    getbidProduct();
+  }, [productId]);
+
+  const onNext = () =>
+    setSelectedImage((cur) => (cur + 1) % product.images.length);
   const onPrev = () =>
-    setSelectedImage((cur) => (cur - 1 + images.length) % images.length);
+    setSelectedImage(
+      (cur) => (cur - 1 + product.images.length) % product.images.length
+    );
   return (
     <div className="grid grid-cols-2 mt-10">
       <div className="px-20">
         <div className="w-full p-2 relative flex justify-center">
           <img
-            src={images[selectedImage].imageUrl}
+            src={product?.images[selectedImage]?.imageUrl}
             alt="product-image"
             className="w-full rounded-md aspect-square object-cover"
           />
@@ -56,32 +48,37 @@ function BidProduct() {
             <GrNext />
           </ImageController>
         </div>
-        <ImageCarousel images={images} setSelectedImage={setSelectedImage} />
+        <ImageCarousel
+          images={product?.images}
+          setSelectedImage={setSelectedImage}
+        />
       </div>
-      <div className="w-full flex flex-col font-light gap-6">
-        <Heading big={true}>Metallica 90s T-shirt</Heading>
+      <div className="flex flex-col font-light gap-6 mr-6">
+        <Heading big={true}>{product?.name}</Heading>
         <div className="flex items-center gap-10">
           <p>ราคาเปิดประมูล</p>
-          <p className="text-xl text-[#1D9E34]">฿ 590</p>
+          <p className="text-xl text-[#1D9E34]">฿ {product?.initialPrice}</p>
         </div>
         <p className="text-sm text-[#818B9C] font-light">
-          เสื้อ Metallica งานใหม่ แต่ detail ระเอียด ตะเข็บเดี่ยว
-          เหมาะสำหรับคนที่ชื่นชอบเสื้อวง ส่วนใครไม่ชอบก็เรื่องของมึง
-          รีบในซื้อด่วน ภายในเวลาจำกัด
+          {product?.description}
+        </p>
+        <p>
+          ผู้ขาย {product?.sellerFirstName} {product?.sellerLastName}
         </p>
         <hr />
-        <p className="text-xs text-[#818B9C] font-light">
-          เวลาประมูล 2023-11-09 20 : 00
-        </p>
+        <p className="text-xs text-[#818B9C] font-light">เวลาประมูล</p>
         <div className="flex gap-10 items-center">
-          <Heading big={true}>เริ่มประมูลในอีก</Heading>
-          <p className="text-red-700 text-xl">00 : 10 : 22</p>
+          <Heading big={true}>เริ่มประมูลในอีก </Heading>
+          <CountDown
+            targetDate={product?.startedAt}
+            duration={product?.duration}
+          />
         </div>
         <button
           className="w-fit py-3 px-5 bg-black text-white rounded-lg"
           onClick={() => {
-            searchParams.set('biding','Metallica 90s T-shirt')
-            setSearchParams(searchParams)
+            searchParams.set("biding", product?.name);
+            setSearchParams(searchParams);
             modal({ type: "bid" });
           }}
         >
@@ -93,3 +90,21 @@ function BidProduct() {
 }
 
 export default BidProduct;
+
+function CountDown({ duration, targetDate = null }) {
+  const [days, hours, minutes, seconds] = useCountdown(targetDate, duration);
+
+  if (
+    new Date(targetDate).getTime() + duration <
+    Date.now() + 7 * 60 * 60 * 1000
+  ) {
+    return <p>สิ้นสุดการประมูล</p>;
+  }
+  if (new Date(targetDate).getTime() < Date.now() + 7 * 60 * 60 * 1000)
+    return <p>กำลังประมูล</p>;
+  return (
+    <p className="text-red-700 text-xl">
+      {days}D {hours}H {minutes}M {seconds}S
+    </p>
+  );
+}

@@ -16,5 +16,6 @@ export const createReviews = async (reviewData) => {
 };
 
 export const deleteProduct = async (productId) => {
-  const response = await axios.delete(`/product/delete/${productId}`);
+  const res = await axios.delete(`/product/delete/${productId}`);
+  return res.data;
 };

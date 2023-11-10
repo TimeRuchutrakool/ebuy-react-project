@@ -72,14 +72,14 @@ export default function SidebarProfile({ setMode, mode }) {
           onChange={onChangeImage}
         />
       </div>
-      <div className="w-full h-full flex flex-col bg-white shadow-md">
-        <div className="text-center p-12 ">
+      <div className="w-full h-full flex flex-col bg-white shadow-sm">
+        <div className="text-center p-12 border-b ">
           {user?.firstName} {user?.lastName}
         </div>
         <div
           onClick={() => setMode("SHOP")}
-          className={`flex items-center p-4  cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center ${
-            mode === "SHOP" ? " bg-green-900 text-white " : ""
+          className={`flex items-center p-4  cursor-pointer hover:bg-green-900 opacity-70  hover:text-white gap-4 justify-center ${
+            mode === "SHOP" ? " bg-green-900 text-white opacity-100" : ""
           }`}
         >
           <div>ร้านค้าของฉัน</div>
@@ -88,17 +88,41 @@ export default function SidebarProfile({ setMode, mode }) {
         <div className="">
           <div
             onClick={() => setMode("EDIT")}
-            className="flex items-center p-4 cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center"
+            className={`flex items-center p-4 cursor-pointer hover:bg-green-900 opacity-70 hover:text-white gap-4 justify-center ${
+              mode === "EDIT" ? "bg-green-900 opacity-100 text-white " : ""
+            }`}
           >
             <div>ข้อมูลส่วนตัว</div>
             <FaUserEdit />
           </div>
           <div
             onClick={() => setMode("WISHLIST")}
-            className="flex items-center p-4  cursor-pointer hover:bg-green-900 hover:text-white gap-4 justify-center"
+            className={`flex items-center p-4  cursor-pointer hover:bg-green-900 opacity-70 hover:text-white gap-4 justify-center ${
+              mode === "WISHLIST" ? "bg-green-900 opacity-100 text-white" : ""
+            }`}
           >
             <div>รายการโปรด</div>
             <AiFillHeart />
+          </div>
+          <div
+            onClick={() => setMode("ORDERHISTORY")}
+            className={`flex items-center p-4  cursor-pointer hover:bg-green-900 opacity-70  hover:text-white gap-4 justify-center ${
+              mode === "ORDERHISTORY"
+                ? " bg-green-900 text-white opacity-100"
+                : ""
+            }`}
+          >
+            <div>ประวัติคำสั่งซื้อของฉัน</div>
+            <BiSolidStore />
+          </div>
+          <div
+            onClick={() => setMode("MYORDERS")}
+            className={`flex items-center p-4  cursor-pointer hover:bg-green-900 opacity-70  hover:text-white gap-4 justify-center ${
+              mode === "MYORDERS" ? " bg-green-900 text-white opacity-100" : ""
+            }`}
+          >
+            <div>ออเดอร์ของฉัน</div>
+            <BiSolidStore />
           </div>
         </div>
       </div>

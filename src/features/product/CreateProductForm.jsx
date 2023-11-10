@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function CreateProductForm() {
@@ -23,16 +22,18 @@ export default function CreateProductForm() {
 
   const [images, setImages] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
-  const fileEl = useRef();
+
   useEffect(() => {
     if (images.length < 1) return;
     const newImageUrls = [];
-    images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    for (const image of images) {
+      newImageUrls.push(URL.createObjectURL(image));
+    }
     setImageURLs(newImageUrls);
   }, [images]);
 
   const onImageChange = (e) => {
-    setImages([...e.target.files]);
+    setImages(() => e.target.files);
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -84,12 +85,12 @@ export default function CreateProductForm() {
       onSubmit={handleSubmit(async (data) => {
         console.log(typeof data?.price);
         const images = [];
-        for (let i = 0; i < data?.image.length; i++) {
-          images.push(data.image[i]);
-        }
+        // for (let i = 0; i < data?.image.length; i++) {
+        //   images.push(data.image[i]);
+        // }
 
         const formData = new FormData();
-
+        console.log(images);
         images.forEach((image) => {
           formData.append("image", image);
         });
@@ -301,22 +302,14 @@ export default function CreateProductForm() {
         รูปภาพสินค้า <span className="text-red-500">*</span>
       </label>
       {/* incon image */}
-      <div
-        className="col-span-3  w-[50px] cursor-pointer "
-        onClick={() => {
-          fileEl.current.click();
-        }}
-      >
-        <MdOutlineAddPhotoAlternate className="w-[50px] h-[50px]" />
-      </div>
+
       <input
         accept="image/*"
         {...register("image", { required: "กรุณาเพิ่มรูปภาพ" })}
         type="file"
         multiple
-        ref={fileEl}
-        className=" hidden  "
         onChange={onImageChange}
+        className="col-span-3"
       />
       {imageURLs.length ? (
         <div className="col-span-4 overflow-x-scroll scrollbar">

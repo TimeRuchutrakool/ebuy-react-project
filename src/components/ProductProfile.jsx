@@ -1,18 +1,12 @@
-import React from "react";
 import { useState } from "react";
-import CartProductLists from "../features/cart/CartProductLists";
-import { BiSolidStore, BiDollarCircle, BiSolidCarGarage } from "react-icons/bi";
+import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";
-import EditProfile from "../components/EditProfile";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import axios from "../config/axios";
 import { getMystore } from "../services/apiAuth";
 
 export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
-  const { user } = useSelector((store) => store.user);
   const [store, setStore] = useState([]);
 
   useEffect(() => {
@@ -20,7 +14,7 @@ export default function ProductProfile() {
       setStore(() => res.myStore);
       console.log(store);
     });
-  }, []);
+  }, [store]);
 
   console.log(store);
   return (
@@ -46,6 +40,7 @@ export default function ProductProfile() {
           <div className="grid grid-cols-5 place-items-center">
             {store?.map((el) => (
               <SellerCardProduct
+                key={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}

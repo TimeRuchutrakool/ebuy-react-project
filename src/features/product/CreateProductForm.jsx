@@ -5,6 +5,9 @@ import axios from "../../config/axios";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function CreateProductForm() {
   const [categoryData, setCategoryData] = useState({
@@ -16,11 +19,29 @@ export default function CreateProductForm() {
     brand: [],
   });
 
+  const navigate = useNavigate();
+
+  const [images, setImages] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+  const fileEl = useRef();
+  useEffect(() => {
+    if (images.length < 1) return;
+    const newImageUrls = [];
+    images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageURLs(newImageUrls);
+  }, [images]);
+
+  const onImageChange = (e) => {
+    setImages([...e.target.files]);
+  };
+
   const [isLoading, setIsLoading] = useState(false);
-
   const [onChangeCategory, setOnChangeCategory] = useState("");
-
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [sizeAndStock, setSizeAndStock] = useState([
     {
       id: v4(),
@@ -56,10 +77,12 @@ export default function CreateProductForm() {
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
       onSubmit={handleSubmit(async (data) => {
+        console.log(typeof data?.price);
         const images = [];
         for (let i = 0; i < data?.image.length; i++) {
           images.push(data.image[i]);
@@ -82,6 +105,7 @@ export default function CreateProductForm() {
         try {
           setIsLoading(true);
           await axios.post("/product", formData);
+          navigate("/user");
         } catch (err) {
           console.log(err);
         } finally {
@@ -90,28 +114,40 @@ export default function CreateProductForm() {
       })}
     >
       <div></div>
-      {
-        <select
-          {...register("typeId")}
-          className="col-span-3 border border-[#B8B8B8]"
-        >
-          <option value="">ประเภท</option>
-          <option value="1">มือหนึ่ง</option>
-          <option value="2">มือสอง</option>
-        </select>
-      }
 
-      <label htmlFor="" className="">
+      <select
+        {...register("typeId", {
+          required: "กรุณาเลือกสภาพสินค้า",
+        })}
+        className="col-span-3 border border-[#B8B8B8]"
+      >
+        <option value="">สภาพสินค้า</option>
+        <option value="1">สินค้ามือหนึ่ง</option>
+        <option value="2">สินค้ามือสอง</option>
+      </select>
+      {errors?.categoryId?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.categoryId?.message}
+          </p>
+        </>
+      )}
+
+      <label htmlFor="1" className="">
         ประเภท <span className="text-red-500">*</span>
       </label>
       <select
-        {...register("categoryId")}
+        id="1"
+        {...register("categoryId", {
+          required: "กรุณาเลือกประเภทสินค้า",
+        })}
         className="col-span-3 border border-[#B8B8B8]"
         onChange={(e) => {
           setOnChangeCategory(e.target.value);
         }}
       >
-        <option value="">ระบุบราคาสินค้า</option>
+        <option value="">ประเภทสินค้า</option>
         {categoryData?.category?.map((el) => (
           <option key={el.id} value={el.id}>
             {el.name === "shirts"
@@ -124,11 +160,17 @@ export default function CreateProductForm() {
           </option>
         ))}
       </select>
-
-      <label htmlFor="">
+      {errors?.categoryId?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.categoryId?.message}
+          </p>
+        </>
+      )}
+      <label>
         ตัวเลือก และ จำนวน <span className="text-red-500">*</span>
       </label>
-
       <div
         className=" cursor-pointer flex justify-center items-center bg-green-200 w-10 rounded-md "
         onClick={() =>
@@ -142,7 +184,6 @@ export default function CreateProductForm() {
       </div>
       <div className="col-span-2"></div>
       {/* product variants */}
-
       {sizeAndStock.map((pv, idx) => (
         <div className="col-span-4 grid grid-cols-8 gap-2" key={idx}>
           <div className="col-span-2"></div>
@@ -156,6 +197,7 @@ export default function CreateProductForm() {
               })
             }
             value={sizeAndStock.shirtSizeId}
+            // required
           >
             <option value="">ไซส์</option>
             {cloneArraySize &&
@@ -176,6 +218,7 @@ export default function CreateProductForm() {
               })
             }
             value={sizeAndStock.colorId}
+            // required
           >
             <option value="">สี</option>
             {categoryData.color.map((color) => (
@@ -185,6 +228,7 @@ export default function CreateProductForm() {
             ))}
           </select>
           <input
+            type="number"
             onChange={(event) =>
               onChangeSizeForm({
                 index: idx,
@@ -193,8 +237,9 @@ export default function CreateProductForm() {
               })
             }
             value={sizeAndStock.stock}
-            className=" border border-[#B8B8B8] p-1 "
+            className=" border border-[#B8B8B8] p-1 custom-number-input "
             placeholder="จำนวน"
+            // required
           />
           <div
             className=" cursor-pointer flex justify-center items-center bg-red-200 rounded-md w-10 "
@@ -207,13 +252,15 @@ export default function CreateProductForm() {
           </div>
         </div>
       ))}
-
       {/* /////////////////////////////////// */}
-      <label htmlFor="">
+      <label htmlFor="2">
         แบรนด์ <span className="text-red-500 ">*</span>
       </label>
       <select
-        {...register("brandId")}
+        id="2"
+        {...register("brandId", {
+          required: "กรุณาเลีอกแบรนด์",
+        })}
         className=" border border-[#B8B8B8] col-span-3"
       >
         <option value="">แบรนด์</option>
@@ -223,51 +270,122 @@ export default function CreateProductForm() {
           </option>
         ))}
       </select>
-
-      <label htmlFor="">
+      {errors?.name?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.name?.message}
+          </p>
+        </>
+      )}
+      <label htmlFor="3">
         ชื่อสินค้า <span className="text-red-500">*</span>
       </label>
       <input
-        {...register("name")}
+        id="3"
+        {...register("name", {
+          required: "กรุณาระบุบชื่อสินค้า",
+        })}
         className=" border border-[#B8B8B8] p-1 col-span-3  "
         placeholder="ชื่อสินค้า"
       />
-
-      <label htmlFor="">
+      {errors?.name?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.name?.message}
+          </p>
+        </>
+      )}
+      <label>
         รูปภาพสินค้า <span className="text-red-500">*</span>
       </label>
-
+      {/* incon image */}
+      <div
+        className="col-span-3  w-[50px] cursor-pointer "
+        onClick={() => {
+          fileEl.current.click();
+        }}
+      >
+        <MdOutlineAddPhotoAlternate className="w-[50px] h-[50px]" />
+      </div>
       <input
-        {...register("image")}
+        accept="image/*"
+        {...register("image", { required: "กรุณาเพิ่มรูปภาพ" })}
         type="file"
         multiple
-        className=" border border-[#B8B8B8] p-1 col-span-3  "
-        placeholder="ชื่อสินค้า"
-        // onChange={handleImageChange}
+        ref={fileEl}
+        className=" hidden  "
+        onChange={onImageChange}
       />
+      {imageURLs.length ? (
+        <div className="col-span-4 overflow-x-scroll scrollbar">
+          <div className="flex w-[200px] h-[200px] gap-2  ">
+            {imageURLs.map((imageSrc, idx) => (
+              <img key={idx} src={imageSrc} alt="preview image" />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
 
-      <label htmlFor="">
+      {errors?.image?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.image?.message}
+          </p>
+        </>
+      )}
+      <label htmlFor="4">
         รายละเอียดสินค้า <span className="text-red-500">*</span>
       </label>
       <textarea
-        {...register("description")}
-        className=" border border-[#B8B8B8] p-1 col-span-3  "
+        id="4"
+        {...register("description", {
+          required: "กรุณาระบุบรายละเอียดสินค้า",
+        })}
+        className=" border border-[#B8B8B8] p-1 col-span-3 min-h-[100px] "
         placeholder="ข้อมูลเพิ่มเติม เช่น สภาพสินค้า"
       />
-      <label htmlFor="">
+      {errors?.description?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.description?.message}
+          </p>
+        </>
+      )}
+      <label htmlFor="5">
         ราคา <span className="text-red-500">*</span>
       </label>
       <input
-        {...register("price")}
-        className=" border border-[#B8B8B8] p-1 col-span-3  "
+        id="5"
+        type="number"
+        {...register("price", {
+          validate: (value) => value > 0 || "ข้อมูลไม่ถูกต้อง",
+          valueAsNumber: true,
+          required: "กรุณาระบุบราคาสินค้า",
+        })}
+        className=" border border-[#B8B8B8] p-1 col-span-3 custom-number-input  "
         placeholder="ระบุบราคาสินค้า"
       />
+      {errors?.price?.message && (
+        <>
+          <div></div>
+          <p className="mt-[-20px] text-red-400 col-span-3 ">
+            {errors?.price?.message}
+          </p>
+        </>
+      )}
       <div></div>
       <div className="col-span-3 text-sm">
         กรุณาใส่เบอร์โทรที่คุณใช้สมัครสมาชิก เพื่อความปลอดภัยในการใช้งาน
         หากพบปัญหา สามารถติดต่อฝ่ายบริการลูกค้า
       </div>
 
+      <div></div>
       <button className="bg-[#1E4C2F] py-3 text-white">บันทึก</button>
     </form>
   );

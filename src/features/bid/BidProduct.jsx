@@ -15,6 +15,7 @@ function BidProduct() {
   const { productId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [product, setProduct] = useState(null);
+  const [disabledIsBiding, setDisabledIsBiding] = useState(false);
   const { dispatch: modal } = useModal();
 
   useEffect(() => {
@@ -72,10 +73,12 @@ function BidProduct() {
           <CountDown
             targetDate={product?.startedAt}
             duration={product?.duration}
+            setDisabledIsBiding={setDisabledIsBiding}
           />
         </div>
         <button
-          className="w-fit py-3 px-5 bg-black text-white rounded-lg"
+          className="w-fit py-3 px-5 bg-black text-white rounded-lg disabled:bg-slate-200"
+          disabled={disabledIsBiding}
           onClick={() => {
             searchParams.set("biding", product?.name);
             setSearchParams(searchParams);
@@ -91,8 +94,12 @@ function BidProduct() {
 
 export default BidProduct;
 
-function CountDown({ duration, targetDate = null }) {
-  const [days, hours, minutes, seconds] = useCountdown(targetDate, duration);
+function CountDown({ duration, targetDate = null, setDisabledIsBiding }) {
+  const [days, hours, minutes, seconds] = useCountdown(
+    targetDate,
+    duration,
+    setDisabledIsBiding
+  );
 
   if (
     new Date(targetDate).getTime() + duration <

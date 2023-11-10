@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import useModal from "../hooks/useModal";
 import { useSearchParams } from "react-router-dom";
 

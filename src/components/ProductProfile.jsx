@@ -1,13 +1,10 @@
-import React from "react";
 import { useState } from "react";
-import CartProductLists from "../features/cart/CartProductLists";
-import { BiSolidStore, BiDollarCircle, BiSolidCarGarage } from "react-icons/bi";
+import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";
 import EditProfile from "../components/EditProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import axios from "../config/axios";
 import { getMystore } from "../services/apiAuth";
 import { getProduct } from "../store/slices/productSlice";
 

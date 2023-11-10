@@ -21,21 +21,25 @@ export default function ProductProfile() {
 
   console.log("fff", stores);
   return (
-    <div className="w-full">
-      <div className="mt-24 flex flex-row justify-center shadow-md bg-white ">
+    <div className="w-[calc(100%+300px)]">
+      <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
         <button
           onClick={() => setClick("marketplace")}
-          className="border border-t-2 w-full p-4 flex justify-center hover:bg-gray-300  items-center gap-2 hover:text-white text-green-900 cursor-pointer "
+          className={`border-t border-b border-r w-full p-4 flex justify-center hover:bg-green-900 opacity-70  items-center gap-2 hover:text-white text-green-900 cursor-pointer  ${
+            click === "marketplace" ? "bg-green-900 opacity-100 text-white" : ""
+          }`}
         >
-          <BiSolidStore className="text-xl " />
-          <h1 className="">Markter</h1>
+          <BiSolidStore className="text-xl" />
+          <h1>Markter</h1>
         </button>
         <button
           onClick={() => setClick("bidproduct")}
-          className="border border-gray-200 border-t-2 w-full p-4 flex justify-center hover:bg-gray-300 items-center gap-2 hover:text-white text-green-900 cursor-pointer"
+          className={`border-t border-b w-full p-4 flex justify-center hover:bg-green-900 opacity-70 items-center gap-2 hover:text-white text-green-900 cursor-pointer ${
+            click === "bidproduct" ? "bg-green-900 opacity-100 text-white" : ""
+          }`}
         >
           <BiDollarCircle className="text-xl " />
-          <h1 className="">Bid product</h1>
+          <h1>Bid product</h1>
         </button>
       </div>
 

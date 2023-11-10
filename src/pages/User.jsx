@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
-import SellerCardProduct from "../components/SellerCardProduct";
-import CardBidProduct from "../components/SellerCardBidProduct";
 import SidebarProfile from "../components/SideBarProfile";
 import EditProfile from "../components/EditProfile";
 import ProductProfile from "../components/ProductProfile";

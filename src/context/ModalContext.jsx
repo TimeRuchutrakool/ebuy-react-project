@@ -6,6 +6,10 @@ import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
 import AddressForm from "../features/order/AddressForm";
 import EditProduct from "../components/EditProduct";
+import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
+import BidForm from "../features/bid/BidForm";
+import BidConfrim from "../features/bid/BidConfrim";
+import BidReview from "../features/bid/BidReview";
 
 export const ModalContext = createContext();
 
@@ -22,6 +26,8 @@ function reducer(state, action) {
       return { ...state, form: <SignUpForm /> };
     case "editProduct":
       return { ...state, form: <EditProduct /> };
+    case "confirmDelete":
+      return { ...state, form: <ConfirmDeleteProduct /> };
     case "loading":
       return {
         ...state,
@@ -54,6 +60,12 @@ function reducer(state, action) {
     case "address":
       return { ...state, form: <AddressForm /> };
 
+    case "bid":
+      return { ...state, form: <BidForm /> };
+    case "bidConfirm":
+      return { ...state, form: <BidConfrim /> };
+    case "bidReview":
+      return { ...state, form: <BidReview /> };
     default:
       throw new Error("Unknown action");
   }

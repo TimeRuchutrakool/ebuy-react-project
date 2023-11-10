@@ -1,28 +1,25 @@
-import React from "react";
 import { useState } from "react";
-import CartProductLists from "../features/cart/CartProductLists";
-import { BiSolidStore, BiDollarCircle, BiSolidCarGarage } from "react-icons/bi";
+import { BiSolidStore, BiDollarCircle } from "react-icons/bi";
 import SellerCardProduct from "../components/SellerCardProduct";
 import CardBidProduct from "../components/SellerCardBidProduct";
 import EditProfile from "../components/EditProfile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import axios from "../config/axios";
 import { getMystore } from "../services/apiAuth";
+import { getProduct } from "../store/slices/productSlice";
 
 export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
-  const { user } = useSelector((store) => store.user);
+  // const { user } = useSelector((store) => store.user);
   const [store, setStore] = useState([]);
-
+  const dispatch = useDispatch();
+  const { stores } = useSelector((store) => store.product);
+  console.log(stores);
   useEffect(() => {
-    getMystore().then((res) => {
-      setStore(() => res.myStore);
-      console.log(store);
-    });
+    dispatch(getProduct());
   }, []);
 
-  console.log(store);
+  console.log("fff", stores);
   return (
     <div className="w-[calc(100%+300px)]">
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
@@ -45,15 +42,18 @@ export default function ProductProfile() {
           <h1>Bid product</h1>
         </button>
       </div>
+
       <div className="pt-4">
         {click === "marketplace" ? (
           <div className="grid grid-cols-5 place-items-center">
-            {store?.map((el) => (
+            {stores?.map((el) => (
               <SellerCardProduct
+                key={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}
                 des={el.description}
+                id={el.id}
               />
             ))}
           </div>

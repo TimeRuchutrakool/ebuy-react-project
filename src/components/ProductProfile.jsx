@@ -19,7 +19,7 @@ export default function ProductProfile() {
     dispatch(getProduct());
   }, []);
 
-  console.log(store);
+  console.log("fff", stores);
   return (
     <div className="w-full">
       <div className="mt-24 flex flex-row justify-center shadow-md bg-white ">
@@ -38,6 +38,7 @@ export default function ProductProfile() {
           <h1 className="">Bid product</h1>
         </button>
       </div>
+
       <div className="pt-4">
         {click === "marketplace" ? (
           <div className="grid grid-cols-5 place-items-center">

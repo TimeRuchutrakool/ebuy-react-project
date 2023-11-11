@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start:3001": "vite --config vite.config.js --port 3001",
+    "start:3001": "vite --port 3001",
+    "start:3002": "vite --port 3002",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

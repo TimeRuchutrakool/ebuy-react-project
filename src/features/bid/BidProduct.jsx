@@ -95,7 +95,7 @@ function BidProduct() {
 export default BidProduct;
 
 function CountDown({ duration, targetDate = null, setDisabledIsBiding }) {
-  const [days, hours, minutes, seconds] = useCountdown(
+  const { days, hours, minutes, seconds } = useCountdown(
     targetDate,
     duration,
     setDisabledIsBiding

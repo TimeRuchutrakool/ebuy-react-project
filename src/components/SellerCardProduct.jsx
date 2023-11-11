@@ -1,7 +1,10 @@
 import useModal from "../hooks/useModal";
+import { useSearchParams } from "react-router-dom";
 
-export default function CardProduct({ name, price, imageUrl }) {
+export default function CardProduct({ name, price, imageUrl, des, id }) {
+  console.log("ggg", imageUrl);
   const { dispatch: modal } = useModal();
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <div className="   bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">
       <div className="w-[224px] h-[224px] ">
@@ -27,6 +30,8 @@ export default function CardProduct({ name, price, imageUrl }) {
           <button
             className="bg-red-600 text-white w-full rounded-md"
             onClick={() => {
+              searchParams.set("productId", id);
+              setSearchParams(searchParams);
               modal({ type: "confirmDelete" });
             }}
           >

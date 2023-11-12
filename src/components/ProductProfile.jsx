@@ -18,11 +18,9 @@ export default function ProductProfile() {
   useEffect(() => {
     getMystore().then((res) => {
       setStore(() => res.myStore);
-      console.log(store);
     });
   }, []);
 
-  console.log(store);
   return (
     <div className="w-full">
       <div className="mt-24 flex flex-row justify-center shadow-md bg-white ">
@@ -47,6 +45,7 @@ export default function ProductProfile() {
             {store?.map((el) => (
               <SellerCardProduct
                 key={el.id}
+                id={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}

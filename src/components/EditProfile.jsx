@@ -9,7 +9,7 @@ export default function EditProfile() {
     lastName: "",
     address: "",
   });
-  console.log(user);
+
   return (
     <div className="w-full mt-24 border-t-2 border-b-2 border-l-2 ">
       <div className="flex flex-row mx-10 my-10 gap-16 w-full">

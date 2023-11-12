@@ -9,20 +9,16 @@ const useCountdown = (targetDate, duration, setDisabledIsBiding) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(
-        countDownDate - (new Date().getTime() + 7 * 60 * 60 * 1000)
-      );
+      setCountDown(countDownDate - (new Date().getTime() + 7 * 60 * 60 * 1000));
+
+      if (
+        countDownDate > new Date().getTime() + 7 * 60 * 60 * 1000 ||
+        countDownDate + duration < new Date().getTime() + 7 * 60 * 60 * 1000
+      ) {
+        setDisabledIsBiding(true);
+      } else setDisabledIsBiding(false);
     }, 1000);
 
-    if (
-      countDownDate + duration <
-      new Date().getTime() + 7 * 60 * 60 * 1000
-    ) {
-      clearInterval(interval);
-      setDisabledIsBiding(true);
-    } else if (countDownDate > new Date().getTime() + 7* 60 * 60 * 1000) {
-      setDisabledIsBiding(true);
-    } else setDisabledIsBiding(false);
     return () => clearInterval(interval);
   }, [countDownDate, duration, setDisabledIsBiding]);
 
@@ -41,3 +37,11 @@ const getReturnValues = (countDown) => {
 };
 
 export { useCountdown };
+
+// if (
+//   countDownDate + duration <
+//   new Date().getTime() + 7 * 60 * 60 * 1000
+// ) {
+//   clearInterval(interval);
+//   setDisabledIsBiding(true);
+// } else

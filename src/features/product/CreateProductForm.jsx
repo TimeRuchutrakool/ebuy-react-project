@@ -51,6 +51,19 @@ export default function CreateProductForm() {
   ]);
 
   const onChangeSizeForm = ({ index, key, value }) => {
+    const keys = ["pantsSizeId", "shirtSizeId", "shoeSizeId"];
+    sizeAndStock.map((obj) => {
+      console.log("key : ", key);
+      if (key in obj) {
+        return;
+      }
+      for (const str of keys) {
+        if (str in obj) {
+          console.log(str);
+          delete obj[str];
+        }
+      }
+    });
     const sizeAndStockClone = sizeAndStock;
     sizeAndStockClone[index][key] = value;
     setSizeAndStock(sizeAndStockClone);

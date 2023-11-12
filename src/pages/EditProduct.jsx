@@ -42,19 +42,40 @@ export default function EditProduct() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [onChangeCategory, setOnChangeCategory] = useState({});
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:45 ~ EditProduct ~ onChangeCategory:",
+    onChangeCategory
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     reset,
   } = useForm({ defaultValues: null });
 
   const [sizeAndStock, setSizeAndStock] = useState([]);
-
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:58 ~ EditProduct ~ sizeAndStock:",
+    sizeAndStock
+  );
   const onChangeSizeForm = ({ index, key, value }) => {
+    const keys = ["pantsSizeId", "shirtSizeId", "shoeSizeId"];
+    sizeAndStock.map((obj) => {
+      console.log("key : ", key);
+      if (key in obj) {
+        return;
+      }
+      for (const str of keys) {
+        if (str in obj) {
+          console.log(str);
+          delete obj[str];
+        }
+      }
+    });
+
     const sizeAndStockClone = sizeAndStock;
+
     sizeAndStockClone[index][key] = value;
     setSizeAndStock(sizeAndStockClone);
   };
@@ -71,25 +92,28 @@ export default function EditProduct() {
     nameSize = "pantsSizeId";
     cloneArraySize = categoryData.pantsSize;
   }
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:84 ~ EditProduct ~ nameSize:",
+    nameSize
+  );
 
   useEffect(() => {
-    axios.get(`/user/editProductById/${productId}`).then((res) => {
-      setProductObj(() => res.data.product);
-      console.log(res.data.product);
-      reset(
-        res.data.product
-        // { name: res.data.product.name },
-        // { description: res.data.product.description },
-        // { price: res.data.product.price }
-      );
-      setOnChangeCategory({
-        // ...onChangeCategory,
-        typeId: res.data.product.typeId,
-        categoryId: res.data.product.categoryId,
-        brandId: res.data.product.brandId,
-      });
-      setSizeAndStock([...sizeAndStock, ...res.data.product.productVariants]);
-    });
+    setIsLoading(true);
+    axios
+      .get(`/user/editProductById/${productId}`)
+      .then((res) => {
+        setProductObj(() => res.data.product);
+        console.log(res.data.product);
+        reset(res.data.product);
+        setOnChangeCategory({
+          typeId: res.data.product.typeId,
+          categoryId: res.data.product.categoryId,
+          brandId: res.data.product.brandId,
+        });
+
+        setSizeAndStock([...res.data.product.productVariants]);
+      })
+      .finally(setIsLoading(false));
     axios.get("/product/variant").then((res) => {
       setCategoryData(res?.data?.productVariant);
     });
@@ -103,16 +127,18 @@ export default function EditProduct() {
       className="grid grid-cols-4 gap-5 px-40 py-10 "
       onSubmit={handleSubmit(async (data) => {
         console.log("data on submit", data);
-        const images = [];
-        for (let i = 0; i < data?.image.length; i++) {
-          images.push(data.image[i]);
-        }
-
         const formData = new FormData();
 
-        images.forEach((image) => {
-          formData.append("image", image);
-        });
+        if (data?.image) {
+          const imageArr = [];
+          for (let i = 0; i < data?.image.length; i++) {
+            imageArr.push(data.image[i]);
+          }
+
+          imageArr.forEach((image) => {
+            formData.append("image", image);
+          });
+        }
 
         formData.append("productId", productObj?.id);
         formData.append("typeId", data.typeId);
@@ -125,7 +151,7 @@ export default function EditProduct() {
 
         try {
           setIsLoading(true);
-          await axios.post("/product/editProduct", formData);
+          await axios.patch("/product/editProduct", formData);
           navigate("/user");
         } catch (err) {
           console.log(err);
@@ -141,10 +167,6 @@ export default function EditProduct() {
           required: "กรุณาเลือกสภาพสินค้า",
         })}
         className="col-span-3 border border-[#B8B8B8]"
-        // value={onChangeCategory.typeId}
-        // onChange={(e) =>
-        //   setOnChangeCategory({ ...onChangeCategory, typeId: e.target.value })
-        // }
       >
         <option value="">สภาพสินค้า</option>
         <option value="1">สินค้ามือหนึ่ง</option>
@@ -168,13 +190,13 @@ export default function EditProduct() {
           required: "กรุณาเลือกประเภทสินค้า",
         })}
         className="col-span-3 border border-[#B8B8B8]"
-        // onChange={(e) => {
-        //   setOnChangeCategory({
-        //     ...onChangeCategory,
-        //     categoryId: e.target.value,
-        //   });
-        // }}
-        // value={onChangeCategory.categoryId}
+        onChange={(e) => {
+          setOnChangeCategory({
+            ...onChangeCategory,
+            categoryId: e.target.value,
+          });
+        }}
+        value={onChangeCategory.categoryId}
       >
         <option value="">ประเภทสินค้า</option>
         {categoryData?.category?.map((el) => (
@@ -220,15 +242,15 @@ export default function EditProduct() {
           <div className="col-span-2"></div>
           <select
             className=" border border-[#B8B8B8]"
-            // onChange={(event) =>
-            //   onChangeSizeForm({
-            //     index: idx,
-            //     key: nameSize,
-            //     value: event.target.value,
-            //   })
-            // }
-            // value={sizeAndStock[idx][nameSize]}
-            // required
+            onChange={(event) =>
+              onChangeSizeForm({
+                index: idx,
+                key: nameSize,
+                value: event.target.value,
+              })
+            }
+            value={sizeAndStock[idx][nameSize]}
+            required
           >
             <option value="">ไซส์</option>
             {cloneArraySize &&
@@ -293,10 +315,13 @@ export default function EditProduct() {
           required: "กรุณาเลีอกแบรนด์",
         })}
         className=" border border-[#B8B8B8] col-span-3"
-        // onChange={(e) =>
-        //   setOnChangeCategory({ ...onChangeCategory, brandId: e.target.value })
-        // }
-        // value={onChangeCategory.brandId}
+        onChange={(e) => {
+          setOnChangeCategory({
+            ...onChangeCategory,
+            brandId: e.target.value,
+          });
+        }}
+        value={onChangeCategory.brandId}
       >
         <option value="">แบรนด์</option>
         {categoryData.brand?.map((brand) => (

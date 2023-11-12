@@ -10,6 +10,8 @@ import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 import BidForm from "../features/bid/BidForm";
 import BidContextProvider from "./BidContext";
 import RedirectIfAuthen from "../components/RedirectIfAuthen";
+import BidPayModal from "../features/bid/BidPayModal";
+import BidFailedModal from "../features/bid/BidFailedModal";
 
 export const ModalContext = createContext();
 
@@ -67,6 +69,24 @@ function reducer(state, action) {
             <BidContextProvider>
               <BidForm />
             </BidContextProvider>
+          </RedirectIfAuthen>
+        ),
+      };
+    case "bidPay":
+      return {
+        ...state,
+        form: (
+          <RedirectIfAuthen>
+            <BidPayModal obj={action.payload} />
+          </RedirectIfAuthen>
+        ),
+      };
+    case "bidFailed":
+      return {
+        ...state,
+        form: (
+          <RedirectIfAuthen>
+            <BidFailedModal />
           </RedirectIfAuthen>
         ),
       };

@@ -19,8 +19,6 @@ export default function EditProfile() {
     lastName: user.lastName,
     address: "",
   });
-<<<<<<< HEAD
-=======
   console.log(editUser);
   const [val, setVal] = useState(
     ThailandAddressValue.fromDatasourceItem({
@@ -49,7 +47,6 @@ export default function EditProfile() {
   };
   const subdistrict = user.address.address.split(" ")[1];
   console.log(subdistrict);
->>>>>>> develop
 
   return (
     <div className=" mt-24 border-t w-full">

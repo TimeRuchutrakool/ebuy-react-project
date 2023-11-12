@@ -1,12 +1,10 @@
 import useModal from "../hooks/useModal";
-import axios from "../config/axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-export default function CardProduct({ name, price, imageUrl, id }) {
+export default function CardProduct({ name, price, imageUrl, des, id }) {
+  console.log("ggg", imageUrl);
   const { dispatch: modal } = useModal();
-  const [productObj, setProductObj] = useState({});
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <div className="   bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">
       <div className="w-[224px] h-[224px] ">
@@ -22,11 +20,8 @@ export default function CardProduct({ name, price, imageUrl, id }) {
         <div className="flex justify-evenly p-3 gap-2 h-full ">
           <button
             className="bg-gray-300 w-full rounded-md"
-            onClick={async () => {
-              await axios.get(`/product/productId/${id}`).then((res) => {
-                setProductObj(res.data.product);
-              });
-              navigate(`/editProduct/${id}`);
+            onClick={() => {
+              modal({ type: "editProduct" });
             }}
           >
             แก้ไข
@@ -34,6 +29,8 @@ export default function CardProduct({ name, price, imageUrl, id }) {
           <button
             className="bg-red-600 text-white w-full rounded-md"
             onClick={() => {
+              searchParams.set("productId", id);
+              setSearchParams(searchParams);
               modal({ type: "confirmDelete" });
             }}
           >

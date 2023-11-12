@@ -29,7 +29,13 @@ function ProductSummary() {
       <hr />
       <div className="w-full flex justify-between font-light">
         <p>Total Price</p>
-        <p>{cart.reduce((acc, cur) => acc + Number(cur.price), 0)}฿</p>
+        <p>
+          {cart.reduce(
+            (acc, cur) => acc + Number(cur.price) * Number(cur.amount),
+            0
+          )}
+          ฿
+        </p>
       </div>
       <div className="w-full flex justify-between font-light">
         <p>Tax & Fee</p>
@@ -38,7 +44,13 @@ function ProductSummary() {
       <hr />
       <div className="w-full flex justify-between font-semibold">
         <p>Total Price</p>
-        <p>{cart.reduce((acc, cur) => acc + Number(cur.price), 0)}฿</p>
+        <p>
+          {cart.reduce(
+            (acc, cur) => acc + Number(cur.price) * Number(cur.amount),
+            0
+          )}
+          ฿
+        </p>
       </div>
       <button
         className="bg-[#1E4C2F] text-white p-2 rounded-md"

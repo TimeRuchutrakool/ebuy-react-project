@@ -49,6 +49,7 @@ export default function ProductProfile() {
             {stores?.map((el) => (
               <SellerCardProduct
                 key={el.id}
+                id={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}

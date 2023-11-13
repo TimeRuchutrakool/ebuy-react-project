@@ -5,7 +5,7 @@ import { Hourglass } from "react-loader-spinner";
 import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
 import AddressForm from "../features/order/AddressForm";
-import EditProduct from "../components/EditProduct";
+import EditProduct from "../pages/EditProduct";
 import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 import BidForm from "../features/bid/BidForm";
 import BidConfrim from "../features/bid/BidConfrim";
@@ -24,8 +24,7 @@ function reducer(state, action) {
       return { ...state, form: <LoginForm /> };
     case "signup":
       return { ...state, form: <SignUpForm /> };
-    case "editProduct":
-      return { ...state, form: <EditProduct /> };
+
     case "confirmDelete":
       return { ...state, form: <ConfirmDeleteProduct /> };
     case "loading":

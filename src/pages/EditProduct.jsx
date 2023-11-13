@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
-import axios from "../../config/axios";
+import axios from "../config/axios";
 import { useEffect } from "react";
-import Loading from "../../components/Loading";
+import Loading from "../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
-export default function CreateProductForm() {
+export default function EditProduct() {
+  const [productObj, setProductObj] = useState({});
+
+  const { productId } = useParams();
+
   const [categoryData, setCategoryData] = useState({
     category: [],
     color: [],
@@ -22,35 +28,36 @@ export default function CreateProductForm() {
 
   const [images, setImages] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
-
   useEffect(() => {
     if (images.length < 1) return;
     const newImageUrls = [];
-    for (const image of images) {
-      newImageUrls.push(URL.createObjectURL(image));
-    }
+    images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
     setImageURLs(newImageUrls);
   }, [images]);
 
   const onImageChange = (e) => {
-    setImages(() => e.target.files);
+    setImages([...e.target.files]);
   };
 
   const [isLoading, setIsLoading] = useState(false);
-  const [onChangeCategory, setOnChangeCategory] = useState("");
+  const [onChangeCategory, setOnChangeCategory] = useState({});
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:45 ~ EditProduct ~ onChangeCategory:",
+    onChangeCategory
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const [sizeAndStock, setSizeAndStock] = useState([
-    {
-      id: v4(),
-      colorId: null,
-      stock: null,
-    },
-  ]);
+    reset,
+  } = useForm({ defaultValues: null });
 
+  const [sizeAndStock, setSizeAndStock] = useState([]);
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:58 ~ EditProduct ~ sizeAndStock:",
+    sizeAndStock
+  );
   const onChangeSizeForm = ({ index, key, value }) => {
     const keys = ["pantsSizeId", "shirtSizeId", "shoeSizeId"];
     sizeAndStock.map((obj) => {
@@ -65,49 +72,78 @@ export default function CreateProductForm() {
         }
       }
     });
+
     const sizeAndStockClone = sizeAndStock;
-    sizeAndStockClone[index][key] = value;
-    setSizeAndStock(sizeAndStockClone);
+
+    sizeAndStockClone[index][key] = +value;
+    console.log(
+      "🚀 ~ file: EditProduct.jsx:77 ~ onChangeSizeForm ~ sizeAndStockClone:",
+      sizeAndStockClone
+    );
+    setSizeAndStock([...sizeAndStockClone]);
   };
 
   let nameSize = "";
   let cloneArraySize = [];
-  if (onChangeCategory === "1") {
+  if (onChangeCategory.categoryId == "1") {
     nameSize = "shirtSizeId";
     cloneArraySize = categoryData?.shirtSize;
-  } else if (onChangeCategory === "2") {
+  } else if (onChangeCategory.categoryId == "2") {
     nameSize = "shoeSizeId";
     cloneArraySize = categoryData?.shoeSize;
-  } else if (onChangeCategory === "3") {
+  } else if (onChangeCategory?.categoryId == "3") {
     nameSize = "pantsSizeId";
-    cloneArraySize = categoryData?.pantsSize;
+    cloneArraySize = categoryData.pantsSize;
   }
+  console.log(
+    "🚀 ~ file: EditProduct.jsx:84 ~ EditProduct ~ nameSize:",
+    nameSize
+  );
 
   useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`/user/editProductById/${productId}`)
+      .then((res) => {
+        setProductObj(() => res.data.product);
+        console.log(res.data.product);
+        reset(res.data.product);
+        setOnChangeCategory({
+          typeId: res.data.product.typeId,
+          categoryId: res.data.product.categoryId,
+          brandId: res.data.product.brandId,
+        });
+
+        setSizeAndStock([...res.data.product.productVariants]);
+      })
+      .finally(setIsLoading(false));
     axios.get("/product/variant").then((res) => {
       setCategoryData(res?.data?.productVariant);
     });
   }, []);
+
   if (isLoading) {
     return <Loading />;
   }
-
   return (
     <form
       className="grid grid-cols-4 gap-5 px-40 py-10 "
       onSubmit={handleSubmit(async (data) => {
-        console.log(data?.image);
-        const images = [];
-        for (let i = 0; i < data?.image.length; i++) {
-          images.push(data.image[i]);
+        console.log("data on submit", data);
+        const formData = new FormData();
+
+        if (data?.image) {
+          const imageArr = [];
+          for (let i = 0; i < data?.image.length; i++) {
+            imageArr.push(data.image[i]);
+          }
+
+          imageArr.forEach((image) => {
+            formData.append("image", image);
+          });
         }
 
-        const formData = new FormData();
-        console.log(images);
-        images.forEach((image) => {
-          formData.append("image", image);
-        });
-
+        formData.append("productId", productObj?.id);
         formData.append("typeId", data.typeId);
         formData.append("sizeAndStock", JSON.stringify(sizeAndStock));
         formData.append("brandId", data.brandId);
@@ -118,7 +154,7 @@ export default function CreateProductForm() {
 
         try {
           setIsLoading(true);
-          await axios.post("/product", formData);
+          await axios.patch("/product/editProduct", formData);
           navigate("/user");
         } catch (err) {
           console.log(err);
@@ -139,11 +175,11 @@ export default function CreateProductForm() {
         <option value="1">สินค้ามือหนึ่ง</option>
         <option value="2">สินค้ามือสอง</option>
       </select>
-      {errors?.categoryId?.message && (
+      {errors?.typeId?.message && (
         <>
           <div></div>
           <p className="mt-[-20px] text-red-400 col-span-3 ">
-            {errors?.categoryId?.message}
+            {errors?.typeId?.message}
           </p>
         </>
       )}
@@ -158,8 +194,12 @@ export default function CreateProductForm() {
         })}
         className="col-span-3 border border-[#B8B8B8]"
         onChange={(e) => {
-          setOnChangeCategory(e.target.value);
+          setOnChangeCategory({
+            ...onChangeCategory,
+            categoryId: e.target.value,
+          });
         }}
+        value={onChangeCategory.categoryId}
       >
         <option value="">ประเภทสินค้า</option>
         {categoryData?.category?.map((el) => (
@@ -185,20 +225,22 @@ export default function CreateProductForm() {
       <label>
         ตัวเลือก และ จำนวน <span className="text-red-500">*</span>
       </label>
+
       <div
         className=" cursor-pointer flex justify-center items-center bg-green-200 w-10 rounded-md "
-        onClick={() =>
+        onClick={() => {
           setSizeAndStock([
             ...sizeAndStock,
             { id: v4(), colorId: null, stock: null },
-          ])
-        }
+          ]);
+        }}
       >
         <FiPlusCircle />
       </div>
+
       <div className="col-span-2"></div>
       {/* product variants */}
-      {sizeAndStock.map((pv, idx) => (
+      {sizeAndStock?.map((pv, idx) => (
         <div className="col-span-4 grid grid-cols-8 gap-2" key={idx}>
           <div className="col-span-2"></div>
           <select
@@ -210,12 +252,12 @@ export default function CreateProductForm() {
                 value: event.target.value,
               })
             }
-            value={sizeAndStock.shirtSizeId}
-            // required
+            value={sizeAndStock[idx][nameSize]}
+            required
           >
             <option value="">ไซส์</option>
             {cloneArraySize &&
-              cloneArraySize.map((size) => (
+              cloneArraySize?.map((size) => (
                 <option key={size.id} value={size.id}>
                   {size.name}
                 </option>
@@ -231,11 +273,11 @@ export default function CreateProductForm() {
                 value: event.target.value,
               })
             }
-            value={sizeAndStock.colorId}
+            value={sizeAndStock[idx].colorId}
             // required
           >
             <option value="">สี</option>
-            {categoryData.color.map((color) => (
+            {categoryData.color?.map((color) => (
               <option key={color.id} value={color.id}>
                 {color.name}
               </option>
@@ -250,7 +292,7 @@ export default function CreateProductForm() {
                 value: event.target.value,
               })
             }
-            value={sizeAndStock.stock}
+            value={sizeAndStock[idx].stock}
             className=" border border-[#B8B8B8] p-1 custom-number-input "
             placeholder="จำนวน"
             // required
@@ -276,9 +318,16 @@ export default function CreateProductForm() {
           required: "กรุณาเลีอกแบรนด์",
         })}
         className=" border border-[#B8B8B8] col-span-3"
+        onChange={(e) => {
+          setOnChangeCategory({
+            ...onChangeCategory,
+            brandId: e.target.value,
+          });
+        }}
+        value={onChangeCategory.brandId}
       >
         <option value="">แบรนด์</option>
-        {categoryData.brand.map((brand) => (
+        {categoryData.brand?.map((brand) => (
           <option key={brand.id} value={brand.id}>
             {brand.name}
           </option>
@@ -300,6 +349,7 @@ export default function CreateProductForm() {
         {...register("name", {
           required: "กรุณาระบุบชื่อสินค้า",
         })}
+        // defaultValue={productObj?.name}
         className=" border border-[#B8B8B8] p-1 col-span-3  "
         placeholder="ชื่อสินค้า"
       />
@@ -318,22 +368,31 @@ export default function CreateProductForm() {
 
       <input
         accept="image/*"
-        {...register("image", { required: "กรุณาเพิ่มรูปภาพ" })}
+        {...register(
+          "image"
+          //  { required: "กรุณาเพิ่มรูปภาพ" }
+        )}
         type="file"
         multiple
+        className=" col-span-3  "
         onChange={onImageChange}
-        className="col-span-3"
       />
       {imageURLs.length ? (
         <div className="col-span-4 overflow-x-scroll scrollbar">
           <div className="flex w-[200px] h-[200px] gap-2  ">
-            {imageURLs.map((imageSrc, idx) => (
+            {imageURLs?.map((imageSrc, idx) => (
               <img key={idx} src={imageSrc} alt="preview image" />
             ))}
           </div>
         </div>
       ) : (
-        <></>
+        <div className="col-span-4 overflow-x-scroll scrollbar">
+          <div className="flex w-[200px] h-[200px] gap-2  ">
+            {productObj?.images?.map((imageSrc, idx) => (
+              <img key={idx} src={imageSrc?.imageUrl} alt="preview image" />
+            ))}
+          </div>
+        </div>
       )}
 
       {errors?.image?.message && (

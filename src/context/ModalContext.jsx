@@ -10,6 +10,7 @@ import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 import BidForm from "../features/bid/BidForm";
 import BidConfrim from "../features/bid/BidConfrim";
 import BidReview from "../features/bid/BidReview";
+import ConfirmReceipt from "../features/user/confirmReceipt";
 
 export const ModalContext = createContext();
 
@@ -28,6 +29,8 @@ function reducer(state, action) {
       return { ...state, form: <EditProduct /> };
     case "confirmDelete":
       return { ...state, form: <ConfirmDeleteProduct /> };
+    case "confirmReceipt":
+      return {...state, form: <ConfirmReceipt/>}
     case "loading":
       return {
         ...state,

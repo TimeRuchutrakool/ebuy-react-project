@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import useModal from "../hooks/useModal";
 import { useSearchParams } from "react-router-dom";
 
 export default function CardProduct({ name, price, imageUrl, des, id }) {
-  console.log("ggg", imageUrl);
   const { dispatch: modal } = useModal();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
   return (
     <div className="   bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">
       <div className="w-[224px] h-[224px] ">
@@ -21,7 +23,7 @@ export default function CardProduct({ name, price, imageUrl, des, id }) {
           <button
             className="bg-gray-300 w-full rounded-md"
             onClick={() => {
-              modal({ type: "editProduct" });
+              navigate(`/editProduct/${id}`);
             }}
           >
             แก้ไข

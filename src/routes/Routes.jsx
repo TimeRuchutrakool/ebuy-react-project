@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import AppLayout from "../components/AppLayout";
-import User from "../pages/user";
+import User from "../pages/User";
 import Home from "../pages/Home";
 import Cart from "../pages/Cart";
 import { ModalContextProvider } from "../context/ModalContext";

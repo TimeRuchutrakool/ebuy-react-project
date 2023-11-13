@@ -28,7 +28,6 @@ export default function EditProduct() {
 
   const [images, setImages] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
-  const fileEl = useRef();
   useEffect(() => {
     if (images.length < 1) return;
     const newImageUrls = [];
@@ -362,14 +361,7 @@ export default function EditProduct() {
         รูปภาพสินค้า <span className="text-red-500">*</span>
       </label>
       {/* incon image */}
-      <div
-        className="col-span-3  w-[50px] cursor-pointer "
-        onClick={() => {
-          fileEl.current.click();
-        }}
-      >
-        <MdOutlineAddPhotoAlternate className="w-[50px] h-[50px]" />
-      </div>
+
       <input
         accept="image/*"
         {...register(
@@ -378,8 +370,7 @@ export default function EditProduct() {
         )}
         type="file"
         multiple
-        ref={fileEl}
-        className=" hidden  "
+        className=" col-span-3  "
         onChange={onImageChange}
       />
       {imageURLs.length ? (

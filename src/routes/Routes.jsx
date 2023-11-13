@@ -43,7 +43,14 @@ const router = createBrowserRouter(
             </RedirectIfAuthen>
           }
         />
-        <Route path="/user" element={<User />} />
+        <Route
+          path="/user"
+          element={
+            <RedirectIfAuthen>
+              <User />
+            </RedirectIfAuthen>
+          }
+        />
         <Route path="/bid/:productId" element={<BidProduct />} />
         <Route path="/search/:searchedTitle" element={<Search />} />
         <Route path="/createProduct" element={<CreateProduct />} />

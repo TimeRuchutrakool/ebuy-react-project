@@ -9,14 +9,15 @@ import { editAddress } from "../services/apiUser";
 import { getMe } from "../store/slices/userSlice";
 import { useEffect } from "react";
 import axios from "../config/axios";
+import Loading from "../components/Loading";
 
 export default function EditProfile() {
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
-  console.log(user);
+  const [isLoading, setIsLoading] = useState(false);
   const [editUser, setEditUser] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
     address: "",
   });
   console.log(editUser);
@@ -28,22 +29,32 @@ export default function EditProfile() {
       po: "",
     })
   );
-  console.log(user);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = {
-      firstName: editUser.firstName,
-      lastName: editUser.lastName,
-      address: editUser.address + " " + val.subdistrict,
-      province: val.province,
-      city: val.district,
-      postalcode: val.postalCode,
-    };
-    console.log(result);
-    const response = await editAddress(result);
-    // dispatch(getMe());
-    console.log(response);
+    try {
+      setIsLoading(true);
+      e.preventDefault();
+      const result = {
+        firstName: editUser?.firstName,
+        lastName: editUser?.lastName,
+        address: editUser?.address
+          ? editUser.address + " " + val.subdistrict
+          : user.address.address,
+        province: val.province ? val.province : user.address.province,
+        city: val.district ? val.district : user.address.district,
+        postalcode: val.postalCode ? val.postalCode : user.address.postalCode,
+      };
+      const response = await editAddress(result);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   const subdistrict = user.address.address.split(" ")[1];
   console.log(subdistrict);
@@ -55,10 +66,10 @@ export default function EditProfile() {
       </h1>
       <div className="flex flex-row  w-full">
         <form
-          className="flex flex-col w-full pl-8 gap-4 pt-8"
+          className="flex flex-col pl-8 gap-4 pt-8 w-[700px]"
           onSubmit={handleSubmit}
         >
-          <div className="flex items-center gap-x-[160px] ">
+          <div className="flex gap-x-[161px] justify-between ">
             <h1>ชื่อ</h1>
             <input
               type="text"
@@ -72,7 +83,7 @@ export default function EditProfile() {
               }
             />
           </div>
-          <div className="flex items-center gap-x-[124px] ">
+          <div className="flex gap-x-[124px] justify-between ">
             <h1>นามสกุล</h1>
             <input
               type="text"
@@ -86,7 +97,7 @@ export default function EditProfile() {
               }
             />
           </div>
-          <div className="flex  gap-x-[151px] items-start ">
+          <div className="flex  gap-x-[151px] items-start justify-between">
             <h1>ที่อยู่</h1>
             <div className="Address flex flex-col gap-4 ">
               <div className="">
@@ -96,7 +107,7 @@ export default function EditProfile() {
                   id=""
                   value={editUser.address}
                   className="border border-gray-300 rounded-sm px-2 py-1.5 w-96 "
-                  placeholder="บ้านเลขที่ ซอย"
+                  placeholder={user.address.address}
                   onChange={(e) =>
                     setEditUser({ ...editUser, address: e.target.value })
                   }
@@ -104,51 +115,51 @@ export default function EditProfile() {
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="flex flex-col gap-4">
             <ThailandAddressTypeahead
               value={val}
               onValueChange={(val) => {
                 setVal(val);
               }}
             >
-              <div className="flex items-center justify-start gap-x-[142px]">
+              <div className="flex  justify-between gap-x-[142px]">
                 <h1>ตำบล</h1>
                 <ThailandAddressTypeahead.SubdistrictInput
                   className="all-input border py-1.5 w-96 px-3 "
                   placeholder={subdistrict}
                 />
               </div>
-              <div className="flex items-center justify-start gap-x-[139px]">
+              <div className="flex justify-between gap-x-[139px]">
                 <h1>อำเภอ</h1>
                 <ThailandAddressTypeahead.DistrictInput
                   className="all-input border py-1.5 w-96 px-3"
                   placeholder={user.address.city}
                 />
               </div>
-              <div className="flex items-center justify-start gap-x-[139pxx]">
+              <div className="flex justify-between gap-x-[139pxx]">
                 <h1>จังหวัด</h1>
                 <ThailandAddressTypeahead.ProvinceInput
                   className="all-input border py-1.5 w-96 px-3"
                   placeholder={user.address.province}
                 />
               </div>
-              <div>
+              <div className="flex justify-between   ">
                 <h1>postal code</h1>
                 <ThailandAddressTypeahead.PostalCodeInput
                   className="all-input border py-1.5 w-96 px-3"
                   placeholder={user.address.postalcode}
                 />
               </div>
+              <div className="flex justify-center">
+                <button className="bg-green-900 w-[120px] text-white px-4 py-1.5 rounded-md flex items-center justify-around">
+                  <FaSave />
+                  <p>บันทึก</p>
+                </button>
+              </div>
               <ThailandAddressTypeahead.Suggestion />
             </ThailandAddressTypeahead>
           </div>
-          <div className="flex gap-x-[180px] ">
-            <p></p>
-            <button className="bg-green-900 w-[120px] text-white px-4 py-1.5 rounded-md flex items-center justify-around">
-              <FaSave />
-              บันทึก
-            </button>
-          </div>
+          <div className="flex justify-center ml-5"></div>
         </form>
       </div>
     </div>

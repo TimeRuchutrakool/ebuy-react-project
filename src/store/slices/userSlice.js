@@ -81,7 +81,6 @@ export const editAddress = createAsyncThunk(
 export const logout = createAsyncThunk("user/logout", () => {
   removeAccessToken();
   toast.success("You are logged out.");
-  return undefined;
 });
 
 const userSlice = createSlice({
@@ -128,8 +127,8 @@ const userSlice = createSlice({
         state.error.signupError = action.payload;
       });
 
-    builder.addCase(logout.fulfilled, (state, action) => {
-      state.user = action.payload;
+    builder.addCase(logout.fulfilled, (state) => {
+      state.user = undefined;
       state.loading = false;
       state.error.getUserError = "";
       state.error.signupError = "";

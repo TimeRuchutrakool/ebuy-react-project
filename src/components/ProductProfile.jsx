@@ -25,7 +25,7 @@ export default function ProductProfile() {
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
         <button
           onClick={() => setClick("marketplace")}
-          className={`border-t border-b border-r w-full p-4 flex justify-center hover:bg-green-900 opacity-70  items-center gap-2 hover:text-white text-green-900 cursor-pointer  ${
+          className={`border-t border-b border-r w-full p-4 flex justify-center hover:bg-green-900   items-center gap-2 hover:text-white text-green-900 cursor-pointer  ${
             click === "marketplace" ? "bg-green-900 opacity-100 text-white" : ""
           }`}
         >
@@ -34,7 +34,7 @@ export default function ProductProfile() {
         </button>
         <button
           onClick={() => setClick("bidproduct")}
-          className={`border-t border-b w-full p-4 flex justify-center hover:bg-green-900 opacity-70 items-center gap-2 hover:text-white text-green-900 cursor-pointer ${
+          className={`border-t border-b w-full p-4 flex justify-center hover:bg-green-900  items-center gap-2 hover:text-white text-green-900 cursor-pointer ${
             click === "bidproduct" ? "bg-green-900 opacity-100 text-white" : ""
           }`}
         >

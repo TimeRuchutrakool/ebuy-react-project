@@ -72,7 +72,7 @@ export default function ProductProfile() {
             <CardBidProduct />
           </div>
         ) : (
-          ""
+        ""
         )}
       </div>
     </div>

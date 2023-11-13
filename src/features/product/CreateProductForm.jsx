@@ -94,7 +94,7 @@ export default function CreateProductForm() {
 
   return (
     <form
-      className="grid grid-cols-4 gap-5 px-40 py-10 "
+      className="grid grid-cols-4 gap-5 px-40 py-10"
       onSubmit={handleSubmit(async (data) => {
         console.log(data?.image);
         const images = [];

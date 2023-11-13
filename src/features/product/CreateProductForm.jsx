@@ -52,6 +52,19 @@ export default function CreateProductForm() {
   ]);
 
   const onChangeSizeForm = ({ index, key, value }) => {
+    const keys = ["pantsSizeId", "shirtSizeId", "shoeSizeId"];
+    sizeAndStock.map((obj) => {
+      console.log("key : ", key);
+      if (key in obj) {
+        return;
+      }
+      for (const str of keys) {
+        if (str in obj) {
+          console.log(str);
+          delete obj[str];
+        }
+      }
+    });
     const sizeAndStockClone = sizeAndStock;
     sizeAndStockClone[index][key] = value;
     setSizeAndStock(sizeAndStockClone);
@@ -81,9 +94,9 @@ export default function CreateProductForm() {
 
   return (
     <form
-      className="grid grid-cols-4 gap-5 px-40 py-10 "
+      className="grid grid-cols-4 gap-5 px-40 py-10"
       onSubmit={handleSubmit(async (data) => {
-        console.log(typeof data?.price);
+        console.log(data?.image);
         const images = [];
         for (let i = 0; i < data?.image.length; i++) {
           images.push(data.image[i]);

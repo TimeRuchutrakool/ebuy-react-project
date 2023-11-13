@@ -17,12 +17,12 @@ function ShippingAddress() {
             <span className="text-[#1D9E34]">
               <FiMapPin />
             </span>
-            {address.address ||
-            address.city ||
-            address.province ||
-            address.postalcode ? (
+            {address?.address ||
+            address?.city ||
+            address?.province ||
+            address?.postalcode ? (
               <p>
-                {Object.keys(address)
+                {Object.keys(address ?? {})
                   .filter((key) => key !== "id" && key !== "userId")
                   .map((key, index) => (
                     <span key={index}>{address[key] + " "}</span>

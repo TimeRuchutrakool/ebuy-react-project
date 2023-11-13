@@ -113,16 +113,19 @@ const userSlice = createSlice({
       .addCase(signup.fulfilled, (state, action) => {
         state.user = action.payload;
         state.address = action.payload.address;
+        state.address = undefined;
         state.loading = false;
         state.error.signupError = "";
       })
       .addCase(signup.pending, (state) => {
         state.user = undefined;
         state.loading = true;
+        state.address = undefined;
         state.error.signupError = "";
       })
       .addCase(signup.rejected, (state, action) => {
         state.user = undefined;
+        state.address = undefined;
         state.loading = false;
         state.error.signupError = action.payload;
       });

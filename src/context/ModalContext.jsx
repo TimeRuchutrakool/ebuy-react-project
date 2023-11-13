@@ -5,11 +5,14 @@ import { Hourglass } from "react-loader-spinner";
 import ChatModal from "../features/chat/ChatModal";
 import ChatContextProvider from "./ChatContext";
 import AddressForm from "../features/order/AddressForm";
-import EditProduct from "../components/EditProduct";
+import EditProduct from "../pages/EditProduct";
 import ConfirmDeleteProduct from "../features/product/ConfirmDeleteProduct";
 import BidForm from "../features/bid/BidForm";
-import BidConfrim from "../features/bid/BidConfrim";
-import BidReview from "../features/bid/BidReview";
+import BidContextProvider from "./BidContext";
+import RedirectIfAuthen from "../components/RedirectIfAuthen";
+import BidPayModal from "../features/bid/BidPayModal";
+import BidFailedModal from "../features/bid/BidFailedModal";
+import ConfirmReceipt from "../features/user/confirmReceipt";
 
 export const ModalContext = createContext();
 
@@ -24,10 +27,11 @@ function reducer(state, action) {
       return { ...state, form: <LoginForm /> };
     case "signup":
       return { ...state, form: <SignUpForm /> };
-    case "editProduct":
-      return { ...state, form: <EditProduct /> };
+
     case "confirmDelete":
       return { ...state, form: <ConfirmDeleteProduct /> };
+    case "confirmReceipt":
+      return {...state, form: <ConfirmReceipt/>}
     case "loading":
       return {
         ...state,
@@ -61,11 +65,35 @@ function reducer(state, action) {
       return { ...state, form: <AddressForm /> };
 
     case "bid":
-      return { ...state, form: <BidForm /> };
-    case "bidConfirm":
-      return { ...state, form: <BidConfrim /> };
-    case "bidReview":
-      return { ...state, form: <BidReview /> };
+      return {
+        ...state,
+        form: (
+          <RedirectIfAuthen>
+            <BidContextProvider>
+              <BidForm />
+            </BidContextProvider>
+          </RedirectIfAuthen>
+        ),
+      };
+    case "bidPay":
+      return {
+        ...state,
+        form: (
+          <RedirectIfAuthen>
+            <BidPayModal obj={action.payload} />
+          </RedirectIfAuthen>
+        ),
+      };
+    case "bidFailed":
+      return {
+        ...state,
+        form: (
+          <RedirectIfAuthen>
+            <BidFailedModal />
+          </RedirectIfAuthen>
+        ),
+      };
+
     default:
       throw new Error("Unknown action");
   }

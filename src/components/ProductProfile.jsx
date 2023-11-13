@@ -54,7 +54,7 @@ export default function ProductProfile() {
                 price={el.price}
                 imageUrl={el.imageUrl}
                 des={el.description}
-                id={el.id}
+                
               />
             ))}
           </div>

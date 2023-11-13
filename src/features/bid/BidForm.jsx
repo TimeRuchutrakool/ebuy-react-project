@@ -207,9 +207,8 @@ function Timer({ timeRemainings }) {
       bidSocket.emit(
         "bidingFinished",
         { bidProductId: +productId },
-        ({ latestWinnerId, latestBidPrice, winnerName, product }) => {
+        ({ latestWinnerId, latestBidPrice, product }) => {
           if (user.id == latestWinnerId) {
-            console.log(latestBidPrice, winnerName);
             modal({
               type: "bidPay",
               payload: {

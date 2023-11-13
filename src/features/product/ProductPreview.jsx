@@ -14,6 +14,7 @@ import {
   isWish as isWishAPI,
   toggleWish as toggleWishAPI,
 } from "../../services/apiWish";
+import ImageController from "../../components/ImageController";
 
 export function ProductPreview({ product }) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -145,10 +146,3 @@ export function ProductPreview({ product }) {
   );
 }
 
-function ImageController({ position, children, onClick }) {
-  return (
-    <button className={`absolute ${position} bg-white p-2 rounded-full opacity-30`} onClick={onClick}>
-      {children}
-    </button>
-  );
-}

@@ -1,9 +1,15 @@
+import { useSearchParams } from "react-router-dom";
 import useClickOutside from "../hooks/useClickOutside";
 import useModal from "../hooks/useModal";
+import { useEffect } from "react";
 
 function Modal({ children }) {
   const { dispatch } = useModal();
-  const dropRef = useClickOutside(() => dispatch({ type: "close" }));
+  const [searchParams] = useSearchParams();
+  const dropRef = useClickOutside(() =>
+    searchParams.get("biding") ? () => {} : dispatch({ type: "close" })
+  );
+  useEffect(() => {}, []);
   return (
     <div className="w-full h-full flex justify-center items-center fixed z-50 ">
       <div

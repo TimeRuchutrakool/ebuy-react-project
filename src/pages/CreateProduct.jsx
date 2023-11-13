@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CreateProductForm from "../features/product/CreateProductForm";
+import CreateBidForrn from "../features/bid/CreateBidForm"
 
 export default function CreateProduct() {
   const [isClick, setIsClick] = useState(false);
@@ -33,7 +34,7 @@ export default function CreateProduct() {
           </div>
         </div>
         {isClick ? (
-          ""
+          <CreateBidForrn/>
         ) : (
           <div>
             <CreateProductForm />

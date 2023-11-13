@@ -20,6 +20,7 @@ export const getMystore = async () => {
   const response = await axios.get("/user/mystore");
   return response.data;
 };
+
 export const logout = () => {
   removeAccessToken();
 };

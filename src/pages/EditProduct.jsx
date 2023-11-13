@@ -75,8 +75,12 @@ export default function EditProduct() {
 
     const sizeAndStockClone = sizeAndStock;
 
-    sizeAndStockClone[index][key] = value;
-    setSizeAndStock(sizeAndStockClone);
+    sizeAndStockClone[index][key] = +value;
+    console.log(
+      "🚀 ~ file: EditProduct.jsx:77 ~ onChangeSizeForm ~ sizeAndStockClone:",
+      sizeAndStockClone
+    );
+    setSizeAndStock([...sizeAndStockClone]);
   };
 
   let nameSize = "";

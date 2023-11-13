@@ -71,7 +71,7 @@ export const editAddress = createAsyncThunk(
     try {
       const data = await editAddressAPI(payload);
       console.log(data);
-      return data.updatedAddress;
+      return data;
     } catch {
       return thunkApi.rejectWithValue("Cannot edit address");
     }
@@ -156,7 +156,8 @@ const userSlice = createSlice({
     // editAddress
     builder
       .addCase(editAddress.fulfilled, (state, action) => {
-        state.address = action.payload;
+        state.user = action.payload.user;
+        state.address = action.payload.address;
         state.loading = false;
         state.error.editAddressError = "";
       })

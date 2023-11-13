@@ -51,11 +51,12 @@ export default function ProductProfile() {
               <SellerCardProduct
                 
                 key={el.id}
+                id={el.id}
                 name={el.name}
                 price={el.price}
                 imageUrl={el.imageUrl}
                 des={el.description}
-                id={el.id}
+                
               />
             ))}
           </div>
@@ -73,7 +74,7 @@ export default function ProductProfile() {
             <CardBidProduct />
           </div>
         ) : (
-          ""
+        ""
         )}
       </div>
     </div>

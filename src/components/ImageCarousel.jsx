@@ -15,10 +15,16 @@ function ImageCarousel({ images, setSelectedImage }) {
       rewind={true}
       modules={[FreeMode, Mousewheel]}
     >
-      {images.map((image, index) => (
+      {images?.map((image, index) => (
         <SwiperSlide key={index}>
-          <div className="px-2 cursor-pointer" onClick={() => setSelectedImage(index)}>
-            <img src={image?.imageUrl} className="rounded-md aspect-square object-cover" />
+          <div
+            className="px-2 cursor-pointer"
+            onClick={() => setSelectedImage(index)}
+          >
+            <img
+              src={image?.imageUrl}
+              className="rounded-md aspect-square object-cover"
+            />
           </div>
         </SwiperSlide>
       ))}

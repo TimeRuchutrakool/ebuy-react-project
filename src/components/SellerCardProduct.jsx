@@ -2,7 +2,7 @@ import useModal from "../hooks/useModal";
 import { useSearchParams } from "react-router-dom";
 
 export default function CardProduct({ name, price, imageUrl, des, id }) {
-  console.log("ggg", imageUrl);
+  // console.log("ggg", imageUrl);
   const { dispatch: modal } = useModal();
   const [searchParams, setSearchParams] = useSearchParams();
   return (

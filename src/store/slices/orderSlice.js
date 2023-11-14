@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import toast from "react-hot-toast";
-import { confirmReceipt, myOrder } from "../../services/apiUser";
+import { confirmReceipt, myHistory, myOrder } from "../../services/apiUser";
 
 
 const initialState ={
     order : [],
     loading : false,
     error :{
-
+        getMyOrder : "",
+        confirmReceipted :"",
+        getHistory: ""
     },
-
+    history :[]
 }
 
 export const getMyOrder = createAsyncThunk( "/user/myOrder" ,
@@ -37,6 +39,18 @@ async (payload , thunkApi)=>{
 }
 )
 
+export const getHistory = createAsyncThunk("/user/myHistory",
+async (_,thunkApi)=>{
+    try {
+        const data = await myHistory()
+        console.log("dataSlice getHistory===",data)
+        return data.myHistory
+    } catch (error) {
+        toast.error("error ?");
+      return thunkApi.rejectWithValue("error ?");
+    }
+}
+)
 
 const myOrderSlice = createSlice({
     name : "myOrder",
@@ -53,33 +67,50 @@ const myOrderSlice = createSlice({
         .addCase(getMyOrder.pending, (state)=>{
             state.order = [];
             state.loading= true;
-            state.error ="";
+            state.error.getMyOrder ="";
         })
         .addCase(getMyOrder.fulfilled, (state,action)=>{
             state.order =action.payload;
             state.loading = false ;
-            state.error = "";
+            state.error.getMyOrder = "";
         })
         .addCase(getMyOrder.rejected, (state,action)=>{
             state.order =[];
             state.loading = true;
-            state.error = action.payload
+            state.error.getMyOrder = action.payload
         });
         
         //confirmReceipted
         builder.addCase(confirmReceipted.pending , (state)=>{
             state.order =[]
             state.loading = true;
-            state.error =""
+            state.error.confirmReceipted =""
         })
         .addCase(confirmReceipted.fulfilled, (state,action)=>{
             state.order = action.payload.filter( (el)=> el.id !== action.payload)
             state.loading = false
-            state.error = ""
+            state.error.confirmReceipted = ""
         }).addCase(confirmReceipted.rejected, (state,action)=>{
             state.order = []
+            state.loading = true
+            state.error.confirmReceipted = action.payload
+        })
+
+        builder
+        .addCase(getHistory.pending, (state)=>{
+            state.history=[]
+            state.loading=true
+            state.error.getHistory = ""
+        })
+        .addCase(getHistory.fulfilled, (state,action)=>{
+            state.history = action.payload
             state.loading = false
-            state.error = action.payload
+            state.error.getHistory = ""
+        })
+        .addCase(getHistory.rejected, (state,action)=>{
+            state.history =[]
+            state.loading =true
+            state.error.getHistory = action.payload
         })
     }   
 })

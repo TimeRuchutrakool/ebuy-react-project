@@ -1,25 +1,36 @@
-import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getHistory } from "../store/slices/orderSlice";
 
 export default function Orderhistory() {
+  const {history}=useSelector((store)=>store.myOrder)
+  const dispatch = useDispatch()
+  console.log(">>>>>",history)  
+  useEffect(()=>{
+    dispatch(getHistory())
+  },[])
   return (
     <div className=" w-full m-8 p-4">
       <h1 className=" text-2xl py-6 text-green-700">
         ประวัติการสั่งซื้อของฉัน
       </h1>
+      { history.map((el)=>(
       <div className=" grid gap-96 grid-cols-2 items-center justify-start  p-8 border  rounded-md">
         <div className="flex items-center justify-center gap-4 p-2 ">
+          <div className=" flex flex-col gap-4">
+
+          <p>หมายเลขออเดอร์ {el.id}</p>
           <img
             className="w-36 h-24 flex items-center justify-start "
-            src="https://plus.unsplash.com/premium_photo-1682096353438-03b20899f011?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzd8fHQlMjBzaGlydHxlbnwwfHwwfHx8MA%3D%3D"
+            src={el.imageUrl}
             alt=""
           />
+          </div>
           <div className="grid gap-4 grid-cols-2">
             <br></br>
-            <div className="text-xl ">เสื้อยืด oversize </div>
+            <div className="text-xl ">{el.name}</div>
             <br></br>
-            <div className="text-gray-400">ตัวเลือกสินค้า สีขาว</div>
-            <br></br>
-            <div className=""> x 1</div>
+            <div className="">จำนวน : {el.among}</div>
           </div>
         </div>
 
@@ -29,15 +40,17 @@ export default function Orderhistory() {
               สินค้าถูกจัดส่งแล้ว
             </h1>
             <br></br>
-            <span className=" text-gray-400 px-2">03-11-2023</span>
-            <span className=" text-gray-400 px-2">15:36</span>
+            <span className=" text-gray-400 px-2">{el.time?.split(' ')[0]}</span>
+            <span className=" text-gray-400 px-2">{el.time?.split(' ')[1]}</span>
             <br></br>
             <p className=" flex items-center justify-center text-orange-500 font-medium text-2xl">
-              290 บาท
+              {el.price} บาท
             </p>
           </div>
         </div>
       </div>
+      ))
+}
     </div>
   );
 }

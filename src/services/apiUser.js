@@ -28,3 +28,8 @@ export const confirmReceipt = async (input) => {
   const res = await axios.patch("/user/confirmReceipt", input);
   return res.data;
 };
+
+export const myHistory = async () => {
+  const res = await axios.get("/user/myHistory");
+  return res.data;
+};

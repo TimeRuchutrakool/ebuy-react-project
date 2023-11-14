@@ -23,3 +23,8 @@ export const deleteProduct = async (productId) => {
   const res = await axios.delete(`/product/delete/${productId}`);
   return res.data;
 };
+
+export const getBidProducts = async () => {
+  const res = await axios.get("/bid");
+  return res.data;
+};

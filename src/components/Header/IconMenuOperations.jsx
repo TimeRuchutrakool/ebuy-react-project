@@ -1,5 +1,6 @@
 import { BiSolidCart } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
+import { RiAuctionFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import ProfilePopUp from "../../features/user/ProfilePopUp";
 import { useState } from "react";
@@ -14,21 +15,30 @@ function IconMenuOperations() {
   const navigate = useNavigate();
   return (
     <div className="text-2xl flex gap-4 text-[#818B9C]">
-      <button
-        onClick={() => {
-          if (user) {
-            navigate("/cart");
-          } else modal({ type: "login" });
-        }}
-        className="relative"
-      >
-        <BiSolidCart />
-        {cart.length > 0 && (
-          <div className="w-5 h-5 flex justify-center items-center absolute -top-2 -right-3 text-sm text-white bg-green-900 p-3 rounded-full">
-            {cart.length}
-          </div>
-        )}
-      </button>
+      <div className="flex gap-7">
+        <button
+          onClick={() => {
+            navigate("/auctioning?page=1");
+          }}
+        >
+          <RiAuctionFill />
+        </button>
+        <button
+          onClick={() => {
+            if (user) {
+              navigate("/cart");
+            } else modal({ type: "login" });
+          }}
+          className="relative"
+        >
+          <BiSolidCart />
+          {cart.length > 0 && (
+            <div className="w-5 h-5 flex justify-center items-center absolute -top-2 -right-3 text-sm text-white bg-green-900 p-3 rounded-full">
+              {cart.length}
+            </div>
+          )}
+        </button>
+      </div>
       <div className="w-[1px] h-auto bg-[#E4E9EE]"></div>
       <button
         onClick={() => {

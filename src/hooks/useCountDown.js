@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useCountdown = (targetDate, duration, setDisabledIsBiding) => {
+const useCountdown = (targetDate, duration, setDisabledIsBiding, setBiding) => {
   const countDownDate = new Date(targetDate).getTime();
 
   const [countDown, setCountDown] = useState(
@@ -16,11 +16,15 @@ const useCountdown = (targetDate, duration, setDisabledIsBiding) => {
         countDownDate + duration < new Date().getTime() + 7 * 60 * 60 * 1000
       ) {
         setDisabledIsBiding(true);
-      } else setDisabledIsBiding(false);
+        setBiding(false);
+      } else {
+        setDisabledIsBiding(false);
+        setBiding(true);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [countDownDate, duration, setDisabledIsBiding]);
+  }, [countDownDate, duration, setDisabledIsBiding, setBiding]);
 
   return getReturnValues(countDown);
 };

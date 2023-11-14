@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 export default function EditProduct() {
@@ -120,7 +118,7 @@ export default function EditProduct() {
     axios.get("/product/variant").then((res) => {
       setCategoryData(res?.data?.productVariant);
     });
-  }, []);
+  }, [productId, reset]);
 
   if (isLoading) {
     return <Loading />;

@@ -11,12 +11,16 @@ function Product() {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+
+
   useEffect(() => {
     async function getProductDetail() {
       try {
         setIsLoading(true);
         const { product } = await getProduct(productId);
-        setProduct(() => product);
+        if (product) {
+          setProduct(() => product);
+        }
       } catch (error) {
         console.log(error);
       } finally {

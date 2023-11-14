@@ -1,7 +1,7 @@
 import { AiOutlineShop, AiOutlineLogout } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GoTag } from "react-icons/go";
-import { BsCoin } from "react-icons/bs";
+import { BsCoin, BsGift } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/userSlice";
@@ -56,6 +56,7 @@ function HorizontalLine() {
 }
 
 function Point({ point }) {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-start gap-2">
       <p>My point</p>
@@ -65,6 +66,13 @@ function Point({ point }) {
           <span>Point</span>
         </div>
         <span>{point}</span>
+      </div>
+      <div
+        className="flex gap-2 items-center cursor-pointer"
+        onClick={() => navigate("/reward")}
+      >
+        <BsGift />
+        <span>แลกของรางวัล</span>
       </div>
     </div>
   );

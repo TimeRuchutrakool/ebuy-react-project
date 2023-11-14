@@ -16,6 +16,7 @@ import Order from "../pages/Order";
 import CreateProduct from "../pages/CreateProduct";
 import EditProduct from "../pages/EditProduct";
 import Bid from "../pages/Bid";
+import Reward from "../pages/Reward";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,6 +51,7 @@ const router = createBrowserRouter(
         <Route path="/createProduct" element={<CreateProduct />} />
         <Route path="/editProduct/:productId" element={<EditProduct />} />
         <Route path="/product/:productId" element={<Product />} />
+        <Route path="/reward" element={<Reward />} />
       </Route>
     </>
   )

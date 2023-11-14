@@ -20,9 +20,9 @@ function BidList() {
   return (
     <div className="p-10" style={{ minHeight: "70vh" }}>
       {products.length > 0 ? (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-5">
           <p className="text-xl flex items-center gap-5 text-green-900">
-            Showing auctioning products
+            แสดงสินค้าประมูล
           </p>
           <div className="grid grid-cols-5 gap-10 mt-5">
             {products.map((product) => (

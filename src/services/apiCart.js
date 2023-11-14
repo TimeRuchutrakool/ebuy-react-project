@@ -27,3 +27,9 @@ export const checkout = async () => {
   const res = await axios.post("/cart/checkout");
   return res.data;
 };
+export const checkoutBid = async (productId) => {
+  const res = await axios.post("/bid/checkout", {
+    productId,
+  });
+  return res.data;
+};

@@ -19,7 +19,7 @@ export default function ProductProfile() {
     dispatch(getProduct());
   }, []);
 
-  console.log("fff", stores);
+  
   return (
     <div className="w-[calc(100%+300px)]">
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
@@ -46,8 +46,10 @@ export default function ProductProfile() {
       <div className="pt-4">
         {click === "marketplace" ? (
           <div className="grid grid-cols-5 place-items-center">
+
             {stores?.map((el) => (
               <SellerCardProduct
+                
                 key={el.id}
                 id={el.id}
                 name={el.name}
@@ -72,7 +74,7 @@ export default function ProductProfile() {
             <CardBidProduct />
           </div>
         ) : (
-          ""
+        ""
         )}
       </div>
     </div>

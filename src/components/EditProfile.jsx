@@ -45,7 +45,7 @@ export default function EditProfile() {
     // dispatch(getMe());
     console.log(response);
   };
-  const subdistrict = user.address.address.split(" ")[1];
+  const subdistrict = user.address?.address?.split(" ")[1];
   console.log(subdistrict);
 
   return (

@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 export default function EditProduct() {
@@ -54,10 +52,7 @@ export default function EditProduct() {
   } = useForm({ defaultValues: null });
 
   const [sizeAndStock, setSizeAndStock] = useState([]);
-  console.log(
-    "🚀 ~ file: EditProduct.jsx:58 ~ EditProduct ~ sizeAndStock:",
-    sizeAndStock
-  );
+
   const onChangeSizeForm = ({ index, key, value }) => {
     const keys = ["pantsSizeId", "shirtSizeId", "shoeSizeId"];
     sizeAndStock.map((obj) => {
@@ -76,10 +71,7 @@ export default function EditProduct() {
     const sizeAndStockClone = sizeAndStock;
 
     sizeAndStockClone[index][key] = +value;
-    console.log(
-      "🚀 ~ file: EditProduct.jsx:77 ~ onChangeSizeForm ~ sizeAndStockClone:",
-      sizeAndStockClone
-    );
+
     setSizeAndStock([...sizeAndStockClone]);
   };
 
@@ -95,10 +87,6 @@ export default function EditProduct() {
     nameSize = "pantsSizeId";
     cloneArraySize = categoryData.pantsSize;
   }
-  console.log(
-    "🚀 ~ file: EditProduct.jsx:84 ~ EditProduct ~ nameSize:",
-    nameSize
-  );
 
   useEffect(() => {
     setIsLoading(true);

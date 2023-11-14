@@ -15,6 +15,8 @@ import RedirectIfAuthen from "../components/RedirectIfAuthen";
 import Order from "../pages/Order";
 import CreateProduct from "../pages/CreateProduct";
 import EditProduct from "../pages/EditProduct";
+import { BidProduct } from "../pages/BidProduct";
+import PaymentSuccess from "../pages/PaymentSuccess";
 import Bid from "../pages/Bid";
 import Reward from "../pages/Reward";
 
@@ -52,6 +54,7 @@ const router = createBrowserRouter(
         <Route path="/editProduct/:productId" element={<EditProduct />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/reward" element={<Reward />} />
+        <Route path="/payment" element={<PaymentSuccess />} />
       </Route>
     </>
   )

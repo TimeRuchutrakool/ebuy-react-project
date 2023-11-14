@@ -13,6 +13,7 @@ function AppLayout() {
   const { formModal } = useModal();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
+  const { cart } = useSelector((store) => store.cart);
 
   useEffect(() => {
     dispatch(getMe());

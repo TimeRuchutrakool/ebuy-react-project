@@ -48,7 +48,7 @@ export default function SidebarProfile({ setMode, mode }) {
         {user?.profileImage ? (
           <img
             src={user?.profileImage}
-            alt=""
+            alt="image"
             className="w-[80px] h-[80px] rounded-full"
           />
         ) : (

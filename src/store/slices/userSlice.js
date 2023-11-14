@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login as loginAPI, signup as signupAPI } from "../../services/apiAuth";
-import { editAddress as editAddressAPI } from "../../services/apiUser";
+import {
+  editAddress as editAddressAPI,
+  editUser as editUserAPI,
+} from "../../services/apiUser";
 import { getCurrentUser } from "../../services/apiAuth";
 import {
   getAccessToken,
@@ -17,8 +20,10 @@ const initialState = {
     signupError: "",
     getUserError: "",
     editAddressError: "",
+    editUserError: "",
   },
   address: undefined,
+  editUser: null,
 };
 
 export const login = createAsyncThunk(
@@ -70,10 +75,27 @@ export const editAddress = createAsyncThunk(
   async (payload, thunkApi) => {
     try {
       const data = await editAddressAPI(payload);
+      toast.success("Success <3");
       console.log(data);
       return data;
     } catch {
+      toast.error("Please try again");
       return thunkApi.rejectWithValue("Cannot edit address");
+    }
+  }
+);
+
+export const handleEditUser = createAsyncThunk(
+  "user/editUser",
+  async (payload, thunkApi) => {
+    try {
+      console.log(payload);
+      const data = await editUserAPI(payload);
+      toast.success("Success <3");
+      return data;
+    } catch {
+      toast.error("Please try again");
+      return thunkApi.rejectWithValue("Cannot edit username");
     }
   }
 );
@@ -83,10 +105,23 @@ export const logout = createAsyncThunk("user/logout", () => {
   toast.success("You are logged out.");
 });
 
+export const handleChangeUser = (state, action) => {
+  const { name, value } = action.payload;
+  state.editUser[name] = value;
+};
+
+export const handleChangeAddress = (state, action) => {
+  const { name, value } = action.payload;
+  state.address[name] = value;
+};
+
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    onChangeUser: handleChangeUser,
+    onChangeAddress: handleChangeAddress,
+  },
   extraReducers: (builder) => {
     // login
     builder
@@ -145,6 +180,10 @@ const userSlice = createSlice({
         state.address = action.payload.address;
         state.loading = false;
         state.error.getUserError = "";
+        state.editUser = {
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+        };
       })
       .addCase(getMe.pending, (state) => {
         state.user = undefined;
@@ -159,8 +198,8 @@ const userSlice = createSlice({
     // editAddress
     builder
       .addCase(editAddress.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.address = action.payload.address;
+        // state.user = action.payload.user;
+        // state.address = action.payload.address;
         state.loading = false;
         state.error.editAddressError = "";
       })
@@ -172,7 +211,27 @@ const userSlice = createSlice({
         state.loading = false;
         state.error.editAddressError = action.payload;
       });
+
+    // editUser
+    builder
+      .addCase(handleEditUser.fulfilled, (state, action) => {
+        state.user.firstName = action.payload.userData.firstName;
+        state.user.lastName = action.payload.userData.lastName;
+        // state.address = action.payload.address;
+        state.loading = false;
+        state.error.editUserError = "";
+      })
+      .addCase(handleEditUser.pending, (state) => {
+        state.loading = true;
+        state.error.editUserError = "";
+      })
+      .addCase(handleEditUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error.editUserError = action.payload;
+      });
   },
 });
+
+export const { onChangeUser, onChangeAddress } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

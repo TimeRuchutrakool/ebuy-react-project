@@ -15,7 +15,7 @@ function ProfilePopUp({ setClickUser }) {
   return (
     <div
       ref={dropRef}
-      className="w-3/12 bg-[#ffffff] shadow-lg absolute top-16 right-5 p-5 rounded-lg flex flex-col gap-2 text-sm font-light cursor-default"
+      className="w-3/12 bg-[#ffffff] shadow-lg absolute top-16 right-5 p-5 rounded-lg flex flex-col gap-2 text-sm font-light cursor-default animate-modal-appear"
     >
       <ImageAndUsername user={user} />
       <HorizontalLine />

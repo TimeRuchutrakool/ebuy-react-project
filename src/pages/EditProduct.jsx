@@ -108,7 +108,7 @@ export default function EditProduct() {
     axios.get("/product/variant").then((res) => {
       setCategoryData(res?.data?.productVariant);
     });
-  }, []);
+  }, [productId, reset]);
 
   if (isLoading) {
     return <Loading />;

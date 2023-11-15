@@ -1,9 +1,6 @@
-import React from "react";
-import { useState } from "react";
 import { AiOutlineHeart, AiFillStar } from "react-icons/ai";
 
 export default function WishlistCard() {
-  const [click, setClick] = useState(false);
   return (
     <div className="w-fit flex flex-col gap-2">
       <div className="bg-[#F6F6F6] w-52 h-52 border  rounded-md flex justify-center items-center relative">

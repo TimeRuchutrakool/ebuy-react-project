@@ -1,7 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import useClickOutside from "../hooks/useClickOutside";
 import useModal from "../hooks/useModal";
-import { useEffect } from "react";
 
 function Modal({ children }) {
   const { dispatch } = useModal();
@@ -9,9 +8,8 @@ function Modal({ children }) {
   const dropRef = useClickOutside(() =>
     searchParams.get("biding") ? () => {} : dispatch({ type: "close" })
   );
-  useEffect(() => {}, []);
   return (
-    <div className="w-full h-full flex justify-center items-center fixed z-50 ">
+    <div className="w-full h-full flex justify-center items-center fixed z-50 animate-modal-appear">
       <div
         ref={dropRef}
         className="w-fit h-fit bg-[#ffffff] shadow-lg border-none rounded-md absolute z-30"

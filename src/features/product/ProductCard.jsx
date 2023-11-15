@@ -25,7 +25,7 @@ function ProductCard({
             `https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg`
           }
           alt="productImage"
-          className="w-40 h-40 object-cover overflow-hidden object-center"
+          className="w-40 h-40 object-cover overflow-hidden object-center "
         />
       </div>
       <div className="flex justify-between">

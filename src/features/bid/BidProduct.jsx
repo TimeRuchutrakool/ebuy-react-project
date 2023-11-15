@@ -7,8 +7,8 @@ import useModal from "../../hooks/useModal";
 import { useSearchParams, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getbidProductById } from "../../services/apiProduct";
+import CountDown from "./CountDown";
 // import { formatDate } from "../../utils/helper";
-import { useCountdown } from "../../hooks/useCountDown";
 
 function BidProduct() {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -93,25 +93,3 @@ function BidProduct() {
 }
 
 export default BidProduct;
-
-function CountDown({ duration, targetDate = null, setDisabledIsBiding }) {
-  const { days, hours, minutes, seconds } = useCountdown(
-    targetDate,
-    duration,
-    setDisabledIsBiding
-  );
-
-  if (
-    new Date(targetDate).getTime() + duration <
-    Date.now() + 7 * 60 * 60 * 1000
-  ) {
-    return <p>สิ้นสุดการประมูล</p>;
-  }
-  if (new Date(targetDate).getTime() < Date.now() + 7 * 60 * 60 * 1000)
-    return <p>กำลังประมูล</p>;
-  return (
-    <p className="text-red-700 text-xl">
-      {days}D {hours}H {minutes}M {seconds}S
-    </p>
-  );
-}

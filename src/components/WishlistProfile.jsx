@@ -1,4 +1,3 @@
-import React from "react";
 import WishlistCard from "./WishlistCard";
 
 export default function WishlistProfile() {

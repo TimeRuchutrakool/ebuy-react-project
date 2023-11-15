@@ -76,7 +76,6 @@ export const editAddress = createAsyncThunk(
     try {
       const data = await editAddressAPI(payload);
       toast.success("Success <3");
-      console.log(data);
       return data;
     } catch {
       toast.error("Please try again");
@@ -197,7 +196,7 @@ const userSlice = createSlice({
       });
     // editAddress
     builder
-      .addCase(editAddress.fulfilled, (state, action) => {
+      .addCase(editAddress.fulfilled, (state) => {
         // state.user = action.payload.user;
         // state.address = action.payload.address;
         state.loading = false;

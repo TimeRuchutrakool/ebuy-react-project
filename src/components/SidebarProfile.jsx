@@ -4,7 +4,6 @@ import { useState } from "react";
 import { updateImageProfile } from "../services/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
-import Loading from "./Loading";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BiSolidStore } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
@@ -35,8 +34,6 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
     }
   };
 
-  console.log(user?.profileImage);
-
   return (
     <div className="flex flex-col my-24 relative w-[300px] border items-center">
       <div
@@ -49,7 +46,7 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
           <img
             src={user?.profileImage}
             alt="image"
-            className="w-[80px] h-[80px] rounded-full"
+            className="w-[80px] h-[80px] rounded-full object-cover"
           />
         ) : (
           <div className="border border-[#E4E9EE] rounded-full p-2  w-[80px] h-[80px] flex items-center justify-center text-5xl bg-white">

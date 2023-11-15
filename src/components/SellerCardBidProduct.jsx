@@ -1,15 +1,26 @@
-export default function CardBidProduct() {
+import { useDispatch } from "react-redux";
 
-  
+
+
+export default function CardBidProduct({name,image,startAt,price,description}) {
+
+  const dispatch = useDispatch()
+
+  const handleOnClick = ()=>{
+    dispatch()
+  }
+
   return (
-    <div className="bg-white w-56 h-[340px] m-2 shadow-lg overflow-hidden rounded-md ">
+    <>
+   
+      <div className="bg-white w-56 h-[340px] m-2 shadow-lg overflow-hidden rounded-md ">
       <div className="w-[224px] h-[224px] relative ">
         <div className="absolute bg-white w-full p-1 grid-cols-2 grid text-center">
-          <div className="text-green-900">เวลาคงเหลือ</div>
-          <div className="text-red-600">10:33:13</div>
+          {/* <div className="text-green-900">เวลาคงเหลือ</div>
+          <div className="text-red-600">10:33:13</div> */}
         </div>
         <img
-          src="https://media.discordapp.net/attachments/1169023951532466289/1169031063729872916/8b3431a6-a437-42e8-8dbc-3393bad5e57a.png?ex=6553ec05&is=65417705&hm=16b2bd54edf7761d6dc84e43dfa85b2d934e03b9525957f1cbc85dc99e144a3f&=&width=746&height=936"
+          src={image}
           alt=""
           className="object-cover w-full h-full"
         />
@@ -17,18 +28,21 @@ export default function CardBidProduct() {
       <div>
         <div className="p-3">
           <div className="flex justify-between">
-            <h1>กางเกงขาสั้น</h1>
-            <h1 className="text-green-600">฿299</h1>
+            <h1>{name}</h1>
+            <h1 className="text-green-600">฿{price}</h1>
           </div>
-          <p>การระเอียดบลาๆ</p>
+          <p>{description}</p>
         </div>
         <div className="flex justify-evenly p-3 gap-2 h-full ">
-          <button className="bg-gray-300 w-full rounded-md">แก้ไข</button>
-          <button className="bg-red-600 text-white w-full rounded-md">
+        
+          <button className="bg-red-600 text-white w-full rounded-md"
+          onClick={handleOnClick}          >
             ลบ
           </button>
         </div>
       </div>
     </div>
+    
+   </>
   );
 }

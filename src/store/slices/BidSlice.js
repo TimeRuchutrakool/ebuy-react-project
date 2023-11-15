@@ -47,5 +47,6 @@ const bidProductSlice = createSlice({
     }
 })
 
-export const {makeBidProduct}= bidProductSlice.action;
+export const {makeBidProduct}= bidProductSlice.actions;
+export const bidProductReducer = bidProductSlice.reducer;
 

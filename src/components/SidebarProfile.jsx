@@ -29,7 +29,6 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
   };
   const onChangeImage = (e) => {
     if (e.target.files[0]) {
-      console.log(e.target.files);
       upload(e.target.files[0]);
     }
   };

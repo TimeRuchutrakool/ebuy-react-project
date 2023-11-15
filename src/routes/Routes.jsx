@@ -75,10 +75,7 @@ const router = createBrowserRouter(
           }
         />
         <Route path="/product/:productId" element={<Product />} />
-<<<<<<< HEAD
-=======
         <Route path="/reward" element={<Reward />} />
->>>>>>> develop
         <Route path="/payment" element={<PaymentSuccess />} />
       </Route>
     </>

@@ -35,7 +35,6 @@ export default function SidebarProfile({ setMode, mode }) {
       upload(e.target.files[0]);
     }
   };
-  console.log(user?.profileImage);
   if (isLoading) return <Loading />;
   return (
     <div className="flex flex-col my-24 relative w-[300px] border items-center">
@@ -49,7 +48,7 @@ export default function SidebarProfile({ setMode, mode }) {
           <img
             src={user?.profileImage}
             alt="image"
-            className="w-[80px] h-[80px] rounded-full"
+            className="w-[80px] h-[80px] rounded-full object-cover"
           />
         ) : (
           <div className="border border-[#E4E9EE] rounded-full p-2  w-[80px] h-[80px] flex items-center justify-center text-5xl bg-white">

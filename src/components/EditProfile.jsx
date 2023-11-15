@@ -1,10 +1,9 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onChangeUser, onChangeAddress } from "../store/slices/userSlice";
 import { editAddress, handleEditUser } from "../store/slices/userSlice";
 
 export default function EditProfile() {
-  const { user, address, editUser } = useSelector((store) => store.user);
+  const { address, editUser } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
   return (

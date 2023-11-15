@@ -1,4 +1,6 @@
 export default function CardBidProduct() {
+
+  
   return (
     <div className="bg-white w-56 h-[340px] m-2 shadow-lg overflow-hidden rounded-md ">
       <div className="w-[224px] h-[224px] relative ">

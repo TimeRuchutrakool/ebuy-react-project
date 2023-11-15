@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "../../config/axios";
 import { useForm } from "react-hook-form";
-// import dayjs from "dayjs";
-import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 
-function CreateBidForm() {
-  const [isLoading, setIsLoading] = useState(false);
+function CreateBidForm({ setIsLoading }) {
   const navigate = useNavigate();
 
   /////////////////////////// preview image ///////////////////////////
@@ -24,10 +21,6 @@ function CreateBidForm() {
     images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
     setImagesURLs(newImageUrls);
   }, [images]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   const onImageChange = (e) => {
     setImages([...e.target.files]);

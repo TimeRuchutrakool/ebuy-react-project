@@ -28,3 +28,13 @@ export const getBidProducts = async () => {
   const res = await axios.get("/bid");
   return res.data;
 };
+
+export const getSellerProduct = async (userId) => {
+  const res = await axios.get(`/product/sellerProducts/${userId}`);
+  return res.data;
+};
+
+export const getSellerBidProduct = async (userId) => {
+  const res = await axios.get(`/bid/sellerBidProducts/${userId}`);
+  return res.data;
+};

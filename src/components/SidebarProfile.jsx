@@ -10,8 +10,7 @@ import { BiSolidStore } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 
-export default function SidebarProfile({ setMode, mode }) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function SidebarProfile({ setMode, mode, setIsLoading }) {
   const fileEl = useRef();
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -35,8 +34,9 @@ export default function SidebarProfile({ setMode, mode }) {
       upload(e.target.files[0]);
     }
   };
+
   console.log(user?.profileImage);
-  if (isLoading) return <Loading />;
+
   return (
     <div className="flex flex-col my-24 relative w-[300px] border items-center">
       <div
@@ -81,7 +81,7 @@ export default function SidebarProfile({ setMode, mode }) {
           <div>ร้านค้าของฉัน</div>
           <BiSolidStore />
         </div>
-        <div className="">
+        <div>
           <div
             onClick={() => setMode("EDIT")}
             className={`flex items-center p-4 cursor-pointer  rounded-lg   gap-4 justify-center ${

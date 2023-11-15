@@ -1,9 +1,12 @@
 import { useState } from "react";
 import CreateProductForm from "../features/product/CreateProductForm";
-import CreateBidForrn from "../features/bid/CreateBidForm"
+import CreateBidForrn from "../features/bid/CreateBidForm";
+import Loading from "../components/Loading";
 
 export default function CreateProduct() {
   const [isClick, setIsClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  if (isLoading) return <Loading />;
   return (
     <div className="flex justify-center mt-20">
       <div className=" w-2/3 min-h-[63vh]">
@@ -34,10 +37,10 @@ export default function CreateProduct() {
           </div>
         </div>
         {isClick ? (
-          <CreateBidForrn/>
+          <CreateBidForrn setIsLoading={setIsLoading} />
         ) : (
           <div>
-            <CreateProductForm />
+            <CreateProductForm setIsLoading={setIsLoading} />
           </div>
         )}
       </div>

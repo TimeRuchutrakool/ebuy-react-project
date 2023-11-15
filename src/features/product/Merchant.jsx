@@ -3,10 +3,12 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import useModal from "../../hooks/useModal";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export function Merchant({ product }) {
   const { dispatch: modal } = useModal();
   const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
   return (
     <div className=" flex justify-between m-5 font-extralight">
       <div className="flex items-center gap-3">
@@ -44,7 +46,10 @@ export function Merchant({ product }) {
           <HiOutlineChatAlt2 />
           <span>Chat</span>
         </button>
-        <button className="border flex items-center justify-center gap-2 w-fit px-5 py-2 rounded-lg border-black">
+        <button
+          className="border flex items-center justify-center gap-2 w-fit px-5 py-2 rounded-lg border-black"
+          onClick={() => navigate(`../seller/${product.sellerId}`)}
+        >
           <AiOutlineShop />
           <span>Visit Merchant</span>
         </button>

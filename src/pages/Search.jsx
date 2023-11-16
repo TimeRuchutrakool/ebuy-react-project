@@ -8,7 +8,6 @@ import Pagination from "../components/Pagination";
 
 export default function Search() {
   const [allProduct, setAllProduct] = useState([]);
-  console.log("🚀 ~ file: Search.jsx:11 ~ Search ~ allProduct:", allProduct);
   const [count, setCount] = useState(0);
   const { searchedTitle } = useParams("");
   const [page, setPage] = useState("");
@@ -30,23 +29,27 @@ export default function Search() {
 
   return (
     <div className="px-36  min-h-[59vh] flex flex-col">
-      <div className="text-center py-10 text-2xl">Showing product</div>
+      <div className=" py-10 text-2xl">คำค้นหา - {searchedTitle}</div>
       <div className="flex gap-8">
         <div className="w-1/5">
           <FilterOption />
         </div>
-        <div className="w-4/5 grid h-fit gap-5 grid-cols-3 items-start place-items-center">
-          {allProduct.map((product) => (
-            <ProductCard
-              key={product?.id}
-              id={product?.id}
-              name={product?.name}
-              price={product?.price}
-              productImage={product?.imageUrl}
-              avgRating={product?.avgRating}
-            />
-          ))}
-        </div>
+        {allProduct.length === 0 ? (
+          <div className="flex-grow text-center">ไม่พบสินค้า</div>
+        ) : (
+          <div className="w-4/5 grid h-fit gap-5 grid-cols-3 items-start place-items-center">
+            {allProduct.map((product) => (
+              <ProductCard
+                key={product?.id}
+                id={product?.id}
+                name={product?.name}
+                price={product?.price}
+                productImage={product?.imageUrl}
+                avgRating={product?.avgRating}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <Pagination
         setPage={setPage}

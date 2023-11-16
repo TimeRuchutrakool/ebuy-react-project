@@ -1,8 +1,10 @@
 import { AiFillStar } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
 import axios from "../config/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function WishlistCard({
+  seller,
   imageUrl,
   name,
   price,
@@ -10,8 +12,11 @@ export default function WishlistCard({
   isWish,
   setIsWish,
 }) {
+  const navigate = useNavigate();
+
   const toggleWish = async (e) => {
-    e.preventDefault;
+    e.preventDefault();
+    e.stopPropagation();
     try {
       await axios.post(`/wish/toggleWish/${product.id}`);
       setIsWish(!isWish);
@@ -20,9 +25,16 @@ export default function WishlistCard({
     }
   };
 
+  const clickOnProduct = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
     <div className="w-[208px] flex flex-col gap-2 ">
-      <div className="bg-[#F6F6F6] w-52 h-52 border  rounded-md flex justify-center items-center relative">
+      <div
+        className="bg-[#F6F6F6] w-52 h-52 border  rounded-md flex justify-center items-center relative cursor-pointer"
+        onClick={clickOnProduct}
+      >
         <div className="w-8 rounded-full h-8 bg-white flex items-center justify-center absolute top-3 right-3">
           <button className="text-2xl" onClick={toggleWish}>
             <MdFavorite className="text-red-500" />
@@ -38,7 +50,7 @@ export default function WishlistCard({
         <p className="font-extralight">{name}</p>
         <p className="font-extralight  text-[#1D9E34]">฿590</p>
       </div>
-      <p className="font-thin text-[#818B9C]">นันทพล นายาต</p>
+      <p className="font-thin text-[#818B9C]">{seller}</p>
       <span className="flex items-center gap-1">
         <AiFillStar className="text-[#FFA439]" />
         <p className="font-light">{price}</p>

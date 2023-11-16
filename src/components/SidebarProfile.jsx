@@ -1,6 +1,5 @@
 import { FiEdit } from "react-icons/fi";
 import { useRef } from "react";
-import { useState } from "react";
 import { updateImageProfile } from "../services/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
@@ -8,11 +7,15 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BiSolidStore } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { TbReportSearch } from "react-icons/tb";
+import { GoTag } from "react-icons/go";
 
-export default function SidebarProfile({ setMode, mode, setIsLoading }) {
+export default function SidebarProfile({ mode, setIsLoading }) {
   const fileEl = useRef();
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const upload = async (input) => {
     try {
@@ -69,7 +72,7 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
           {user?.firstName} {user?.lastName}
         </div>
         <div
-          onClick={() => setMode("SHOP")}
+          onClick={() => navigate("/user/SHOP")}
           className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center ${
             mode === "SHOP" ? " bg-green-900 text-white opacity-100 " : ""
           }`}
@@ -79,7 +82,7 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
         </div>
         <div>
           <div
-            onClick={() => setMode("EDIT")}
+            onClick={() => navigate("/user/EDIT")}
             className={`flex items-center p-4 cursor-pointer  rounded-lg   gap-4 justify-center ${
               mode === "EDIT" ? "bg-green-900 opacity-100 text-white " : ""
             }`}
@@ -88,7 +91,7 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
             <FaUserEdit />
           </div>
           <div
-            onClick={() => setMode("WISHLIST")}
+            onClick={() => navigate("/user/WISHLIST")}
             className={`flex items-center p-4  cursor-pointer rounded-lg  gap-4 justify-center  ${
               mode === "WISHLIST" ? "bg-green-900 opacity-100 text-white " : ""
             }`}
@@ -97,7 +100,7 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
             <AiFillHeart />
           </div>
           <div
-            onClick={() => setMode("ORDERHISTORY")}
+            onClick={() => navigate("/user/ORDERHISTORY")}
             className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center  ${
               mode === "ORDERHISTORY"
                 ? " bg-green-900 text-white opacity-100 "
@@ -105,16 +108,16 @@ export default function SidebarProfile({ setMode, mode, setIsLoading }) {
             }`}
           >
             <div>ประวัติคำสั่งซื้อของฉัน</div>
-            <BiSolidStore />
+            <TbReportSearch />
           </div>
           <div
-            onClick={() => setMode("MYORDERS")}
+            onClick={() => navigate("/user/MYORDERS")}
             className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center  ${
               mode === "MYORDERS" ? " bg-green-900 text-white opacity-100 " : ""
             }`}
           >
-            <div>ออเดอร์ของฉัน</div>
-            <BiSolidStore />
+            <div>คำสั่งซื้อของฉัน</div>
+            <GoTag />
           </div>
         </div>
       </div>

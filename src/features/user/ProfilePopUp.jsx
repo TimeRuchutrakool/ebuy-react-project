@@ -3,11 +3,13 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GoTag } from "react-icons/go";
 import { BsCoin, BsGift } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
+import { TbReportSearch } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/slices/userSlice";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { makeCartEmpty } from "../../store/slices/cartSlice";
+import { FaUserEdit } from "react-icons/fa";
 
 function ProfilePopUp({ setClickUser }) {
   const dropRef = useClickOutside(() => setClickUser((open) => !open));
@@ -86,18 +88,46 @@ function Menu() {
       <div className="flex flex-col items-start w-full gap-2 text-[#818B9C]">
         <div
           className="flex gap-2 items-center cursor-pointer"
-          onClick={() => navigate("/user")}
+          onClick={() => navigate("/user/SHOP")}
         >
           <AiOutlineShop />
           <span>หน้าร้านของฉัน</span>
         </div>
-        <div className="flex gap-2 items-center cursor-pointer">
-          <GoTag />
+        <div
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/user/ORDERHISTORY");
+          }}
+        >
+          <TbReportSearch />
           <span>ประวัติการซื้อ</span>
         </div>
-        <div className="flex gap-2 items-center cursor-pointer">
+        <div
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/user/MYORDERS");
+          }}
+        >
+          <GoTag />
+          <span>คำสั่งซื้อ</span>
+        </div>
+        <div
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/user/WISHLIST");
+          }}
+        >
           <MdOutlineFavoriteBorder />
           <span>รายการโปรด</span>
+        </div>
+        <div
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/user/EDIT");
+          }}
+        >
+          <FaUserEdit />
+          <span>ข้อมูลส่วนตัว</span>
         </div>
       </div>
     </div>

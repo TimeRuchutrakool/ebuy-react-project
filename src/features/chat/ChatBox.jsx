@@ -1,4 +1,5 @@
 import { BsFillSendFill } from "react-icons/bs";
+import { FaImage } from "react-icons/fa6";
 import ProfileUserHeader from "./ProfileUserHeader";
 import { useChat } from "./useChat";
 import { useState } from "react";
@@ -11,6 +12,9 @@ function ChatBox() {
   const { user } = useSelector((store) => store.user);
   const ref = useRef(null);
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState("");
+  const [file, setFile] = useState(null);
+  const imageRef = useRef(null);
   const { messages, chatSocket, chatRoom, otherUser } = useChat();
 
   useEffect(() => {
@@ -18,14 +22,25 @@ function ChatBox() {
       ref.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages.length]);
 
-  const send = (e) => {
-    e.preventDefault();
-    chatSocket.emit("sendMessage", {
-      roomId: chatRoom,
-      content: message,
-      senderId: user.id,
-    });
+  const sendMessage = () => {
+    if (file) {
+      chatSocket.emit("sendMessage", {
+        roomId: chatRoom,
+        content: file,
+        senderId: user.id,
+        type: "IMAGE",
+      });
+    } else {
+      chatSocket.emit("sendMessage", {
+        roomId: chatRoom,
+        content: message,
+        senderId: user.id,
+        type: "STRING",
+      });
+    }
     setMessage("");
+    setImage("");
+    setFile(null);
   };
 
   if (!otherUser)
@@ -64,9 +79,19 @@ function ChatBox() {
                       message.senderId === user.id
                         ? "bg-green-300 rounded-tr-none"
                         : "bg-slate-200 rounded-tl-none"
-                    } px-5 py-2 rounded-full`}
+                    }  ${
+                      message.type === "IMAGE" ? "p-3" : "px-5 py-2"
+                    } rounded-3xl`}
                   >
-                    <span>{message.content}</span>
+                    {message.type === "IMAGE" ? (
+                      <img
+                        src={message.content}
+                        alt="image"
+                        className="h-52 rounded-3xl"
+                      />
+                    ) : (
+                      <span>{message.content}</span>
+                    )}
                   </div>
                   <p className="font-extralight text-xs">
                     {formatDateForMessage(new Date(message.sendAt))}
@@ -78,21 +103,38 @@ function ChatBox() {
           </div>
         )}
 
-        <form
-          className=" w-5/6 bg-white px-4 py-3 rounded-full my-3 flex text-sm"
-          onSubmit={send}
-        >
+        <div className=" w-5/6 bg-white px-4 py-3 rounded-full my-3 text-sm gap-5 flex justify-between items-center">
+          {image ? (
+            <img src={image} className="h-24 ms-10" />
+          ) : (
+            <input
+              className="w-full bg-transparent outline-none "
+              type="text"
+              placeholder="Your Messages..."
+              value={message}
+              onChange={(e) => setMessage(() => e.target.value)}
+            />
+          )}
+
           <input
-            className="w-full bg-transparent outline-none "
-            type="text"
-            placeholder="Your Messages..."
-            value={message}
-            onChange={(e) => setMessage(() => e.target.value)}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            ref={imageRef}
+            onChange={(e) => {
+              setFile(() => e.target.files[0]);
+              setImage(()=>URL.createObjectURL(e.target.files[0]))
+            }}
           />
-          <button>
-            <BsFillSendFill />
-          </button>
-        </form>
+          <div className={`h-full flex gap-6 text-lg self-end`}>
+            <button onClick={() => imageRef.current.click()}>
+              <FaImage />
+            </button>
+            <button onClick={sendMessage}>
+              <BsFillSendFill />
+            </button>
+          </div>
+        </div>
       </>
     );
 }

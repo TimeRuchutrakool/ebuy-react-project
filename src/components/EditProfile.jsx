@@ -19,7 +19,7 @@ export default function EditProfile() {
               type="text"
               className="border border-gray-300 rounded-sm px-2 py-1.5 w-96 "
               placeholder=""
-              value={editUser.firstName}
+              value={editUser?.firstName}
               name="firstName"
               onChange={(e) =>
                 dispatch(
@@ -33,7 +33,7 @@ export default function EditProfile() {
             <input
               type="text"
               className="border border-gray-300 rounded-sm px-2 py-1.5 w-96"
-              value={editUser.lastName}
+              value={editUser?.lastName}
               name="lastName"
               onChange={(e) =>
                 dispatch(
@@ -49,8 +49,8 @@ export default function EditProfile() {
                 e.preventDefault();
                 dispatch(
                   handleEditUser({
-                    firstName: editUser.firstName,
-                    lastName: editUser.lastName,
+                    firstName: editUser?.firstName,
+                    lastName: editUser?.lastName,
                   })
                 );
               }}
@@ -71,7 +71,7 @@ export default function EditProfile() {
                   type="text"
                   className="border border-gray-300 rounded-sm px-2 py-1.5 w-96 "
                   placeholder=""
-                  value={address.address}
+                  value={address?.address}
                   name="address"
                   onChange={(e) =>
                     dispatch(

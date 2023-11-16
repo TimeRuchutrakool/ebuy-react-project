@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getHistory } from "../store/slices/orderSlice";
+import Loading from "./Loading";
 
 export default function Orderhistory() {
-  const { history } = useSelector((store) => store.myOrder);
+  const { history ,loading} = useSelector((store) => store.myOrder);
   const dispatch = useDispatch();
   console.log(">>>>>", history);
   useEffect(() => {
     dispatch(getHistory());
   }, []);
+  if(loading) return <Loading/>
   return (
     <div className=" w-full m-8 p-4 mt-24">
       <h1 className=" text-2xl py-6 text-green-700">

@@ -46,7 +46,7 @@ function CreateBidForm({ setIsLoading }) {
       });
 
       await axios.post("/bid/create", formData);
-      navigate("/user");
+      navigate("/user/SHOP");
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {

@@ -30,9 +30,9 @@ export default function WishlistCard({
   };
 
   return (
-    <div className="w-[208px] flex flex-col gap-2 ">
+    <div className="w-[208px] flex flex-col gap-2 shadow-md p-2 rounded-md ">
       <div
-        className="bg-[#F6F6F6] w-52 h-52 border  rounded-md flex justify-center items-center relative cursor-pointer"
+        className="bg-[#F6F6F6] p-2  border  rounded-md flex justify-center items-center relative cursor-pointer"
         onClick={clickOnProduct}
       >
         <div className="w-8 rounded-full h-8 bg-white flex items-center justify-center absolute top-3 right-3">

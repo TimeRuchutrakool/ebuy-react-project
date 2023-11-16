@@ -55,7 +55,7 @@ export default function MeOrder({
           <div className=" flex gap-x-[36px] items-center">
             <p className="text-red-600">กรุณายืนยันเมื่อได้รับสินค้า</p>
             <button
-              className=" p-4 rounded-md hover:bg-gray-200 bg-[#1E4C2F] py-1.5 px-6  text-white"
+              className=" p-4 rounded-md hover:bg-green-700 bg-[#1E4C2F] py-1.5 px-6  text-white"
               onClick={() => {
                 searchParams.set("orderId", id);
                 setSearchParams(searchParams);

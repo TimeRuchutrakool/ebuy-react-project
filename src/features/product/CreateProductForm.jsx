@@ -113,7 +113,7 @@ export default function CreateProductForm({ setIsLoading }) {
         try {
           setIsLoading(true);
           await axios.post("/product", formData);
-          navigate("/user");
+          navigate("/user/SHOP");
         } catch (err) {
           console.log(err);
         } finally {

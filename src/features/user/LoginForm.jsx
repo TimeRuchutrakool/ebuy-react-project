@@ -73,16 +73,9 @@ function LoginForm() {
         </button>
       </form>
       <div className="flex justify-between items-center">
-        <div className="w-2/12 h-[1px] bg-[#E4E9EE]"></div>
-        <span className="w-8/12 text-sm font-extralight text-center text-[#818B9C]">
-          Or using other method
-        </span>
-        <div className="w-2/12 h-[1px] bg-[#E4E9EE]"></div>
+       
       </div>
-      <button className="w-full border flex justify-center items-center py-2 gap-3 rounded-lg">
-        <FcGoogle />
-        <span>Sign in with Google</span>
-      </button>
+     
       <span className="flex justify-center text-sm font-light">
         <span className="text-[#818B9C]">
           doesn&apos;t have an account?&nbsp;

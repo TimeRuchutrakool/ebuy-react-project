@@ -1,25 +1,16 @@
-import { useDispatch } from "react-redux";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
-
-
-export default function CardBidProduct({name,image,startAt,price,description}) {
-  const date = dayjs(startAt).format("YYYY-MM-DD HH:mm")
+export default function CardBidProduct({ name, image, startAt, price }) {
+  const date = dayjs(startAt).format("YYYY-MM-DD HH:mm");
 
   return (
-    <>
-   
-      <div className="bg-white w-72 h-[340px] m-2 shadow-lg overflow-hidden rounded-md">
-      <div className="w-[288px] h-[224px] relative">
-        <div className="absolute bg-white w-full p-1 flex gap-7">
-          <div className="text-green-900">วันเวลาประมูล</div>
-          <div className="text-red-600">{date}</div>
+    <div className="bg-white m-2 shadow-lg overflow-hidden rounded-md text-sm p-2 flex flex-col items-center">
+      <div className="">
+        <div className=" bg-white p-1 flex gap-7">
+          <p className="text-green-900">วันเวลาประมูล</p>
+          <p className="text-red-600">{date}</p>
         </div>
-        <img
-          src={image}
-          alt=""
-          className="object-cover w-full h-full"
-        />
+        <img src={image} alt="" className="object-contain h-48 w-full" />
       </div>
       <div>
         <div className="p-3">
@@ -27,18 +18,13 @@ export default function CardBidProduct({name,image,startAt,price,description}) {
             <h1>ชื่อสินค้า : {name}</h1>
             <h1 className="text-green-600">ราคา ฿{price}</h1>
           </div>
-          {/* <p>{description}</p> */}
         </div>
         <div className="flex justify-evenly p-1 gap-2 h-full ">
-        
-          <button className="bg-red-600 text-white w-full rounded-md"
-                >
+          <button className="bg-red-600 text-white w-full rounded-md py-1">
             ลบ
           </button>
         </div>
       </div>
     </div>
-    
-   </>
   );
 }

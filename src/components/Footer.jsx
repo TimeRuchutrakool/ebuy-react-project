@@ -3,7 +3,7 @@ import Logo from "./Logo";
 function Footer() {
   return (
     <div
-      className="w-full bg-[#F7F7F7] py-5 px-7 gap-5 flex flex-col"
+      className="w-full bg-[#F7F7F7] py-5 px-7 gap-5 flex flex-col mt-7"
       style={{ height: "18vh" }}
     >
       <Logo />

@@ -11,15 +11,13 @@ export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
   const dispatch = useDispatch();
   const { stores } = useSelector((store) => store.product);
-  const {bidProducts} = useSelector((store)=>store.bidProduct)
+  const { bidProducts } = useSelector((store) => store.bidProduct);
   console.log(stores);
   useEffect(() => {
     dispatch(getProduct());
-    dispatch(getBid())
-  }, []);
+    dispatch(getBid());
+  }, [dispatch]);
 
-  
-  
   return (
     <div className="w-[calc(100%+300px)]">
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
@@ -30,7 +28,7 @@ export default function ProductProfile() {
           }`}
         >
           <BiSolidStore className="text-xl" />
-          <h1>Markter</h1>
+          <h1>Market</h1>
         </button>
         <button
           onClick={() => setClick("bidproduct")}
@@ -45,7 +43,7 @@ export default function ProductProfile() {
 
       <div className="pt-4">
         {click === "marketplace" ? (
-          <div className="grid grid-cols-5 place-items-center">
+          <div className="grid grid-cols-4 place-items-center gap-5">
             {stores?.map((el) => (
               <SellerCardProduct
                 key={el.id}
@@ -62,18 +60,17 @@ export default function ProductProfile() {
         )}
         {click === "bidproduct" ? (
           <div className="grid-cols-4 grid place-items-center ">
-            {
-              bidProducts.map((el)=>(
-              <CardBidProduct 
-              key={el.id}
-              id={el.id}
-              name={el.name}
-              image={el.image}
-              startAt={el.startAt}
-              price={el.price}
-              description={el.description}
-              />))}
-           
+            {bidProducts.map((el) => (
+              <CardBidProduct
+                key={el.id}
+                id={el.id}
+                name={el.name}
+                image={el.image}
+                startAt={el.startAt}
+                price={el.price}
+                description={el.description}
+              />
+            ))}
           </div>
         ) : (
           ""

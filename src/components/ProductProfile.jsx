@@ -11,15 +11,12 @@ export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
   const dispatch = useDispatch();
   const { stores } = useSelector((store) => store.product);
-  const {bidProducts} = useSelector((store)=>store.bidProduct)
-  console.log(stores);
+  const { bidProducts } = useSelector((store) => store.bidProduct);
   useEffect(() => {
     dispatch(getProduct());
-    dispatch(getBid())
+    dispatch(getBid());
   }, []);
 
-  
-  
   return (
     <div className="w-[calc(100%+300px)]">
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
@@ -62,18 +59,17 @@ export default function ProductProfile() {
         )}
         {click === "bidproduct" ? (
           <div className="grid-cols-4 grid place-items-center ">
-            {
-              bidProducts.map((el)=>(
-              <CardBidProduct 
-              key={el.id}
-              id={el.id}
-              name={el.name}
-              image={el.image}
-              startAt={el.startAt}
-              price={el.price}
-              description={el.description}
-              />))}
-           
+            {bidProducts.map((el) => (
+              <CardBidProduct
+                key={el.id}
+                id={el.id}
+                name={el.name}
+                image={el.image}
+                startAt={el.startAt}
+                price={el.price}
+                description={el.description}
+              />
+            ))}
           </div>
         ) : (
           ""

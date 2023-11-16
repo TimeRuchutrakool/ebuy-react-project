@@ -49,7 +49,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="/user"
+          path="/user/:Modes"
           element={
             <RedirectIfAuthen>
               <User />

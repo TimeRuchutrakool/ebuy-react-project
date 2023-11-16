@@ -139,7 +139,11 @@ export function ProductPreview({ product }) {
             </button>
 
             <button className="text-2xl" onClick={toggleWish}>
-              {isWish ? <MdFavorite /> : <MdFavoriteBorder />}
+              {isWish ? (
+                <MdFavorite className="text-red-500" />
+              ) : (
+                <MdFavoriteBorder />
+              )}
             </button>
           </div>
         )}

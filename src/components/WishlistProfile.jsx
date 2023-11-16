@@ -19,7 +19,7 @@ export default function WishlistProfile() {
       <h1 className="p-4 pl-8 text-green-900 border-t shadow-md ">
         รายการโปรด
       </h1>
-      <div className="grid grid-cols-5 place-items-center pt-8 pl-2 gap-5 ">
+      <div className="grid grid-cols-4 place-items-center pt-8 pl-2 gap-5 ">
         {product.map((product) => (
           <WishlistCard
             isWish={isWish}
@@ -29,6 +29,7 @@ export default function WishlistProfile() {
             imageUrl={product.imageUrl}
             name={product.name}
             price={product.price}
+            seller={product.seller}
           />
         ))}
       </div>

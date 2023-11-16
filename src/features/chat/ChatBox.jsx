@@ -5,6 +5,8 @@ import { useChat } from "./useChat";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { formatDateForMessage } from "../../utils/helper";
+import { IoIosCloseCircle } from "react-icons/io";
+
 import { useRef } from "react";
 import { useEffect } from "react";
 
@@ -105,7 +107,18 @@ function ChatBox() {
 
         <div className=" w-5/6 bg-white px-4 py-3 rounded-full my-3 text-sm gap-5 flex justify-between items-center">
           {image ? (
-            <img src={image} className="h-24 ms-10" />
+            <div className="w-fit h-fit relative">
+              <button
+                className="absolute -right-2 -top-2 text-2xl"
+                onClick={() => {
+                  setFile(null);
+                  setImage("");
+                }}
+              >
+                <IoIosCloseCircle />
+              </button>
+              <img src={image} className="h-24 ms-10" />
+            </div>
           ) : (
             <input
               className="w-full bg-transparent outline-none "
@@ -123,7 +136,7 @@ function ChatBox() {
             ref={imageRef}
             onChange={(e) => {
               setFile(() => e.target.files[0]);
-              setImage(()=>URL.createObjectURL(e.target.files[0]))
+              setImage(() => URL.createObjectURL(e.target.files[0]));
             }}
           />
           <div className={`h-full flex gap-6 text-lg self-end`}>

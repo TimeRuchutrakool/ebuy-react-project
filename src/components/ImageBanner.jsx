@@ -10,7 +10,7 @@ function ImageBanner() {
         }}
         modules={[Pagination, Autoplay]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
-        className="swiper h-[670px]  "
+        className="swiper h-[670px] -z-10 "
       >
         <SwiperSlide>
           <div className="bg-[#F7F7F7] flex justify-around items-center h-full ">

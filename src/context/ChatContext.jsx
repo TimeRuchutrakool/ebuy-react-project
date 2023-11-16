@@ -34,7 +34,9 @@ export default function ChatContextProvider({ children, talkTo }) {
   }, [chatSocket, user.id, talkTo]);
 
   useEffect(() => {
-    chatSocket.on("joinedRoom", (data) => setMessages(data));
+    chatSocket.on("joinedRoom", (data) => {
+      setMessages(data);
+    });
     chatSocket.on("receivedMessage", (data) => {
       setMessages((messages) => [...messages, data]);
     });

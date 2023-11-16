@@ -17,6 +17,9 @@ import CreateProduct from "../pages/CreateProduct";
 import EditProduct from "../pages/EditProduct";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import Bid from "../pages/Bid";
+import Reward from "../pages/Reward";
+import BidList from "../pages/BidList";
+import SellerSite from "../pages/SellerSite";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,13 +48,37 @@ const router = createBrowserRouter(
             </RedirectIfAuthen>
           }
         />
-        <Route path="/user" element={<User />} />
+        <Route
+          path="/user"
+          element={
+            <RedirectIfAuthen>
+              <User />
+            </RedirectIfAuthen>
+          }
+        />
         <Route path="/bid/:productId" element={<Bid />} />
+        <Route path="/auctioning" element={<BidList />} />
         <Route path="/search/:searchedTitle" element={<Search />} />
-        <Route path="/createProduct" element={<CreateProduct />} />
-        <Route path="/editProduct/:productId" element={<EditProduct />} />
+        <Route
+          path="/createProduct"
+          element={
+            <RedirectIfAuthen>
+              <CreateProduct />
+            </RedirectIfAuthen>
+          }
+        />
+        <Route
+          path="/editProduct/:productId"
+          element={
+            <RedirectIfAuthen>
+              <EditProduct />
+            </RedirectIfAuthen>
+          }
+        />
         <Route path="/product/:productId" element={<Product />} />
-        <Route path="/payment" element={<PaymentSuccess/>} />
+        <Route path="/reward" element={<Reward />} />
+        <Route path="/payment" element={<PaymentSuccess />} />
+        <Route path="/seller/:userId" element={<SellerSite />} />
       </Route>
     </>
   )

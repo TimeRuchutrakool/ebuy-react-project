@@ -50,7 +50,7 @@ export function ProductPreview({ product }) {
 
   const toggleWish = async () => {
     const { isWish } = await toggleWishAPI(product.id);
-    setIsWish(isWish)
+    setIsWish(isWish);
   };
 
   if (Object.keys(product).length === 0) return null;
@@ -128,21 +128,22 @@ export function ProductPreview({ product }) {
             </select>
           </div>
         </div>
-        <div className="flex gap-7 mt-5">
-          <button
-            className="border flex items-center justify-center gap-5 w-fit px-5 py-2 rounded-lg border-black"
-            onClick={handleAddToCart}
-          >
-            <MdOutlineAddShoppingCart />
-            <span>Add to Cart</span>
-          </button>
+        {user && (
+          <div className="flex gap-7 mt-5">
+            <button
+              className="border flex items-center justify-center gap-5 w-fit px-5 py-2 rounded-lg border-black"
+              onClick={handleAddToCart}
+            >
+              <MdOutlineAddShoppingCart />
+              <span>Add to Cart</span>
+            </button>
 
-          <button className="text-2xl" onClick={toggleWish}>
-            {isWish ? <MdFavorite /> : <MdFavoriteBorder />}
-          </button>
-        </div>
+            <button className="text-2xl" onClick={toggleWish}>
+              {isWish ? <MdFavorite /> : <MdFavoriteBorder />}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-

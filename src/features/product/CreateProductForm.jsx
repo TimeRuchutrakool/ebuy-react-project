@@ -3,12 +3,10 @@ import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import axios from "../../config/axios";
 import { useEffect } from "react";
-import Loading from "../../components/Loading";
 import { FiPlusCircle, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
-export default function CreateProductForm() {
+export default function CreateProductForm({ setIsLoading }) {
   const [categoryData, setCategoryData] = useState({
     category: [],
     color: [],
@@ -36,7 +34,6 @@ export default function CreateProductForm() {
     setImages(() => e.target.files);
   };
 
-  const [isLoading, setIsLoading] = useState(false);
   const [onChangeCategory, setOnChangeCategory] = useState("");
   const {
     register,
@@ -88,9 +85,6 @@ export default function CreateProductForm() {
       setCategoryData(res?.data?.productVariant);
     });
   }, []);
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <form

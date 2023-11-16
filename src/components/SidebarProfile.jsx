@@ -1,18 +1,15 @@
-import { AiOutlineRight } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { useRef } from "react";
 import { useState } from "react";
 import { updateImageProfile } from "../services/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../store/slices/userSlice";
-import Loading from "./Loading";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BiSolidStore } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 
-export default function SidebarProfile({ setMode, mode }) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function SidebarProfile({ setMode, mode, setIsLoading }) {
   const fileEl = useRef();
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -32,12 +29,10 @@ export default function SidebarProfile({ setMode, mode }) {
   };
   const onChangeImage = (e) => {
     if (e.target.files[0]) {
-      console.log(e.target.files);
       upload(e.target.files[0]);
     }
   };
-  console.log(user?.profileImage);
-  if (isLoading) return <Loading />;
+
   return (
     <div className="flex flex-col my-24 relative w-[300px] border items-center">
       <div
@@ -49,8 +44,8 @@ export default function SidebarProfile({ setMode, mode }) {
         {user?.profileImage ? (
           <img
             src={user?.profileImage}
-            alt=""
-            className="w-[80px] h-[80px] rounded-full"
+            alt="image"
+            className="w-[80px] h-[80px] rounded-full object-cover"
           />
         ) : (
           <div className="border border-[#E4E9EE] rounded-full p-2  w-[80px] h-[80px] flex items-center justify-center text-5xl bg-white">
@@ -75,17 +70,17 @@ export default function SidebarProfile({ setMode, mode }) {
         </div>
         <div
           onClick={() => setMode("SHOP")}
-          className={`flex items-center p-4  cursor-pointer  rounded-lg opacity-70   gap-4 justify-center ${
-            mode === "SHOP" ? " bg-green-900 text-white opacity-100" : ""
+          className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center ${
+            mode === "SHOP" ? " bg-green-900 text-white opacity-100 " : ""
           }`}
         >
           <div>ร้านค้าของฉัน</div>
           <BiSolidStore />
         </div>
-        <div className="">
+        <div>
           <div
             onClick={() => setMode("EDIT")}
-            className={`flex items-center p-4 cursor-pointer  rounded-lg opacity-70  gap-4 justify-center ${
+            className={`flex items-center p-4 cursor-pointer  rounded-lg   gap-4 justify-center ${
               mode === "EDIT" ? "bg-green-900 opacity-100 text-white " : ""
             }`}
           >
@@ -94,8 +89,8 @@ export default function SidebarProfile({ setMode, mode }) {
           </div>
           <div
             onClick={() => setMode("WISHLIST")}
-            className={`flex items-center p-4  cursor-pointer rounded-lg opacity-70  gap-4 justify-center ${
-              mode === "WISHLIST" ? "bg-green-900 opacity-100 text-white" : ""
+            className={`flex items-center p-4  cursor-pointer rounded-lg  gap-4 justify-center  ${
+              mode === "WISHLIST" ? "bg-green-900 opacity-100 text-white " : ""
             }`}
           >
             <div>รายการโปรด</div>
@@ -103,9 +98,9 @@ export default function SidebarProfile({ setMode, mode }) {
           </div>
           <div
             onClick={() => setMode("ORDERHISTORY")}
-            className={`flex items-center p-4  cursor-pointer  rounded-lg opacity-70   gap-4 justify-center ${
+            className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center  ${
               mode === "ORDERHISTORY"
-                ? " bg-green-900 text-white opacity-100"
+                ? " bg-green-900 text-white opacity-100 "
                 : ""
             }`}
           >
@@ -114,8 +109,8 @@ export default function SidebarProfile({ setMode, mode }) {
           </div>
           <div
             onClick={() => setMode("MYORDERS")}
-            className={`flex items-center p-4  cursor-pointer  rounded-lg opacity-70   gap-4 justify-center ${
-              mode === "MYORDERS" ? " bg-green-900 text-white opacity-100" : ""
+            className={`flex items-center p-4  cursor-pointer  rounded-lg    gap-4 justify-center  ${
+              mode === "MYORDERS" ? " bg-green-900 text-white opacity-100 " : ""
             }`}
           >
             <div>ออเดอร์ของฉัน</div>

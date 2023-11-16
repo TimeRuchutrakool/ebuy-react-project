@@ -1,3 +1,5 @@
+import { IoShirtSharp } from "react-icons/io5";
+
 export const mockCategory = [
   {
     name: "Pants",

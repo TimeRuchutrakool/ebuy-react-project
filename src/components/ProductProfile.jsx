@@ -68,7 +68,7 @@ export default function ProductProfile() {
           ""
         )}
         {click === "bidproduct" ? (
-          <div className="grid-cols-5 grid place-items-center ">
+          <div className="grid-cols-4 grid place-items-center ">
             {
               bidProducts.map((el)=>(
               <CardBidProduct 

@@ -4,9 +4,16 @@ import { cartReducer } from "./slices/cartSlice";
 import { productReducer } from "./slices/productSlice";
 import { myOrderReducer } from "./slices/orderSlice";
 import { mySaleReducer } from "./slices/saleSlice";
+import { bidProductReducer } from "./slices/bidSlice";
 
 const store = configureStore({
-  reducer: { user: userReducer, cart: cartReducer, product: productReducer, myOrder :myOrderReducer, mySale:mySaleReducer },
+  reducer: { user: userReducer, 
+    cart: cartReducer,
+     product: productReducer, 
+     myOrder :myOrderReducer, 
+     mySale:mySaleReducer,
+     bidProduct:bidProductReducer },
+    
 });
 
 export default store;

@@ -17,14 +17,14 @@ function RandomProductBanner() {
 
   return (
     <Link to={`/product/${randomProduct.id}`}>
-    <div className="flex justify-center">
-      <div className="w-9/12 flex justify-center">
+    <div className=" flex justify-center">
+      <div className="w-6/12 flex justify-center bg-slate-100 rounded-md p-6">
         <img
           src={randomProduct.image}
           alt=""
-          className="w-48 h-64 border border-none rounded-lg p-5"
+          className="w-48 border border-none object-cover rounded-lg p-4"
         />
-        <div className="w-8/12 flex flex-col justify-center gap-4">
+        <div className="flex flex-col justify-center gap-4">
           <p className="text-light">{randomProduct.name}</p>
           <p className="text-light text-sm text-[#818B9C]">
             {randomProduct.description}

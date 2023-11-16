@@ -8,7 +8,7 @@ export default function CardProduct({ name, price, imageUrl, des, id }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className="   bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">
+    <div className=" bg-white w-56 h-[340px] m-4 shadow-lg overflow-hidden rounded-md  ">
       <div className="w-[224px] h-[224px] ">
         <img src={imageUrl} alt="" className="object-cover w-full h-full" />
       </div>

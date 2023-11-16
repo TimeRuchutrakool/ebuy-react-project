@@ -5,16 +5,21 @@ import CardBidProduct from "../components/SellerCardBidProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getProduct } from "../store/slices/productSlice";
+import { getBid } from "../store/slices/bidSlice";
 
 export default function ProductProfile() {
   const [click, setClick] = useState("marketplace");
   const dispatch = useDispatch();
   const { stores } = useSelector((store) => store.product);
+  const {bidProducts} = useSelector((store)=>store.bidProduct)
   console.log(stores);
   useEffect(() => {
     dispatch(getProduct());
-  }, [dispatch]);
+    dispatch(getBid())
+  }, []);
 
+  
+  
   return (
     <div className="w-[calc(100%+300px)]">
       <div className="mt-24 flex flex-row justify-center bg-white shadow-md">
@@ -56,14 +61,19 @@ export default function ProductProfile() {
           ""
         )}
         {click === "bidproduct" ? (
-          <div className="grid-cols-5 grid place-items-center ">
-            <CardBidProduct />
-            <CardBidProduct />
-            <CardBidProduct />
-            <CardBidProduct />
-            <CardBidProduct />
-            <CardBidProduct />
-            <CardBidProduct />
+          <div className="grid-cols-4 grid place-items-center ">
+            {
+              bidProducts.map((el)=>(
+              <CardBidProduct 
+              key={el.id}
+              id={el.id}
+              name={el.name}
+              image={el.image}
+              startAt={el.startAt}
+              price={el.price}
+              description={el.description}
+              />))}
+           
           </div>
         ) : (
           ""

@@ -22,7 +22,7 @@ function App() {
             fontSize: "16px",
             maxWidth: "500px",
             padding: "16px 24px",
-            backgroundColor: "var(--color-gray-200)",
+            backgroundColor: "bg-white",
             zIndex: 200,
           },
         }}

@@ -10,6 +10,7 @@ function SearchBox() {
     e.preventDefault();
     if (inputSearch) {
       navigate(`/search/${inputSearch}?page=1`);
+      setInputSearch("");
     }
   };
   return (

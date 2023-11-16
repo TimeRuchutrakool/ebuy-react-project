@@ -9,6 +9,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 import { useRef } from "react";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 function ChatBox() {
   const { user } = useSelector((store) => store.user);
@@ -135,15 +136,21 @@ function ChatBox() {
             className="hidden"
             ref={imageRef}
             onChange={(e) => {
-              setFile(() => e.target.files[0]);
-              setImage(() => URL.createObjectURL(e.target.files[0]));
+              if (e.target.files[0].size < 1048576) {
+                setFile(() => e.target.files[0]);
+                setImage(() => URL.createObjectURL(e.target.files[0]));
+              } else toast.error("ขนาดไฟล์ใหญ่เกินไป");
             }}
           />
           <div className={`h-full flex gap-6 text-lg self-end`}>
             <button onClick={() => imageRef.current.click()}>
               <FaImage />
             </button>
-            <button onClick={sendMessage}>
+            <button
+              onClick={() => {
+                if (message || file) sendMessage();
+              }}
+            >
               <BsFillSendFill />
             </button>
           </div>

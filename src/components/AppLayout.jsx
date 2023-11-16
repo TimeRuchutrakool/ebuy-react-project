@@ -26,7 +26,9 @@ function AppLayout() {
     <>
       {formModal.form && <Modal>{formModal.form}</Modal>}
       <Header />
-      <Outlet />
+      <div style={{ minHeight: "67vh" }}>
+        <Outlet />
+      </div>
       <Footer />
       {user && <ChatButton />}
     </>

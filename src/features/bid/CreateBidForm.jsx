@@ -1,14 +1,9 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import axios from "../../config/axios";
 import { useForm } from "react-hook-form";
-import dayjs from 'dayjs'
-import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 
-function CreateBidForm() {
-
-  const [isLoading,setIsLoading] = useState(false)
+function CreateBidForm({ setIsLoading }) {
   const navigate = useNavigate();
 
   /////////////////////////// preview image ///////////////////////////
@@ -26,43 +21,38 @@ function CreateBidForm() {
     images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
     setImagesURLs(newImageUrls);
   }, [images]);
-  
-  if (isLoading) {
-    return <Loading />;
-  }
 
   const onImageChange = (e) => {
     setImages([...e.target.files]);
   };
 
-
-///////////////////////////////////////////////////////////////////////
-/////////////////////////// handle error by useForm() /////////////////////////////
+  ///////////////////////////////////////////////////////////////////////
+  /////////////////////////// handle error by useForm() /////////////////////////////
   /////////////////////////////////////////////////////////////////////
-  
+
   const handleOnSubmit = async (obj) => {
     try {
-      console.log(obj)
-      setIsLoading(true)
+      console.log(obj);
+      setIsLoading(true);
       const formData = new FormData();
-      formData.append("startedAt",dayjs(obj.startedAt).format("YYYY-MM-DD HH:mm"))
-      formData.append("name",obj.name)
-      formData.append("duration",obj.duration)
-      formData.append("description",obj.description)
-      formData.append("price",obj.price)
-      images.forEach((image)=>{
-        formData.append("image",image)
-      })
 
-      await axios.post("/bid/create",formData)
-      navigate("/user")   
+      formData.append("startedAt", obj.startedAt);
+      formData.append("name", obj.name);
+      formData.append("duration", obj.duration);
+      formData.append("description", obj.description);
+      formData.append("price", obj.price);
+      images.forEach((image) => {
+        formData.append("image", image);
+      });
+
+      await axios.post("/bid/create", formData);
+      navigate("/user");
     } catch (error) {
       console.error("Error submitting form:", error);
-    }finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
-
 
   return (
     <form
@@ -78,9 +68,8 @@ function CreateBidForm() {
         type="text"
         className="border rounded-md border-[#B8B8B8] p-1 col-span-2"
         placeholder="ระบุชื่อ"
-       
       />
-     
+
       {errors?.name?.message && (
         <>
           <div></div>
@@ -94,11 +83,12 @@ function CreateBidForm() {
         รายละเอียด <span className="text-red-500">*</span>
       </label>
       <textarea
-      {...register("description",{required:"กรุณากรอกรายละเอียดของสินค้า"})}
-      className="border rounded-md border-[#B8B8B8] p-1 col-span-2  min-h-[100px]"
-      
+        {...register("description", {
+          required: "กรุณากรอกรายละเอียดของสินค้า",
+        })}
+        className="border rounded-md border-[#B8B8B8] p-1 col-span-2  min-h-[100px]"
       />
-        
+
       {errors?.description?.message && (
         <>
           <div></div>
@@ -112,7 +102,9 @@ function CreateBidForm() {
         รูปภาพสินค้าสำหรับประมูล <span className="text-red-500">*</span>
       </label>
       <input
-      {...register("picture",{required:"กรุณาเลือกรูปภาพอย่างน้อย 1 รูป"})}
+        {...register("picture", {
+          required: "กรุณาเลือกรูปภาพอย่างน้อย 1 รูป",
+        })}
         type="file"
         multiple
         accept="image/*"
@@ -130,7 +122,7 @@ function CreateBidForm() {
       ) : (
         <></>
       )}
-         {errors?.picture?.message && (
+      {errors?.picture?.message && (
         <>
           <div></div>
           <p className="mt-[-20px] text-red-400 col-span-2">
@@ -143,13 +135,12 @@ function CreateBidForm() {
         ราคาประมูลเริ่มต้น <span className="text-red-500">*</span>
       </label>
       <input
-      {...register("price",{required :"กรุณาใส่ราคา"})}
+        {...register("price", { required: "กรุณาใส่ราคา" })}
         type="number"
         className="border rounded-md border-[#B8B8B8] p-1 col-span-2"
         placeholder="ระบุราคา"
-        
       />
-       {errors?.price?.message && (
+      {errors?.price?.message && (
         <>
           <div></div>
           <p className="mt-[-20px] text-red-400 col-span-2">
@@ -158,23 +149,21 @@ function CreateBidForm() {
         </>
       )}
 
-
       <label className="col-span-1">
         ระยะเวลาในการประมูล <span className="text-red-500">*</span>
       </label>
-      <select className="border rounded-md border-[#B8B8B8] p-1 col-span-2"
-      {...register("duration",{required:"กรุณาระบุเวลาในการประมูล"})}
-         >
-
+      <select
+        className="border rounded-md border-[#B8B8B8] p-1 col-span-2"
+        {...register("duration", { required: "กรุณาระบุเวลาในการประมูล" })}
+      >
         <option value="">กรุณาระบุเวลา</option>
         <option value="0.5">30 นาที</option>
         <option value="1">1 ชั่วโมง</option>
         <option value="3">3 ชั่วโมง</option>
         <option value="5">5 ชั่วโมง</option>
         <option value="7">7 ชั่วโมง</option>
-        </select>
-        {errors?.duration?.message && (
-          
+      </select>
+      {errors?.duration?.message && (
         <>
           <div></div>
           <p className="mt-[-20px] text-red-400 col-span-2">
@@ -182,19 +171,16 @@ function CreateBidForm() {
           </p>
         </>
       )}
-    
-  
-     
 
       <label className="col-span-1">
         วันที่ต้องการประมูล <span className="text-red-500">*</span>
       </label>
       <input
-        {...register("startedAt",{required:"กรุณาเลือกวันที่"})}
+        {...register("startedAt", { required: "กรุณาเลือกวันที่" })}
         type="datetime-local"
-        className="border rounded-md border-[#B8B8B8] p-1 col-span-2"     
+        className="border rounded-md border-[#B8B8B8] p-1 col-span-2"
       />
-          {errors?.startedAt?.message && (
+      {errors?.startedAt?.message && (
         <>
           <div></div>
           <p className="mt-[-20px] text-red-400 col-span-2">
